@@ -17,9 +17,9 @@
 #' @export
 getMB <- function(target,dataset,threshold=0.01,lmax=3,
                   method="MMPC",test="testIndFisher",
-                  verbose=FALSE){
-  if (verbose) {
-    mbEstMessage(method,test,threshold)
+                  manual_mb_list = NULL,verbose=FALSE){ #If method == 'Manual'
+  if (verbose) {                                        #Specify mb_manual_list arg
+    mbEstMessage(method,test,threshold)                 #to input list of nodes & markov blanket
   }
   
   # Validate inputted parameters
@@ -54,6 +54,10 @@ getMB <- function(target,dataset,threshold=0.01,lmax=3,
     mb_vars <- mb$vars
     n_tests <- sum(mb$n.tests)
     runtime <- mb$runtime[3]
+  } else if (method == 'Manual') {
+    mb_vars <- manual_mb_list
+    n_tests <- 0
+    runtime <- 0
   }
   
   if (verbose) {
@@ -111,7 +115,8 @@ checkUniqueTargets <- function(targets){
 }
 
 # Creates a single list for relevant MB recovery parameters
-createParamList <- function(targets,dataset,threshold,lmax,method,test,verbose){
+createParamList <- function(targets,dataset,threshold,lmax,method,test,
+                            fo_list, so_list, verbose){
   return(list(
     "targets"=targets,
     "data"=dataset,
@@ -119,6 +124,8 @@ createParamList <- function(targets,dataset,threshold,lmax,method,test,verbose){
     "lmax"=lmax,
     "method"=method,
     "test"=test,
+    "fo_list"=fo_list,
+    "so_list"=so_list,
     "verbose"=verbose
   ))
 }
@@ -128,20 +135,44 @@ createParamList <- function(targets,dataset,threshold,lmax,method,test,verbose){
 #' obtain all the neighborhoods.
 getFirstOrderNeighborMBs <- function(params){
   # Run `getMB` for each first-order neighbor of any target node
-  first_order_mbs <- lapply(params$first_order_neighbors,
-                            function(t) 
-                              getMB(t,params$data,
-                                    params$threshold,
-                                    params$lmax,
-                                    params$method,
-                                    params$test,
-                                    params$verbose))
-  names(first_order_mbs) <- as.character(params$first_order_neighbors)
-  # Number of tests required for previous step
-  second_order_nbrs_tests <- sum(unlist(
-    lapply(first_order_mbs,
-           function(x) return(x[["n_tests"]]))
-  ))
+  
+  #if only target mb neighbors are specified, then run MMPC to get mb of 1st order
+  if(!is.null(params$fo_list)  & is.null(params$so_list) ) {
+    first_order_mbs <- lapply(params$first_order_neighbors,
+                              function(t) 
+                                getMB(t,params$data,
+                                      params$threshold,
+                                      params$lmax,
+                                      method = 'MMPC',
+                                      params$test,
+                                      manual_mb_list = NULL,
+                                      params$verbose))
+    names(first_order_mbs) <- as.character(params$first_order_neighbors)
+    # Number of tests required for previous step
+    second_order_nbrs_tests <- sum(unlist(
+      lapply(first_order_mbs,
+             function(x) return(x[["n_tests"]]))
+    ))
+    
+  }
+
+  #If nothing is specified manually, run as normal
+  if(is.null(params$fo_list) & is.null(params$so_list)) {
+    first_order_mbs <- lapply(params$first_order_neighbors,
+                              function(t) 
+                                getMB(t,params$data,
+                                      params$threshold,
+                                      params$lmax,
+                                      params$method,
+                                      params$test,
+                                      params$verbose))
+    names(first_order_mbs) <- as.character(params$first_order_neighbors)
+    # Number of tests required for previous step
+    second_order_nbrs_tests <- sum(unlist(
+      lapply(first_order_mbs,
+             function(x) return(x[["n_tests"]]))
+    ))
+  } 
   return(list(
     "f_o_mbs"=first_order_mbs,
     "s_o_tests"=second_order_nbrs_tests
@@ -377,22 +408,47 @@ constructFinalMBList <- function(params){
 #' @export
 getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
                       method="MMPC",test="testIndFisher",
+                      fo_list=NULL, so_list=NULL,
                       verbose=TRUE){
   start <- Sys.time()
   # Ensure target vector is without duplicates
   targets <- checkUniqueTargets(targets)
-  params <- createParamList(targets,dataset,threshold,lmax,method,test,verbose)
+  params <- createParamList(targets,dataset,threshold,lmax,method,test,
+                            fo_list, so_list,verbose)
   
   # Find the MBs for the target nodes
   params$target_mbs <- lapply(targets,
                               function(t) 
                                 getMB(t,dataset,threshold,lmax,
-                                      method,test,verbose)
-  )
+                                      method,test,fo_list[[t]],verbose) #fo_list[[t]]$mb goes to null if 
+  )                                                                     #fo_list is null, so it still works
   names(params$target_mbs) <- as.character(targets)
   # Find the MBs for first-order neighbors and identify spouses 
   # (along with their neighborhoods if necessary)
-  result <- constructFinalMBList(params)
+  
+  if(!is.null(fo_list) & !is.null(so_list)) {  #if first order and second order ,
+                                               #lists are specified, then run 
+    all_manual_mb <- c(fo_list,so_list)
+    total_manual_mb <- lapply(seq_along(all_manual_mb),
+                              function(t) 
+                                getMB(t,dataset,threshold,lmax,
+                                      method,test,all_manual_mb[[t]],verbose))
+    names(total_manual_mb) <- names(all_manual_mb)
+    result <- list(mb_list = total_manual_mb,#fo_list and so_list
+                   num_tests = 0,
+                   mb_time = 0,
+                   time = 0)   
+    
+  } else if(!is.null(fo_list) & is.null(so_list))  {  #if only 1st order is specified
+                                                      #calculate 2nd order
+    result <- constructFinalMBList(params)
+    result$num_tests <- 0
+  } else {                              #run as normal, no manual 1st and 2nd order 
+    result <- constructFinalMBList(params)
+  }
+  
+  
+  
   stop <- Sys.time()
   diff <- stop - start
   units(diff) <- "secs"

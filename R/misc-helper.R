@@ -15,7 +15,7 @@ validateThreshold <- function(threshold){
 }
 # Validates the input MB estimation algorithm name
 validateMethod <- function(method){
-  if (!(method %in% c("MMPC","SES","gOMP","pc.sel","MMMB"))){
+  if (!(method %in% c("MMPC","SES","gOMP","pc.sel","MMMB", "Manual"))){
     stop("Invalid MB estimation algorithm")
   }
 }
@@ -45,3 +45,4 @@ my_dsep <- function(true_dag,x,y,z){
   }
   return(res)
 }
+
