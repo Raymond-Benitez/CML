@@ -25,6 +25,8 @@
 #' 
 #' @export
 
+#Added functionality to specify fixed first order
+#and/or second order neighbors
 cml <- function(data=NULL,true_dag=NULL,targets,
                 node_names=NULL,lmax=3,tol=0.01,
                 mb_tol=0.05,method="MMPC",
