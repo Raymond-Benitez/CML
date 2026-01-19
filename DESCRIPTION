@@ -1,4 +1,4 @@
-Package: CML
+Package: CMLexp
 Type: Package
 Title: Coordinated Multi-neighborhood Learning Algorithm
 Version: 1.0
