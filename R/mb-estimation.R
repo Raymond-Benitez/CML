@@ -145,7 +145,6 @@ getFirstOrderNeighborMBs <- function(params){
                                       params$lmax,
                                       method = 'MMPC',
                                       params$test,
-                                      manual_mb_list = NULL,
                                       params$verbose))
     names(first_order_mbs) <- as.character(params$first_order_neighbors)
     # Number of tests required for previous step
@@ -157,6 +156,8 @@ getFirstOrderNeighborMBs <- function(params){
   }
 
   #If nothing is specified manually, run as normal
+  #Manual specification of markov blankets is NULL by default
+  #So no argument is specified for it in getMB()
   if(is.null(params$fo_list) & is.null(params$so_list)) {
     first_order_mbs <- lapply(params$first_order_neighbors,
                               function(t) 
@@ -420,7 +421,7 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
   params$target_mbs <- lapply(targets,
                               function(t) 
                                 getMB(t,dataset,threshold,lmax,
-                                      method,test,fo_list[[t]],verbose) #fo_list[[t]]$mb goes to null if 
+                                      method,test,fo_list[[as.character(t)]],verbose) #fo_list[[t]]$mb goes to null if 
   )                                                                     #fo_list is null, so it still works
   names(params$target_mbs) <- as.character(targets)
   # Find the MBs for first-order neighbors and identify spouses 
@@ -432,7 +433,7 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
     total_manual_mb <- lapply(seq_along(all_manual_mb),
                               function(t) 
                                 getMB(t,dataset,threshold,lmax,
-                                      method,test,all_manual_mb[[t]],verbose))
+                                      method,test,all_manual_mb[[as.character(t)]],verbose))
     names(total_manual_mb) <- names(all_manual_mb)
     result <- list(mb_list = total_manual_mb,#fo_list and so_list
                    num_tests = 0,
