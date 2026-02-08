@@ -20,11 +20,21 @@ public:
   // Accessors
   // Obtains the MB for node i
   NumericVector getMB(size_t i){ // tested
-    if (mb_list.count(i)==0){
-      stop("%i is not an element of the map.\n",i);
+   if (mb_list.count(i)==0){
+       
+      stop("%i is not an element of the map.Failing in MBlist.h \n",i);
     }
     return mb_list.find(i)->second;
   }
+  //My attempt to bypass error by not full stopping  
+//  NumericVector getMB(size_t i){
+//    auto it = mb_list.find(i);
+//    if (it == mb_list.end()) {
+//      return NumericVector();  // empty MB
+//    }
+//    return it->second;
+//  }
+  
   
   /*
    * include_targets argument specifies that we will return targets U nbhd(targets)

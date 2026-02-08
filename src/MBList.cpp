@@ -19,10 +19,18 @@ NumericVector getMBFromMat(NumericMatrix mb_mat,size_t x){
 // false otherwise
 bool MBList::inMB(size_t target,size_t i){
   if (mb_list.count(i)==0){
-    stop("%i is not an element of the map.\n",i);
+    stop("%i is not an element of the map.Failing in MBList.cpp \n",i);
   }
   return isMember(mb_list.find(target)->second,i);
 }
+//My attempt to bypass error by not full stopping
+//bool MBList::inMB(size_t target, size_t i) {
+//  auto it = mb_list.find(target);
+//  if (it == mb_list.end()) {
+//    return false;
+//  }
+//  return isMember(it->second, i);
+//}
 
 // Sample version
 // Node i is in MB(j) iff mb_mat[i,j]=mb_mat[j,i]=1

@@ -3,6 +3,7 @@
         "-std=gnu++17",
         "-ID:/Program Files (x86)/R-4.3.2/include",
         "-DNDEBUG",
+        "-fopenmp",
         "-ID:/Program Files (x86)/R-4.3.2/library/Rcpp/include",
         "-ID:/Program Files (x86)/R-4.3.2/library/RcppArmadillo/include",
         "-DEIGEN_DONT_VECTORIZE",
@@ -10,7 +11,7 @@
     ],
     "pch": "RcppArmadillo",
     "is_cpp": true,
-    "hash": "1767905849",
+    "hash": "176932820417688616921768861692",
     "compiler": "14695981039346656037",
     "rversion": "4.3.2",
     "dbversion": 4

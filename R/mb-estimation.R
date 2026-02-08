@@ -60,7 +60,7 @@ getMB <- function(target,dataset,threshold=0.01,lmax=3,
     runtime <- 0
   }
   
-  if (verbose) {
+  if (verbose && method != 'Manual') {
     cat("Results for target",
         target,":",
         paste(mb@selectedVars,collapse = ","),"\n")
