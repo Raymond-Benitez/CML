@@ -933,7 +933,7 @@ void CML::allRules(){
  * Because of the special circumstances of our algorithm,
  * we are able to reassign certain edges because of our knowledge of targets
  * and their neighborhoods.
- * <-> => - ([2,2] to [1,1]) DONE | 4/22/24: We are now keeping this as is. TODO: TEST AND UPDATE
+ * <-> => - ([2,2] to [1,1]) DONE | 4/22/24: We are now keeping this as is. TODO: TEST AND UPDATE 2/13/26 Allowing the change within neighborhoods
  * o-> => -> (decrement both i and j by 1) DONE
  * -> => -> (no change, but adj. matrix has to account differently, [3,2] to [0,1]) DONE 
  * o-o => - (no change in adj. matrix) DONE
@@ -956,11 +956,11 @@ void CML::convertMixedGraph(){
       G_ij = C_tilde -> getAmatVal(i,j);
       G_ji = C_tilde -> getAmatVal(j,i);
       if (!sep_nbhd){ // only convert edge notation w/in neighborhoods
-        // if (G_ij==2 && G_ji==2){
-        //   // Convert bidirected edge to undirected
-        //   C_tilde->setAmatVal(i,j,1);
-        //   C_tilde->setAmatVal(j,i,1);
-        // } 
+         if (G_ij==2 && G_ji==2){  
+           // Convert bidirected edge to undirected
+           C_tilde->setAmatVal(i,j,1);
+           C_tilde->setAmatVal(j,i,1);
+         } 
         if (G_ij==2 && G_ji==1){ 
           // Convert o-> to -> if i and j are in same nbhd
           C_tilde->setAmatVal(i,j,1);
