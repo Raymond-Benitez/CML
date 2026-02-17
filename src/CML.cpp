@@ -978,7 +978,7 @@ void CML::convertMixedGraph(){
         // Convert circle markings label from "1" to "4"
         if (G_ij==1){
           C_tilde->setAmatVal(i,j,4);
-          //C_tilde->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE? 
+          C_tilde->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE? //2/14/26 Uncommented this line
         }
       }
       
