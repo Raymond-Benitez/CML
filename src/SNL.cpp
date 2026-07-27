@@ -205,7 +205,7 @@ void SNL::getSkeletonTarget(const size_t &t){
             // We use all combinations of the Markov Blanket of size l
             // to see if we can separate nodes i and j
             kvals = combn_cpp(neighbors,l);
-            checkSeparation(l,i,j,kvals);
+            checkSeparation(l,i,j,kvals, false);
           }
         }
       }

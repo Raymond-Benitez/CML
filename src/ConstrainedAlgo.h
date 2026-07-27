@@ -38,24 +38,25 @@ public:
   
   // Default separation test 
   virtual void checkSeparation(int l,size_t i,size_t j,
-                               NumericMatrix kvals); // tested (CML)
+                               NumericMatrix kvals, bool secstage,
+                               Graph* target_graph = nullptr); // tested (CML)
   
   // Every algorithm must define their own target neighborhood skeleton algorithm
   virtual void getSkeletonTarget(const size_t &t) = 0;
   
   virtual int getVStructures(); // tested (SNL)
-  
+  //virtual int ConstrainedAlgo::getVStructures_PC();
   // Accessors 
   // Implicitly, but not explicitly, tested in most cases. 
   // Not tested at all in other cases
-  NumericMatrix getAmat() { return C_tilde -> getAmat(); }
+  NumericMatrix getAmat() { return C_tilde_sDAG -> getAmat(); }
   List getSepSetList() { return S -> getS(); }
   size_t getNumTests() { return num_tests; }
-  NumericVector getAdjacent(size_t i) { return C_tilde -> getAdjacent(i); }
-  bool isAdjacent(size_t i,size_t j) { return C_tilde -> areAdjacent(i,j); }
+  NumericVector getAdjacent(size_t i) { return C_tilde_sDAG -> getAdjacent(i); }
+  bool isAdjacent(size_t i,size_t j) { return C_tilde_sDAG -> areAdjacent(i,j); }
   NumericVector getNeighborhood() { return neighborhood; }
   double getMostRecentPVal() { return p_vals[p_vals.size()-1];}
-  double getTotalTime() { return total_time; }
+  double getTotalTime() { return total_time;} 
   
   // Setters (Useful for testing)
   void setAmat(NumericMatrix m){
@@ -108,6 +109,8 @@ protected:
   StringVector names;
   std::string test; // what we are using for our conditional independence tests
   Graph* C_tilde;
+  Graph* C_tilde_sDAG; // Need second graph object to store adj mat information without between neighborhood edges
+  Graph* update_true_dag;
   DAG* true_DAG;
   SepSetList* S;
   MBList* mb_list;

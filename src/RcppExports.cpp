@@ -13,7 +13,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // sampleCML
 List sampleCML(NumericMatrix true_dag, arma::mat df, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, double signif_level, bool verbose, std::string test, bool estDAG);
-RcppExport SEXP _CML_sampleCML(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
+RcppExport SEXP _CMLmod_sampleCML(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -33,7 +33,7 @@ END_RCPP
 }
 // popCML
 List popCML(NumericMatrix true_dag, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, bool verbose);
-RcppExport SEXP _CML_popCML(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_popCML(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -49,7 +49,7 @@ END_RCPP
 }
 // sampleCML_mag
 List sampleCML_mag(NumericMatrix true_dag, arma::mat df, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, double signif_level, bool verbose, std::string test, bool estDAG);
-RcppExport SEXP _CML_sampleCML_mag(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
+RcppExport SEXP _CMLmod_sampleCML_mag(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -69,7 +69,7 @@ END_RCPP
 }
 // popCML_mag
 List popCML_mag(NumericMatrix true_dag, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, bool verbose);
-RcppExport SEXP _CML_popCML_mag(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_popCML_mag(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -85,7 +85,7 @@ END_RCPP
 }
 // sampleSNL
 List sampleSNL(NumericMatrix true_dag, arma::mat df, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, double signif_level, bool verbose, std::string test, bool estDAG);
-RcppExport SEXP _CML_sampleSNL(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
+RcppExport SEXP _CMLmod_sampleSNL(SEXP true_dagSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP signif_levelSEXP, SEXP verboseSEXP, SEXP testSEXP, SEXP estDAGSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -105,7 +105,7 @@ END_RCPP
 }
 // popSNL
 List popSNL(NumericMatrix true_dag, NumericVector targets, NumericVector nodes_interest, StringVector names, int lmax, bool verbose);
-RcppExport SEXP _CML_popSNL(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_popSNL(SEXP true_dagSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP lmaxSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -121,7 +121,7 @@ END_RCPP
 }
 // getEdgeNumber
 int getEdgeNumber(NumericMatrix G);
-RcppExport SEXP _CML_getEdgeNumber(SEXP GSEXP) {
+RcppExport SEXP _CMLmod_getEdgeNumber(SEXP GSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -132,7 +132,7 @@ END_RCPP
 }
 // sharedNeighborhood
 bool sharedNeighborhood(NumericMatrix reference, NumericVector targets, int i, int j, bool verbose);
-RcppExport SEXP _CML_sharedNeighborhood(SEXP referenceSEXP, SEXP targetsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_sharedNeighborhood(SEXP referenceSEXP, SEXP targetsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -147,7 +147,7 @@ END_RCPP
 }
 // inTargetNeighborhood
 bool inTargetNeighborhood(NumericMatrix reference, NumericVector targets, int i, bool verbose);
-RcppExport SEXP _CML_inTargetNeighborhood(SEXP referenceSEXP, SEXP targetsSEXP, SEXP iSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_inTargetNeighborhood(SEXP referenceSEXP, SEXP targetsSEXP, SEXP iSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -161,7 +161,7 @@ END_RCPP
 }
 // compareSkeletons
 List compareSkeletons(NumericMatrix est, NumericMatrix truth, bool verbose);
-RcppExport SEXP _CML_compareSkeletons(SEXP estSEXP, SEXP truthSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_compareSkeletons(SEXP estSEXP, SEXP truthSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -174,7 +174,7 @@ END_RCPP
 }
 // compareVStructures
 List compareVStructures(NumericMatrix est, NumericMatrix truth, bool verbose);
-RcppExport SEXP _CML_compareVStructures(SEXP estSEXP, SEXP truthSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_compareVStructures(SEXP estSEXP, SEXP truthSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -187,7 +187,7 @@ END_RCPP
 }
 // parentRecoveryAccuracy
 List parentRecoveryAccuracy(NumericMatrix est, NumericMatrix truth, NumericVector targets, bool verbose);
-RcppExport SEXP _CML_parentRecoveryAccuracy(SEXP estSEXP, SEXP truthSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_parentRecoveryAccuracy(SEXP estSEXP, SEXP truthSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -201,7 +201,7 @@ END_RCPP
 }
 // interNeighborhoodEdgeMetrics
 List interNeighborhoodEdgeMetrics(NumericMatrix est, NumericMatrix reference, NumericMatrix true_dag, NumericVector nbhd, bool verbose);
-RcppExport SEXP _CML_interNeighborhoodEdgeMetrics(SEXP estSEXP, SEXP referenceSEXP, SEXP true_dagSEXP, SEXP nbhdSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_interNeighborhoodEdgeMetrics(SEXP estSEXP, SEXP referenceSEXP, SEXP true_dagSEXP, SEXP nbhdSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -216,7 +216,7 @@ END_RCPP
 }
 // overallF1
 double overallF1(NumericMatrix est, NumericMatrix ref, NumericVector targets, bool verbose);
-RcppExport SEXP _CML_overallF1(SEXP estSEXP, SEXP refSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_overallF1(SEXP estSEXP, SEXP refSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -230,7 +230,7 @@ END_RCPP
 }
 // allMetrics
 DataFrame allMetrics(NumericMatrix est, NumericMatrix ref_graph, NumericVector targets, NumericMatrix true_dag, NumericVector nbhd, bool verbose, std::string algo, std::string which_nodes);
-RcppExport SEXP _CML_allMetrics(SEXP estSEXP, SEXP ref_graphSEXP, SEXP targetsSEXP, SEXP true_dagSEXP, SEXP nbhdSEXP, SEXP verboseSEXP, SEXP algoSEXP, SEXP which_nodesSEXP) {
+RcppExport SEXP _CMLmod_allMetrics(SEXP estSEXP, SEXP ref_graphSEXP, SEXP targetsSEXP, SEXP true_dagSEXP, SEXP nbhdSEXP, SEXP verboseSEXP, SEXP algoSEXP, SEXP which_nodesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -248,7 +248,7 @@ END_RCPP
 }
 // getNeighborhoodMetrics
 DataFrame getNeighborhoodMetrics(NumericMatrix G);
-RcppExport SEXP _CML_getNeighborhoodMetrics(SEXP GSEXP) {
+RcppExport SEXP _CMLmod_getNeighborhoodMetrics(SEXP GSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -259,7 +259,7 @@ END_RCPP
 }
 // validateTargetSNL
 void validateTargetSNL(NumericVector targets, const size_t& t);
-RcppExport SEXP _CML_validateTargetSNL(SEXP targetsSEXP, SEXP tSEXP) {
+RcppExport SEXP _CMLmod_validateTargetSNL(SEXP targetsSEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type targets(targetsSEXP);
@@ -270,7 +270,7 @@ END_RCPP
 }
 // combn_cpp
 NumericMatrix combn_cpp(NumericVector x, size_t l);
-RcppExport SEXP _CML_combn_cpp(SEXP xSEXP, SEXP lSEXP) {
+RcppExport SEXP _CMLmod_combn_cpp(SEXP xSEXP, SEXP lSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -282,7 +282,7 @@ END_RCPP
 }
 // isMember
 bool isMember(NumericVector x, const size_t& i);
-RcppExport SEXP _CML_isMember(SEXP xSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_isMember(SEXP xSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -294,7 +294,7 @@ END_RCPP
 }
 // getPartialCorrelation
 double getPartialCorrelation(arma::mat C, size_t i, size_t j, arma::uvec k);
-RcppExport SEXP _CML_getPartialCorrelation(SEXP CSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
+RcppExport SEXP _CMLmod_getPartialCorrelation(SEXP CSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -308,7 +308,7 @@ END_RCPP
 }
 // fisherZ
 double fisherZ(double pc, size_t n, size_t k_size);
-RcppExport SEXP _CML_fisherZ(SEXP pcSEXP, SEXP nSEXP, SEXP k_sizeSEXP) {
+RcppExport SEXP _CMLmod_fisherZ(SEXP pcSEXP, SEXP nSEXP, SEXP k_sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -321,7 +321,7 @@ END_RCPP
 }
 // condIndTest
 List condIndTest(arma::mat& C, const size_t& i, const size_t& j, const arma::uvec& k, const size_t& n, const double& signif_level);
-RcppExport SEXP _CML_condIndTest(SEXP CSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP nSEXP, SEXP signif_levelSEXP) {
+RcppExport SEXP _CMLmod_condIndTest(SEXP CSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP nSEXP, SEXP signif_levelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -337,7 +337,7 @@ END_RCPP
 }
 // condIndTestPop
 List condIndTestPop(NumericMatrix G, const size_t& i, const size_t& j, const arma::uvec& k);
-RcppExport SEXP _CML_condIndTestPop(SEXP GSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
+RcppExport SEXP _CMLmod_condIndTestPop(SEXP GSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -351,7 +351,7 @@ END_RCPP
 }
 // matrix_to_string
 arma::vec matrix_to_string(arma::mat sep_vectors);
-RcppExport SEXP _CML_matrix_to_string(SEXP sep_vectorsSEXP) {
+RcppExport SEXP _CMLmod_matrix_to_string(SEXP sep_vectorsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -362,7 +362,7 @@ END_RCPP
 }
 // get_G2_one
 double get_G2_one(arma::vec A, arma::vec B, int tot_Au_size, int tot_Bu_size);
-RcppExport SEXP _CML_get_G2_one(SEXP ASEXP, SEXP BSEXP, SEXP tot_Au_sizeSEXP, SEXP tot_Bu_sizeSEXP) {
+RcppExport SEXP _CMLmod_get_G2_one(SEXP ASEXP, SEXP BSEXP, SEXP tot_Au_sizeSEXP, SEXP tot_Bu_sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -376,7 +376,7 @@ END_RCPP
 }
 // get_G2_all
 double get_G2_all(arma::vec A, arma::vec B, arma::vec S);
-RcppExport SEXP _CML_get_G2_all(SEXP ASEXP, SEXP BSEXP, SEXP SSEXP) {
+RcppExport SEXP _CMLmod_get_G2_all(SEXP ASEXP, SEXP BSEXP, SEXP SSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -389,7 +389,7 @@ END_RCPP
 }
 // condInttestdis
 List condInttestdis(arma::mat df, const size_t& i, const size_t& j, const arma::uvec& k, const double& signif_level);
-RcppExport SEXP _CML_condInttestdis(SEXP dfSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP signif_levelSEXP) {
+RcppExport SEXP _CMLmod_condInttestdis(SEXP dfSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP signif_levelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -404,7 +404,7 @@ END_RCPP
 }
 // initializeCML
 void initializeCML(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_initializeCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_initializeCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type td(tdSEXP);
@@ -418,7 +418,7 @@ END_RCPP
 }
 // initializeCMLPop
 void initializeCMLPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_initializeCMLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_initializeCMLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type td(tdSEXP);
@@ -431,7 +431,7 @@ END_RCPP
 }
 // getSizeCML
 int getSizeCML(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_getSizeCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_getSizeCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -446,7 +446,7 @@ END_RCPP
 }
 // setSCML
 List setSCML(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names, size_t i, size_t j, NumericVector k);
-RcppExport SEXP _CML_setSCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
+RcppExport SEXP _CMLmod_setSCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -464,7 +464,7 @@ END_RCPP
 }
 // setVerboseCML
 void setVerboseCML(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_setVerboseCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_setVerboseCML(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type td(tdSEXP);
@@ -478,7 +478,7 @@ END_RCPP
 }
 // checkSkeletonTotal
 NumericMatrix checkSkeletonTotal(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSkeletonTotal(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSkeletonTotal(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -493,7 +493,7 @@ END_RCPP
 }
 // checkSkeletonTotalPop
 NumericMatrix checkSkeletonTotalPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSkeletonTotalPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSkeletonTotalPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -507,7 +507,7 @@ END_RCPP
 }
 // checkVStruct
 NumericMatrix checkVStruct(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkVStruct(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkVStruct(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -522,7 +522,7 @@ END_RCPP
 }
 // checkVStructPop
 NumericMatrix checkVStructPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkVStructPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkVStructPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -536,7 +536,7 @@ END_RCPP
 }
 // checkAdjMatConversion
 NumericMatrix checkAdjMatConversion(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names, NumericMatrix m, NumericVector neighbors);
-RcppExport SEXP _CML_checkAdjMatConversion(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP neighborsSEXP) {
+RcppExport SEXP _CMLmod_checkAdjMatConversion(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP neighborsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -553,7 +553,7 @@ END_RCPP
 }
 // checkNotationWarnings
 NumericMatrix checkNotationWarnings(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_checkNotationWarnings(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_checkNotationWarnings(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -569,7 +569,7 @@ END_RCPP
 }
 // checkSeparationTest
 double checkSeparationTest(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names, int i, int j, int l, NumericVector nodes_to_skip);
-RcppExport SEXP _CML_checkSeparationTest(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP iSEXP, SEXP jSEXP, SEXP lSEXP, SEXP nodes_to_skipSEXP) {
+RcppExport SEXP _CMLmod_checkSeparationTest(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP, SEXP iSEXP, SEXP jSEXP, SEXP lSEXP, SEXP nodes_to_skipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -588,7 +588,7 @@ END_RCPP
 }
 // checkCMLSummary
 NumericMatrix checkCMLSummary(NumericMatrix td, arma::mat df, NumericVector targets, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkCMLSummary(SEXP tdSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkCMLSummary(SEXP tdSEXP, SEXP dfSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -603,7 +603,7 @@ END_RCPP
 }
 // checkCMLSummaryPop
 NumericMatrix checkCMLSummaryPop(NumericMatrix td, NumericVector targets, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkCMLSummaryPop(SEXP tdSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkCMLSummaryPop(SEXP tdSEXP, SEXP targetsSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -617,7 +617,7 @@ END_RCPP
 }
 // testArmaCor
 arma::mat testArmaCor(arma::mat M);
-RcppExport SEXP _CML_testArmaCor(SEXP MSEXP) {
+RcppExport SEXP _CMLmod_testArmaCor(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -628,7 +628,7 @@ END_RCPP
 }
 // check_amat_works
 NumericMatrix check_amat_works(int nodes, StringVector node_names, NumericMatrix adj);
-RcppExport SEXP _CML_check_amat_works(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
+RcppExport SEXP _CMLmod_check_amat_works(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -641,7 +641,7 @@ END_RCPP
 }
 // check_amat_works_onepar
 NumericMatrix check_amat_works_onepar(int nodes);
-RcppExport SEXP _CML_check_amat_works_onepar(SEXP nodesSEXP) {
+RcppExport SEXP _CMLmod_check_amat_works_onepar(SEXP nodesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -652,7 +652,7 @@ END_RCPP
 }
 // check_names_works
 StringVector check_names_works(int nodes, StringVector node_names, NumericMatrix adj);
-RcppExport SEXP _CML_check_names_works(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
+RcppExport SEXP _CMLmod_check_names_works(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -665,7 +665,7 @@ END_RCPP
 }
 // check_dag_object
 List check_dag_object(int nodes, StringVector node_names, NumericMatrix adj, bool v);
-RcppExport SEXP _CML_check_dag_object(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_check_dag_object(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -679,7 +679,7 @@ END_RCPP
 }
 // check_pdag_object
 List check_pdag_object(int nodes, StringVector node_names, NumericMatrix adj, bool v);
-RcppExport SEXP _CML_check_pdag_object(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_check_pdag_object(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -693,7 +693,7 @@ END_RCPP
 }
 // check_dag_object2
 void check_dag_object2(int nodes);
-RcppExport SEXP _CML_check_dag_object2(SEXP nodesSEXP) {
+RcppExport SEXP _CMLmod_check_dag_object2(SEXP nodesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type nodes(nodesSEXP);
@@ -703,7 +703,7 @@ END_RCPP
 }
 // check_pdag_object2
 void check_pdag_object2(int nodes);
-RcppExport SEXP _CML_check_pdag_object2(SEXP nodesSEXP) {
+RcppExport SEXP _CMLmod_check_pdag_object2(SEXP nodesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type nodes(nodesSEXP);
@@ -713,7 +713,7 @@ END_RCPP
 }
 // check_neighbors_retrieval
 NumericVector check_neighbors_retrieval(int nodes, StringVector node_names, NumericMatrix adj, int t, bool v);
-RcppExport SEXP _CML_check_neighbors_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_check_neighbors_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -728,7 +728,7 @@ END_RCPP
 }
 // check_neighbors_retrieval_multi
 NumericVector check_neighbors_retrieval_multi(int nodes, StringVector node_names, NumericMatrix adj, NumericVector t, bool v);
-RcppExport SEXP _CML_check_neighbors_retrieval_multi(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_check_neighbors_retrieval_multi(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -743,7 +743,7 @@ END_RCPP
 }
 // check_pdag_neighbors_retrieval
 NumericVector check_pdag_neighbors_retrieval(int nodes, StringVector node_names, NumericMatrix adj, int t, bool v);
-RcppExport SEXP _CML_check_pdag_neighbors_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_check_pdag_neighbors_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP tSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -758,7 +758,7 @@ END_RCPP
 }
 // check_amat_retrieval
 int check_amat_retrieval(int nodes, StringVector node_names, NumericMatrix adj, int i, int j);
-RcppExport SEXP _CML_check_amat_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_check_amat_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -773,7 +773,7 @@ END_RCPP
 }
 // check_amat_retrieval_function
 int check_amat_retrieval_function(int nodes, StringVector node_names, NumericMatrix adj, int i, int j);
-RcppExport SEXP _CML_check_amat_retrieval_function(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_check_amat_retrieval_function(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -788,7 +788,7 @@ END_RCPP
 }
 // check_amat_row_retrieval
 NumericVector check_amat_row_retrieval(int nodes, StringVector node_names, NumericMatrix adj, int i);
-RcppExport SEXP _CML_check_amat_row_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_check_amat_row_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -802,7 +802,7 @@ END_RCPP
 }
 // check_amat_col_retrieval
 NumericVector check_amat_col_retrieval(int nodes, StringVector node_names, NumericMatrix adj, int j);
-RcppExport SEXP _CML_check_amat_col_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_check_amat_col_retrieval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -816,7 +816,7 @@ END_RCPP
 }
 // check_adjacent_non_adjacent
 List check_adjacent_non_adjacent(int nodes, StringVector node_names, NumericMatrix adj, int i);
-RcppExport SEXP _CML_check_adjacent_non_adjacent(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_check_adjacent_non_adjacent(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -830,7 +830,7 @@ END_RCPP
 }
 // check_non_adjacent_solo
 NumericVector check_non_adjacent_solo(int nodes, StringVector node_names, NumericMatrix adj, int i);
-RcppExport SEXP _CML_check_non_adjacent_solo(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_check_non_adjacent_solo(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -844,7 +844,7 @@ END_RCPP
 }
 // check_directed_undirected
 List check_directed_undirected(int nodes, StringVector node_names, NumericMatrix adj, int i, int j);
-RcppExport SEXP _CML_check_directed_undirected(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_check_directed_undirected(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -859,7 +859,7 @@ END_RCPP
 }
 // check_sizes
 List check_sizes(int nodes, StringVector node_names, NumericMatrix adj);
-RcppExport SEXP _CML_check_sizes(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
+RcppExport SEXP _CMLmod_check_sizes(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -872,7 +872,7 @@ END_RCPP
 }
 // check_amat_setval
 int check_amat_setval(int nodes, StringVector node_names, NumericMatrix adj, int i, int j, int val);
-RcppExport SEXP _CML_check_amat_setval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP valSEXP) {
+RcppExport SEXP _CMLmod_check_amat_setval(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP valSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -888,7 +888,7 @@ END_RCPP
 }
 // check_amat_setval_function
 int check_amat_setval_function(int nodes, StringVector node_names, NumericMatrix adj, int i, int j, int val);
-RcppExport SEXP _CML_check_amat_setval_function(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP valSEXP) {
+RcppExport SEXP _CMLmod_check_amat_setval_function(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP valSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -904,7 +904,7 @@ END_RCPP
 }
 // checkIfAdjacent
 bool checkIfAdjacent(int nodes, StringVector node_names, NumericMatrix adj, int i, int j);
-RcppExport SEXP _CML_checkIfAdjacent(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_checkIfAdjacent(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -919,7 +919,7 @@ END_RCPP
 }
 // checkEmptyGraph
 NumericMatrix checkEmptyGraph(int p);
-RcppExport SEXP _CML_checkEmptyGraph(SEXP pSEXP) {
+RcppExport SEXP _CMLmod_checkEmptyGraph(SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -930,7 +930,7 @@ END_RCPP
 }
 // checkAcyclicity
 bool checkAcyclicity(int nodes, StringVector node_names, NumericMatrix adj);
-RcppExport SEXP _CML_checkAcyclicity(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
+RcppExport SEXP _CMLmod_checkAcyclicity(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -943,7 +943,7 @@ END_RCPP
 }
 // checkIsAncestor
 bool checkIsAncestor(int nodes, StringVector node_names, NumericMatrix adj, int desc, int anc, bool verbose);
-RcppExport SEXP _CML_checkIsAncestor(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP descSEXP, SEXP ancSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_checkIsAncestor(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP descSEXP, SEXP ancSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -959,7 +959,7 @@ END_RCPP
 }
 // checkInNeighborhood
 bool checkInNeighborhood(int nodes, StringVector node_names, NumericMatrix adj, int i, int j, bool verbose);
-RcppExport SEXP _CML_checkInNeighborhood(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_checkInNeighborhood(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -975,7 +975,7 @@ END_RCPP
 }
 // check_pdag_inNeighborhood
 bool check_pdag_inNeighborhood(int nodes, StringVector node_names, NumericMatrix adj, int i, int j, bool verbose);
-RcppExport SEXP _CML_check_pdag_inNeighborhood(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_check_pdag_inNeighborhood(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP jSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -991,7 +991,7 @@ END_RCPP
 }
 // check_set_amat
 NumericMatrix check_set_amat(int nodes, StringVector node_names, NumericMatrix adj);
-RcppExport SEXP _CML_check_set_amat(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
+RcppExport SEXP _CMLmod_check_set_amat(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1004,7 +1004,7 @@ END_RCPP
 }
 // check_disc_path
 NumericVector check_disc_path(int nodes, StringVector node_names, NumericMatrix adj, size_t c, size_t d, size_t e);
-RcppExport SEXP _CML_check_disc_path(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP cSEXP, SEXP dSEXP, SEXP eSEXP) {
+RcppExport SEXP _CMLmod_check_disc_path(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP cSEXP, SEXP dSEXP, SEXP eSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1020,7 +1020,7 @@ END_RCPP
 }
 // check_upd_path
 NumericVector check_upd_path(int nodes, StringVector node_names, NumericMatrix adj, size_t a, size_t b, size_t e);
-RcppExport SEXP _CML_check_upd_path(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP aSEXP, SEXP bSEXP, SEXP eSEXP) {
+RcppExport SEXP _CMLmod_check_upd_path(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP aSEXP, SEXP bSEXP, SEXP eSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1036,7 +1036,7 @@ END_RCPP
 }
 // test_checkWronglyCovered
 void test_checkWronglyCovered(int nodes, StringVector node_names, NumericMatrix adj, NumericVector p);
-RcppExport SEXP _CML_test_checkWronglyCovered(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP pSEXP) {
+RcppExport SEXP _CMLmod_test_checkWronglyCovered(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type nodes(nodesSEXP);
@@ -1049,7 +1049,7 @@ END_RCPP
 }
 // checkNeighborhoodId
 List checkNeighborhoodId(int nodes, StringVector node_names, NumericMatrix adj, int i, bool verbose);
-RcppExport SEXP _CML_checkNeighborhoodId(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_checkNeighborhoodId(SEXP nodesSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP iSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1064,7 +1064,7 @@ END_RCPP
 }
 // testInitializeMBList
 void testInitializeMBList(NumericVector nodes, NumericMatrix mb_mat);
-RcppExport SEXP _CML_testInitializeMBList(SEXP nodesSEXP, SEXP mb_matSEXP) {
+RcppExport SEXP _CMLmod_testInitializeMBList(SEXP nodesSEXP, SEXP mb_matSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type nodes(nodesSEXP);
@@ -1075,7 +1075,7 @@ END_RCPP
 }
 // testInitializeMBListPop
 void testInitializeMBListPop(NumericVector nodes, NumericMatrix amat);
-RcppExport SEXP _CML_testInitializeMBListPop(SEXP nodesSEXP, SEXP amatSEXP) {
+RcppExport SEXP _CMLmod_testInitializeMBListPop(SEXP nodesSEXP, SEXP amatSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type nodes(nodesSEXP);
@@ -1086,7 +1086,7 @@ END_RCPP
 }
 // testAccessMB
 NumericVector testAccessMB(NumericVector nodes, NumericMatrix mb_mat, size_t i);
-RcppExport SEXP _CML_testAccessMB(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_testAccessMB(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1099,7 +1099,7 @@ END_RCPP
 }
 // testAccessMultipleMB
 NumericVector testAccessMultipleMB(NumericVector nodes, NumericMatrix mb_mat, NumericVector v, bool include_targets, bool exclude_targets, bool verbose);
-RcppExport SEXP _CML_testAccessMultipleMB(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP vSEXP, SEXP include_targetsSEXP, SEXP exclude_targetsSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_testAccessMultipleMB(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP vSEXP, SEXP include_targetsSEXP, SEXP exclude_targetsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1115,7 +1115,7 @@ END_RCPP
 }
 // testIsMBMember
 bool testIsMBMember(NumericVector nodes, NumericMatrix mb_mat, size_t target, size_t i);
-RcppExport SEXP _CML_testIsMBMember(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP targetSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_testIsMBMember(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP targetSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1129,7 +1129,7 @@ END_RCPP
 }
 // testSilencer
 void testSilencer(NumericVector nodes, NumericMatrix mb_mat, double target, double i);
-RcppExport SEXP _CML_testSilencer(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP targetSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_testSilencer(SEXP nodesSEXP, SEXP mb_matSEXP, SEXP targetSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type nodes(nodesSEXP);
@@ -1142,7 +1142,7 @@ END_RCPP
 }
 // test_union
 NumericVector test_union(NumericVector x, NumericVector y);
-RcppExport SEXP _CML_test_union(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _CMLmod_test_union(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1154,7 +1154,7 @@ END_RCPP
 }
 // test_sort
 NumericVector test_sort(NumericVector x);
-RcppExport SEXP _CML_test_sort(SEXP xSEXP) {
+RcppExport SEXP _CMLmod_test_sort(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1165,7 +1165,7 @@ END_RCPP
 }
 // test_fill
 NumericVector test_fill(int nrow, int ncol, int value);
-RcppExport SEXP _CML_test_fill(SEXP nrowSEXP, SEXP ncolSEXP, SEXP valueSEXP) {
+RcppExport SEXP _CMLmod_test_fill(SEXP nrowSEXP, SEXP ncolSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1178,7 +1178,7 @@ END_RCPP
 }
 // test_fill_diag
 NumericMatrix test_fill_diag(NumericMatrix x, int value);
-RcppExport SEXP _CML_test_fill_diag(SEXP xSEXP, SEXP valueSEXP) {
+RcppExport SEXP _CMLmod_test_fill_diag(SEXP xSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1190,7 +1190,7 @@ END_RCPP
 }
 // test_create
 NumericVector test_create(double x1, double x2);
-RcppExport SEXP _CML_test_create(SEXP x1SEXP, SEXP x2SEXP) {
+RcppExport SEXP _CMLmod_test_create(SEXP x1SEXP, SEXP x2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1202,7 +1202,7 @@ END_RCPP
 }
 // test_setdiff
 NumericVector test_setdiff(NumericVector v1, NumericVector v2);
-RcppExport SEXP _CML_test_setdiff(SEXP v1SEXP, SEXP v2SEXP) {
+RcppExport SEXP _CMLmod_test_setdiff(SEXP v1SEXP, SEXP v2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1214,7 +1214,7 @@ END_RCPP
 }
 // test_intersect
 NumericVector test_intersect(NumericVector v1, NumericVector v2);
-RcppExport SEXP _CML_test_intersect(SEXP v1SEXP, SEXP v2SEXP) {
+RcppExport SEXP _CMLmod_test_intersect(SEXP v1SEXP, SEXP v2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1226,7 +1226,7 @@ END_RCPP
 }
 // test_map_insert
 std::map<int,int> test_map_insert(IntegerVector v1, IntegerVector v2);
-RcppExport SEXP _CML_test_map_insert(SEXP v1SEXP, SEXP v2SEXP) {
+RcppExport SEXP _CMLmod_test_map_insert(SEXP v1SEXP, SEXP v2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1238,7 +1238,7 @@ END_RCPP
 }
 // test_map_find
 void test_map_find(IntegerVector v1, IntegerVector v2, int a);
-RcppExport SEXP _CML_test_map_find(SEXP v1SEXP, SEXP v2SEXP, SEXP aSEXP) {
+RcppExport SEXP _CMLmod_test_map_find(SEXP v1SEXP, SEXP v2SEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type v1(v1SEXP);
@@ -1250,7 +1250,7 @@ END_RCPP
 }
 // test_sep_arma
 arma::uvec test_sep_arma();
-RcppExport SEXP _CML_test_sep_arma() {
+RcppExport SEXP _CMLmod_test_sep_arma() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1260,7 +1260,7 @@ END_RCPP
 }
 // test_subset_mat
 arma::mat test_subset_mat(arma::mat m, NumericVector i);
-RcppExport SEXP _CML_test_subset_mat(SEXP mSEXP, SEXP iSEXP) {
+RcppExport SEXP _CMLmod_test_subset_mat(SEXP mSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1272,7 +1272,7 @@ END_RCPP
 }
 // test_NumMat_value
 NumericMatrix test_NumMat_value(NumericMatrix G);
-RcppExport SEXP _CML_test_NumMat_value(SEXP GSEXP) {
+RcppExport SEXP _CMLmod_test_NumMat_value(SEXP GSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1283,7 +1283,7 @@ END_RCPP
 }
 // test_decrement_matrix
 void test_decrement_matrix(NumericMatrix& G);
-RcppExport SEXP _CML_test_decrement_matrix(SEXP GSEXP) {
+RcppExport SEXP _CMLmod_test_decrement_matrix(SEXP GSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix& >::type G(GSEXP);
@@ -1293,7 +1293,7 @@ END_RCPP
 }
 // testRule1
 NumericMatrix testRule1(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule1(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule1(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1308,7 +1308,7 @@ END_RCPP
 }
 // testRule2
 NumericMatrix testRule2(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule2(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule2(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1323,7 +1323,7 @@ END_RCPP
 }
 // testRule3
 NumericMatrix testRule3(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule3(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule3(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1338,7 +1338,7 @@ END_RCPP
 }
 // testRule4
 NumericMatrix testRule4(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m, int i, int j, NumericVector k);
-RcppExport SEXP _CML_testRule4(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
+RcppExport SEXP _CMLmod_testRule4(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1356,7 +1356,7 @@ END_RCPP
 }
 // testRule8
 NumericMatrix testRule8(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule8(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule8(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1371,7 +1371,7 @@ END_RCPP
 }
 // testRule9
 NumericMatrix testRule9(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule9(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule9(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1386,7 +1386,7 @@ END_RCPP
 }
 // testRule10
 NumericMatrix testRule10(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testRule10(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testRule10(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1401,7 +1401,7 @@ END_RCPP
 }
 // testAllRules
 NumericMatrix testAllRules(NumericMatrix td, arma::mat dummy_df, NumericVector dummy_t, StringVector names, NumericMatrix m);
-RcppExport SEXP _CML_testAllRules(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
+RcppExport SEXP _CMLmod_testAllRules(SEXP tdSEXP, SEXP dummy_dfSEXP, SEXP dummy_tSEXP, SEXP namesSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1416,7 +1416,7 @@ END_RCPP
 }
 // testConvertMixed
 NumericMatrix testConvertMixed(NumericMatrix td, NumericVector t, StringVector names, NumericMatrix m, NumericVector v);
-RcppExport SEXP _CML_testConvertMixed(SEXP tdSEXP, SEXP tSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP vSEXP) {
+RcppExport SEXP _CMLmod_testConvertMixed(SEXP tdSEXP, SEXP tSEXP, SEXP namesSEXP, SEXP mSEXP, SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1431,7 +1431,7 @@ END_RCPP
 }
 // checkInitializeSNL
 int checkInitializeSNL(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkInitializeSNL(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkInitializeSNL(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1446,7 +1446,7 @@ END_RCPP
 }
 // checkGetTargetSkel
 NumericMatrix checkGetTargetSkel(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkGetTargetSkel(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkGetTargetSkel(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1461,7 +1461,7 @@ END_RCPP
 }
 // checkGetVStructures
 NumericMatrix checkGetVStructures(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkGetVStructures(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkGetVStructures(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1476,7 +1476,7 @@ END_RCPP
 }
 // checkInitializeSNLPop
 int checkInitializeSNLPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkInitializeSNLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkInitializeSNLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1490,7 +1490,7 @@ END_RCPP
 }
 // checkGetTargetSkelPop
 NumericMatrix checkGetTargetSkelPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkGetTargetSkelPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkGetTargetSkelPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1504,7 +1504,7 @@ END_RCPP
 }
 // checkGetVStructuresPop
 NumericMatrix checkGetVStructuresPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkGetVStructuresPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkGetVStructuresPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1518,7 +1518,7 @@ END_RCPP
 }
 // checkRule1
 NumericMatrix checkRule1(NumericMatrix td, NumericMatrix test_mat, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkRule1(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkRule1(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1533,7 +1533,7 @@ END_RCPP
 }
 // checkRule2
 NumericMatrix checkRule2(NumericMatrix td, NumericMatrix test_mat, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkRule2(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkRule2(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1548,7 +1548,7 @@ END_RCPP
 }
 // checkRule3
 NumericMatrix checkRule3(NumericMatrix td, NumericMatrix test_mat, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkRule3(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkRule3(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1563,7 +1563,7 @@ END_RCPP
 }
 // checkRule4
 NumericMatrix checkRule4(NumericMatrix td, NumericMatrix test_mat, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkRule4(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkRule4(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1578,7 +1578,7 @@ END_RCPP
 }
 // checkSNLRules
 NumericMatrix checkSNLRules(NumericMatrix td, NumericMatrix test_mat, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSNLRules(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSNLRules(SEXP tdSEXP, SEXP test_matSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1593,7 +1593,7 @@ END_RCPP
 }
 // checkSNL
 NumericMatrix checkSNL(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSNL(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSNL(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1608,7 +1608,7 @@ END_RCPP
 }
 // checkSNLRun
 NumericMatrix checkSNLRun(NumericMatrix td, arma::mat df, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSNLRun(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSNLRun(SEXP tdSEXP, SEXP dfSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1623,7 +1623,7 @@ END_RCPP
 }
 // checkSNLPop
 NumericMatrix checkSNLPop(NumericMatrix td, NumericVector t, NumericVector nodes_interest, StringVector names);
-RcppExport SEXP _CML_checkSNLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
+RcppExport SEXP _CMLmod_checkSNLPop(SEXP tdSEXP, SEXP tSEXP, SEXP nodes_interestSEXP, SEXP namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1637,7 +1637,7 @@ END_RCPP
 }
 // getNbhd
 NumericVector getNbhd(int p, StringVector node_names, NumericMatrix adj, NumericVector targets, bool verbose);
-RcppExport SEXP _CML_getNbhd(SEXP pSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _CMLmod_getNbhd(SEXP pSEXP, SEXP node_namesSEXP, SEXP adjSEXP, SEXP targetsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1652,7 +1652,7 @@ END_RCPP
 }
 // printS
 void printS(NumericVector neighbors);
-RcppExport SEXP _CML_printS(SEXP neighborsSEXP) {
+RcppExport SEXP _CMLmod_printS(SEXP neighborsSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type neighbors(neighborsSEXP);
@@ -1662,7 +1662,7 @@ END_RCPP
 }
 // getInitialValues
 NumericVector getInitialValues(NumericVector neighbors, int i, int j);
-RcppExport SEXP _CML_getInitialValues(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_getInitialValues(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1675,7 +1675,7 @@ END_RCPP
 }
 // setListEmptySet
 NumericVector setListEmptySet(NumericVector neighbors, int i, int j);
-RcppExport SEXP _CML_setListEmptySet(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP) {
+RcppExport SEXP _CMLmod_setListEmptySet(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1688,7 +1688,7 @@ END_RCPP
 }
 // setListEfficient
 NumericVector setListEfficient(NumericVector neighbors, int i, int j, NumericVector kvals);
-RcppExport SEXP _CML_setListEfficient(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kvalsSEXP) {
+RcppExport SEXP _CMLmod_setListEfficient(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kvalsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1702,7 +1702,7 @@ END_RCPP
 }
 // checkSeparationFunc
 bool checkSeparationFunc(NumericVector neighbors, int i, int j, NumericVector sep, int val_to_check);
-RcppExport SEXP _CML_checkSeparationFunc(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP val_to_checkSEXP) {
+RcppExport SEXP _CMLmod_checkSeparationFunc(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP val_to_checkSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1717,7 +1717,7 @@ END_RCPP
 }
 // checkSeparationFuncCorrected
 bool checkSeparationFuncCorrected(NumericVector neighbors, int i, int j, NumericVector sep, int val_to_check);
-RcppExport SEXP _CML_checkSeparationFuncCorrected(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP val_to_checkSEXP) {
+RcppExport SEXP _CMLmod_checkSeparationFuncCorrected(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP val_to_checkSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1732,7 +1732,7 @@ END_RCPP
 }
 // checkIsSepSetMember
 bool checkIsSepSetMember(NumericVector neighbors, size_t i, size_t j, NumericVector sep1, NumericVector sep2, size_t val_to_check);
-RcppExport SEXP _CML_checkIsSepSetMember(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sep1SEXP, SEXP sep2SEXP, SEXP val_to_checkSEXP) {
+RcppExport SEXP _CMLmod_checkIsSepSetMember(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sep1SEXP, SEXP sep2SEXP, SEXP val_to_checkSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1748,7 +1748,7 @@ END_RCPP
 }
 // checkPotentialVStruct
 bool checkPotentialVStruct(NumericVector neighbors, size_t i, size_t j, NumericVector sep, size_t k);
-RcppExport SEXP _CML_checkPotentialVStruct(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP kSEXP) {
+RcppExport SEXP _CMLmod_checkPotentialVStruct(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1763,7 +1763,7 @@ END_RCPP
 }
 // checkGetS
 List checkGetS(NumericVector neighbors, size_t i, size_t j, NumericVector sep);
-RcppExport SEXP _CML_checkGetS(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP) {
+RcppExport SEXP _CMLmod_checkGetS(SEXP neighborsSEXP, SEXP iSEXP, SEXP jSEXP, SEXP sepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1777,135 +1777,135 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_CML_sampleCML", (DL_FUNC) &_CML_sampleCML, 10},
-    {"_CML_popCML", (DL_FUNC) &_CML_popCML, 6},
-    {"_CML_sampleCML_mag", (DL_FUNC) &_CML_sampleCML_mag, 10},
-    {"_CML_popCML_mag", (DL_FUNC) &_CML_popCML_mag, 6},
-    {"_CML_sampleSNL", (DL_FUNC) &_CML_sampleSNL, 10},
-    {"_CML_popSNL", (DL_FUNC) &_CML_popSNL, 6},
-    {"_CML_getEdgeNumber", (DL_FUNC) &_CML_getEdgeNumber, 1},
-    {"_CML_sharedNeighborhood", (DL_FUNC) &_CML_sharedNeighborhood, 5},
-    {"_CML_inTargetNeighborhood", (DL_FUNC) &_CML_inTargetNeighborhood, 4},
-    {"_CML_compareSkeletons", (DL_FUNC) &_CML_compareSkeletons, 3},
-    {"_CML_compareVStructures", (DL_FUNC) &_CML_compareVStructures, 3},
-    {"_CML_parentRecoveryAccuracy", (DL_FUNC) &_CML_parentRecoveryAccuracy, 4},
-    {"_CML_interNeighborhoodEdgeMetrics", (DL_FUNC) &_CML_interNeighborhoodEdgeMetrics, 5},
-    {"_CML_overallF1", (DL_FUNC) &_CML_overallF1, 4},
-    {"_CML_allMetrics", (DL_FUNC) &_CML_allMetrics, 8},
-    {"_CML_getNeighborhoodMetrics", (DL_FUNC) &_CML_getNeighborhoodMetrics, 1},
-    {"_CML_validateTargetSNL", (DL_FUNC) &_CML_validateTargetSNL, 2},
-    {"_CML_combn_cpp", (DL_FUNC) &_CML_combn_cpp, 2},
-    {"_CML_isMember", (DL_FUNC) &_CML_isMember, 2},
-    {"_CML_getPartialCorrelation", (DL_FUNC) &_CML_getPartialCorrelation, 4},
-    {"_CML_fisherZ", (DL_FUNC) &_CML_fisherZ, 3},
-    {"_CML_condIndTest", (DL_FUNC) &_CML_condIndTest, 6},
-    {"_CML_condIndTestPop", (DL_FUNC) &_CML_condIndTestPop, 4},
-    {"_CML_matrix_to_string", (DL_FUNC) &_CML_matrix_to_string, 1},
-    {"_CML_get_G2_one", (DL_FUNC) &_CML_get_G2_one, 4},
-    {"_CML_get_G2_all", (DL_FUNC) &_CML_get_G2_all, 3},
-    {"_CML_condInttestdis", (DL_FUNC) &_CML_condInttestdis, 5},
-    {"_CML_initializeCML", (DL_FUNC) &_CML_initializeCML, 5},
-    {"_CML_initializeCMLPop", (DL_FUNC) &_CML_initializeCMLPop, 4},
-    {"_CML_getSizeCML", (DL_FUNC) &_CML_getSizeCML, 5},
-    {"_CML_setSCML", (DL_FUNC) &_CML_setSCML, 8},
-    {"_CML_setVerboseCML", (DL_FUNC) &_CML_setVerboseCML, 5},
-    {"_CML_checkSkeletonTotal", (DL_FUNC) &_CML_checkSkeletonTotal, 5},
-    {"_CML_checkSkeletonTotalPop", (DL_FUNC) &_CML_checkSkeletonTotalPop, 4},
-    {"_CML_checkVStruct", (DL_FUNC) &_CML_checkVStruct, 5},
-    {"_CML_checkVStructPop", (DL_FUNC) &_CML_checkVStructPop, 4},
-    {"_CML_checkAdjMatConversion", (DL_FUNC) &_CML_checkAdjMatConversion, 7},
-    {"_CML_checkNotationWarnings", (DL_FUNC) &_CML_checkNotationWarnings, 6},
-    {"_CML_checkSeparationTest", (DL_FUNC) &_CML_checkSeparationTest, 9},
-    {"_CML_checkCMLSummary", (DL_FUNC) &_CML_checkCMLSummary, 5},
-    {"_CML_checkCMLSummaryPop", (DL_FUNC) &_CML_checkCMLSummaryPop, 4},
-    {"_CML_testArmaCor", (DL_FUNC) &_CML_testArmaCor, 1},
-    {"_CML_check_amat_works", (DL_FUNC) &_CML_check_amat_works, 3},
-    {"_CML_check_amat_works_onepar", (DL_FUNC) &_CML_check_amat_works_onepar, 1},
-    {"_CML_check_names_works", (DL_FUNC) &_CML_check_names_works, 3},
-    {"_CML_check_dag_object", (DL_FUNC) &_CML_check_dag_object, 4},
-    {"_CML_check_pdag_object", (DL_FUNC) &_CML_check_pdag_object, 4},
-    {"_CML_check_dag_object2", (DL_FUNC) &_CML_check_dag_object2, 1},
-    {"_CML_check_pdag_object2", (DL_FUNC) &_CML_check_pdag_object2, 1},
-    {"_CML_check_neighbors_retrieval", (DL_FUNC) &_CML_check_neighbors_retrieval, 5},
-    {"_CML_check_neighbors_retrieval_multi", (DL_FUNC) &_CML_check_neighbors_retrieval_multi, 5},
-    {"_CML_check_pdag_neighbors_retrieval", (DL_FUNC) &_CML_check_pdag_neighbors_retrieval, 5},
-    {"_CML_check_amat_retrieval", (DL_FUNC) &_CML_check_amat_retrieval, 5},
-    {"_CML_check_amat_retrieval_function", (DL_FUNC) &_CML_check_amat_retrieval_function, 5},
-    {"_CML_check_amat_row_retrieval", (DL_FUNC) &_CML_check_amat_row_retrieval, 4},
-    {"_CML_check_amat_col_retrieval", (DL_FUNC) &_CML_check_amat_col_retrieval, 4},
-    {"_CML_check_adjacent_non_adjacent", (DL_FUNC) &_CML_check_adjacent_non_adjacent, 4},
-    {"_CML_check_non_adjacent_solo", (DL_FUNC) &_CML_check_non_adjacent_solo, 4},
-    {"_CML_check_directed_undirected", (DL_FUNC) &_CML_check_directed_undirected, 5},
-    {"_CML_check_sizes", (DL_FUNC) &_CML_check_sizes, 3},
-    {"_CML_check_amat_setval", (DL_FUNC) &_CML_check_amat_setval, 6},
-    {"_CML_check_amat_setval_function", (DL_FUNC) &_CML_check_amat_setval_function, 6},
-    {"_CML_checkIfAdjacent", (DL_FUNC) &_CML_checkIfAdjacent, 5},
-    {"_CML_checkEmptyGraph", (DL_FUNC) &_CML_checkEmptyGraph, 1},
-    {"_CML_checkAcyclicity", (DL_FUNC) &_CML_checkAcyclicity, 3},
-    {"_CML_checkIsAncestor", (DL_FUNC) &_CML_checkIsAncestor, 6},
-    {"_CML_checkInNeighborhood", (DL_FUNC) &_CML_checkInNeighborhood, 6},
-    {"_CML_check_pdag_inNeighborhood", (DL_FUNC) &_CML_check_pdag_inNeighborhood, 6},
-    {"_CML_check_set_amat", (DL_FUNC) &_CML_check_set_amat, 3},
-    {"_CML_check_disc_path", (DL_FUNC) &_CML_check_disc_path, 6},
-    {"_CML_check_upd_path", (DL_FUNC) &_CML_check_upd_path, 6},
-    {"_CML_test_checkWronglyCovered", (DL_FUNC) &_CML_test_checkWronglyCovered, 4},
-    {"_CML_checkNeighborhoodId", (DL_FUNC) &_CML_checkNeighborhoodId, 5},
-    {"_CML_testInitializeMBList", (DL_FUNC) &_CML_testInitializeMBList, 2},
-    {"_CML_testInitializeMBListPop", (DL_FUNC) &_CML_testInitializeMBListPop, 2},
-    {"_CML_testAccessMB", (DL_FUNC) &_CML_testAccessMB, 3},
-    {"_CML_testAccessMultipleMB", (DL_FUNC) &_CML_testAccessMultipleMB, 6},
-    {"_CML_testIsMBMember", (DL_FUNC) &_CML_testIsMBMember, 4},
-    {"_CML_testSilencer", (DL_FUNC) &_CML_testSilencer, 4},
-    {"_CML_test_union", (DL_FUNC) &_CML_test_union, 2},
-    {"_CML_test_sort", (DL_FUNC) &_CML_test_sort, 1},
-    {"_CML_test_fill", (DL_FUNC) &_CML_test_fill, 3},
-    {"_CML_test_fill_diag", (DL_FUNC) &_CML_test_fill_diag, 2},
-    {"_CML_test_create", (DL_FUNC) &_CML_test_create, 2},
-    {"_CML_test_setdiff", (DL_FUNC) &_CML_test_setdiff, 2},
-    {"_CML_test_intersect", (DL_FUNC) &_CML_test_intersect, 2},
-    {"_CML_test_map_insert", (DL_FUNC) &_CML_test_map_insert, 2},
-    {"_CML_test_map_find", (DL_FUNC) &_CML_test_map_find, 3},
-    {"_CML_test_sep_arma", (DL_FUNC) &_CML_test_sep_arma, 0},
-    {"_CML_test_subset_mat", (DL_FUNC) &_CML_test_subset_mat, 2},
-    {"_CML_test_NumMat_value", (DL_FUNC) &_CML_test_NumMat_value, 1},
-    {"_CML_test_decrement_matrix", (DL_FUNC) &_CML_test_decrement_matrix, 1},
-    {"_CML_testRule1", (DL_FUNC) &_CML_testRule1, 5},
-    {"_CML_testRule2", (DL_FUNC) &_CML_testRule2, 5},
-    {"_CML_testRule3", (DL_FUNC) &_CML_testRule3, 5},
-    {"_CML_testRule4", (DL_FUNC) &_CML_testRule4, 8},
-    {"_CML_testRule8", (DL_FUNC) &_CML_testRule8, 5},
-    {"_CML_testRule9", (DL_FUNC) &_CML_testRule9, 5},
-    {"_CML_testRule10", (DL_FUNC) &_CML_testRule10, 5},
-    {"_CML_testAllRules", (DL_FUNC) &_CML_testAllRules, 5},
-    {"_CML_testConvertMixed", (DL_FUNC) &_CML_testConvertMixed, 5},
-    {"_CML_checkInitializeSNL", (DL_FUNC) &_CML_checkInitializeSNL, 5},
-    {"_CML_checkGetTargetSkel", (DL_FUNC) &_CML_checkGetTargetSkel, 5},
-    {"_CML_checkGetVStructures", (DL_FUNC) &_CML_checkGetVStructures, 5},
-    {"_CML_checkInitializeSNLPop", (DL_FUNC) &_CML_checkInitializeSNLPop, 4},
-    {"_CML_checkGetTargetSkelPop", (DL_FUNC) &_CML_checkGetTargetSkelPop, 4},
-    {"_CML_checkGetVStructuresPop", (DL_FUNC) &_CML_checkGetVStructuresPop, 4},
-    {"_CML_checkRule1", (DL_FUNC) &_CML_checkRule1, 5},
-    {"_CML_checkRule2", (DL_FUNC) &_CML_checkRule2, 5},
-    {"_CML_checkRule3", (DL_FUNC) &_CML_checkRule3, 5},
-    {"_CML_checkRule4", (DL_FUNC) &_CML_checkRule4, 5},
-    {"_CML_checkSNLRules", (DL_FUNC) &_CML_checkSNLRules, 5},
-    {"_CML_checkSNL", (DL_FUNC) &_CML_checkSNL, 5},
-    {"_CML_checkSNLRun", (DL_FUNC) &_CML_checkSNLRun, 5},
-    {"_CML_checkSNLPop", (DL_FUNC) &_CML_checkSNLPop, 4},
-    {"_CML_getNbhd", (DL_FUNC) &_CML_getNbhd, 5},
-    {"_CML_printS", (DL_FUNC) &_CML_printS, 1},
-    {"_CML_getInitialValues", (DL_FUNC) &_CML_getInitialValues, 3},
-    {"_CML_setListEmptySet", (DL_FUNC) &_CML_setListEmptySet, 3},
-    {"_CML_setListEfficient", (DL_FUNC) &_CML_setListEfficient, 4},
-    {"_CML_checkSeparationFunc", (DL_FUNC) &_CML_checkSeparationFunc, 5},
-    {"_CML_checkSeparationFuncCorrected", (DL_FUNC) &_CML_checkSeparationFuncCorrected, 5},
-    {"_CML_checkIsSepSetMember", (DL_FUNC) &_CML_checkIsSepSetMember, 6},
-    {"_CML_checkPotentialVStruct", (DL_FUNC) &_CML_checkPotentialVStruct, 5},
-    {"_CML_checkGetS", (DL_FUNC) &_CML_checkGetS, 4},
+    {"_CMLmod_sampleCML", (DL_FUNC) &_CMLmod_sampleCML, 10},
+    {"_CMLmod_popCML", (DL_FUNC) &_CMLmod_popCML, 6},
+    {"_CMLmod_sampleCML_mag", (DL_FUNC) &_CMLmod_sampleCML_mag, 10},
+    {"_CMLmod_popCML_mag", (DL_FUNC) &_CMLmod_popCML_mag, 6},
+    {"_CMLmod_sampleSNL", (DL_FUNC) &_CMLmod_sampleSNL, 10},
+    {"_CMLmod_popSNL", (DL_FUNC) &_CMLmod_popSNL, 6},
+    {"_CMLmod_getEdgeNumber", (DL_FUNC) &_CMLmod_getEdgeNumber, 1},
+    {"_CMLmod_sharedNeighborhood", (DL_FUNC) &_CMLmod_sharedNeighborhood, 5},
+    {"_CMLmod_inTargetNeighborhood", (DL_FUNC) &_CMLmod_inTargetNeighborhood, 4},
+    {"_CMLmod_compareSkeletons", (DL_FUNC) &_CMLmod_compareSkeletons, 3},
+    {"_CMLmod_compareVStructures", (DL_FUNC) &_CMLmod_compareVStructures, 3},
+    {"_CMLmod_parentRecoveryAccuracy", (DL_FUNC) &_CMLmod_parentRecoveryAccuracy, 4},
+    {"_CMLmod_interNeighborhoodEdgeMetrics", (DL_FUNC) &_CMLmod_interNeighborhoodEdgeMetrics, 5},
+    {"_CMLmod_overallF1", (DL_FUNC) &_CMLmod_overallF1, 4},
+    {"_CMLmod_allMetrics", (DL_FUNC) &_CMLmod_allMetrics, 8},
+    {"_CMLmod_getNeighborhoodMetrics", (DL_FUNC) &_CMLmod_getNeighborhoodMetrics, 1},
+    {"_CMLmod_validateTargetSNL", (DL_FUNC) &_CMLmod_validateTargetSNL, 2},
+    {"_CMLmod_combn_cpp", (DL_FUNC) &_CMLmod_combn_cpp, 2},
+    {"_CMLmod_isMember", (DL_FUNC) &_CMLmod_isMember, 2},
+    {"_CMLmod_getPartialCorrelation", (DL_FUNC) &_CMLmod_getPartialCorrelation, 4},
+    {"_CMLmod_fisherZ", (DL_FUNC) &_CMLmod_fisherZ, 3},
+    {"_CMLmod_condIndTest", (DL_FUNC) &_CMLmod_condIndTest, 6},
+    {"_CMLmod_condIndTestPop", (DL_FUNC) &_CMLmod_condIndTestPop, 4},
+    {"_CMLmod_matrix_to_string", (DL_FUNC) &_CMLmod_matrix_to_string, 1},
+    {"_CMLmod_get_G2_one", (DL_FUNC) &_CMLmod_get_G2_one, 4},
+    {"_CMLmod_get_G2_all", (DL_FUNC) &_CMLmod_get_G2_all, 3},
+    {"_CMLmod_condInttestdis", (DL_FUNC) &_CMLmod_condInttestdis, 5},
+    {"_CMLmod_initializeCML", (DL_FUNC) &_CMLmod_initializeCML, 5},
+    {"_CMLmod_initializeCMLPop", (DL_FUNC) &_CMLmod_initializeCMLPop, 4},
+    {"_CMLmod_getSizeCML", (DL_FUNC) &_CMLmod_getSizeCML, 5},
+    {"_CMLmod_setSCML", (DL_FUNC) &_CMLmod_setSCML, 8},
+    {"_CMLmod_setVerboseCML", (DL_FUNC) &_CMLmod_setVerboseCML, 5},
+    {"_CMLmod_checkSkeletonTotal", (DL_FUNC) &_CMLmod_checkSkeletonTotal, 5},
+    {"_CMLmod_checkSkeletonTotalPop", (DL_FUNC) &_CMLmod_checkSkeletonTotalPop, 4},
+    {"_CMLmod_checkVStruct", (DL_FUNC) &_CMLmod_checkVStruct, 5},
+    {"_CMLmod_checkVStructPop", (DL_FUNC) &_CMLmod_checkVStructPop, 4},
+    {"_CMLmod_checkAdjMatConversion", (DL_FUNC) &_CMLmod_checkAdjMatConversion, 7},
+    {"_CMLmod_checkNotationWarnings", (DL_FUNC) &_CMLmod_checkNotationWarnings, 6},
+    {"_CMLmod_checkSeparationTest", (DL_FUNC) &_CMLmod_checkSeparationTest, 9},
+    {"_CMLmod_checkCMLSummary", (DL_FUNC) &_CMLmod_checkCMLSummary, 5},
+    {"_CMLmod_checkCMLSummaryPop", (DL_FUNC) &_CMLmod_checkCMLSummaryPop, 4},
+    {"_CMLmod_testArmaCor", (DL_FUNC) &_CMLmod_testArmaCor, 1},
+    {"_CMLmod_check_amat_works", (DL_FUNC) &_CMLmod_check_amat_works, 3},
+    {"_CMLmod_check_amat_works_onepar", (DL_FUNC) &_CMLmod_check_amat_works_onepar, 1},
+    {"_CMLmod_check_names_works", (DL_FUNC) &_CMLmod_check_names_works, 3},
+    {"_CMLmod_check_dag_object", (DL_FUNC) &_CMLmod_check_dag_object, 4},
+    {"_CMLmod_check_pdag_object", (DL_FUNC) &_CMLmod_check_pdag_object, 4},
+    {"_CMLmod_check_dag_object2", (DL_FUNC) &_CMLmod_check_dag_object2, 1},
+    {"_CMLmod_check_pdag_object2", (DL_FUNC) &_CMLmod_check_pdag_object2, 1},
+    {"_CMLmod_check_neighbors_retrieval", (DL_FUNC) &_CMLmod_check_neighbors_retrieval, 5},
+    {"_CMLmod_check_neighbors_retrieval_multi", (DL_FUNC) &_CMLmod_check_neighbors_retrieval_multi, 5},
+    {"_CMLmod_check_pdag_neighbors_retrieval", (DL_FUNC) &_CMLmod_check_pdag_neighbors_retrieval, 5},
+    {"_CMLmod_check_amat_retrieval", (DL_FUNC) &_CMLmod_check_amat_retrieval, 5},
+    {"_CMLmod_check_amat_retrieval_function", (DL_FUNC) &_CMLmod_check_amat_retrieval_function, 5},
+    {"_CMLmod_check_amat_row_retrieval", (DL_FUNC) &_CMLmod_check_amat_row_retrieval, 4},
+    {"_CMLmod_check_amat_col_retrieval", (DL_FUNC) &_CMLmod_check_amat_col_retrieval, 4},
+    {"_CMLmod_check_adjacent_non_adjacent", (DL_FUNC) &_CMLmod_check_adjacent_non_adjacent, 4},
+    {"_CMLmod_check_non_adjacent_solo", (DL_FUNC) &_CMLmod_check_non_adjacent_solo, 4},
+    {"_CMLmod_check_directed_undirected", (DL_FUNC) &_CMLmod_check_directed_undirected, 5},
+    {"_CMLmod_check_sizes", (DL_FUNC) &_CMLmod_check_sizes, 3},
+    {"_CMLmod_check_amat_setval", (DL_FUNC) &_CMLmod_check_amat_setval, 6},
+    {"_CMLmod_check_amat_setval_function", (DL_FUNC) &_CMLmod_check_amat_setval_function, 6},
+    {"_CMLmod_checkIfAdjacent", (DL_FUNC) &_CMLmod_checkIfAdjacent, 5},
+    {"_CMLmod_checkEmptyGraph", (DL_FUNC) &_CMLmod_checkEmptyGraph, 1},
+    {"_CMLmod_checkAcyclicity", (DL_FUNC) &_CMLmod_checkAcyclicity, 3},
+    {"_CMLmod_checkIsAncestor", (DL_FUNC) &_CMLmod_checkIsAncestor, 6},
+    {"_CMLmod_checkInNeighborhood", (DL_FUNC) &_CMLmod_checkInNeighborhood, 6},
+    {"_CMLmod_check_pdag_inNeighborhood", (DL_FUNC) &_CMLmod_check_pdag_inNeighborhood, 6},
+    {"_CMLmod_check_set_amat", (DL_FUNC) &_CMLmod_check_set_amat, 3},
+    {"_CMLmod_check_disc_path", (DL_FUNC) &_CMLmod_check_disc_path, 6},
+    {"_CMLmod_check_upd_path", (DL_FUNC) &_CMLmod_check_upd_path, 6},
+    {"_CMLmod_test_checkWronglyCovered", (DL_FUNC) &_CMLmod_test_checkWronglyCovered, 4},
+    {"_CMLmod_checkNeighborhoodId", (DL_FUNC) &_CMLmod_checkNeighborhoodId, 5},
+    {"_CMLmod_testInitializeMBList", (DL_FUNC) &_CMLmod_testInitializeMBList, 2},
+    {"_CMLmod_testInitializeMBListPop", (DL_FUNC) &_CMLmod_testInitializeMBListPop, 2},
+    {"_CMLmod_testAccessMB", (DL_FUNC) &_CMLmod_testAccessMB, 3},
+    {"_CMLmod_testAccessMultipleMB", (DL_FUNC) &_CMLmod_testAccessMultipleMB, 6},
+    {"_CMLmod_testIsMBMember", (DL_FUNC) &_CMLmod_testIsMBMember, 4},
+    {"_CMLmod_testSilencer", (DL_FUNC) &_CMLmod_testSilencer, 4},
+    {"_CMLmod_test_union", (DL_FUNC) &_CMLmod_test_union, 2},
+    {"_CMLmod_test_sort", (DL_FUNC) &_CMLmod_test_sort, 1},
+    {"_CMLmod_test_fill", (DL_FUNC) &_CMLmod_test_fill, 3},
+    {"_CMLmod_test_fill_diag", (DL_FUNC) &_CMLmod_test_fill_diag, 2},
+    {"_CMLmod_test_create", (DL_FUNC) &_CMLmod_test_create, 2},
+    {"_CMLmod_test_setdiff", (DL_FUNC) &_CMLmod_test_setdiff, 2},
+    {"_CMLmod_test_intersect", (DL_FUNC) &_CMLmod_test_intersect, 2},
+    {"_CMLmod_test_map_insert", (DL_FUNC) &_CMLmod_test_map_insert, 2},
+    {"_CMLmod_test_map_find", (DL_FUNC) &_CMLmod_test_map_find, 3},
+    {"_CMLmod_test_sep_arma", (DL_FUNC) &_CMLmod_test_sep_arma, 0},
+    {"_CMLmod_test_subset_mat", (DL_FUNC) &_CMLmod_test_subset_mat, 2},
+    {"_CMLmod_test_NumMat_value", (DL_FUNC) &_CMLmod_test_NumMat_value, 1},
+    {"_CMLmod_test_decrement_matrix", (DL_FUNC) &_CMLmod_test_decrement_matrix, 1},
+    {"_CMLmod_testRule1", (DL_FUNC) &_CMLmod_testRule1, 5},
+    {"_CMLmod_testRule2", (DL_FUNC) &_CMLmod_testRule2, 5},
+    {"_CMLmod_testRule3", (DL_FUNC) &_CMLmod_testRule3, 5},
+    {"_CMLmod_testRule4", (DL_FUNC) &_CMLmod_testRule4, 8},
+    {"_CMLmod_testRule8", (DL_FUNC) &_CMLmod_testRule8, 5},
+    {"_CMLmod_testRule9", (DL_FUNC) &_CMLmod_testRule9, 5},
+    {"_CMLmod_testRule10", (DL_FUNC) &_CMLmod_testRule10, 5},
+    {"_CMLmod_testAllRules", (DL_FUNC) &_CMLmod_testAllRules, 5},
+    {"_CMLmod_testConvertMixed", (DL_FUNC) &_CMLmod_testConvertMixed, 5},
+    {"_CMLmod_checkInitializeSNL", (DL_FUNC) &_CMLmod_checkInitializeSNL, 5},
+    {"_CMLmod_checkGetTargetSkel", (DL_FUNC) &_CMLmod_checkGetTargetSkel, 5},
+    {"_CMLmod_checkGetVStructures", (DL_FUNC) &_CMLmod_checkGetVStructures, 5},
+    {"_CMLmod_checkInitializeSNLPop", (DL_FUNC) &_CMLmod_checkInitializeSNLPop, 4},
+    {"_CMLmod_checkGetTargetSkelPop", (DL_FUNC) &_CMLmod_checkGetTargetSkelPop, 4},
+    {"_CMLmod_checkGetVStructuresPop", (DL_FUNC) &_CMLmod_checkGetVStructuresPop, 4},
+    {"_CMLmod_checkRule1", (DL_FUNC) &_CMLmod_checkRule1, 5},
+    {"_CMLmod_checkRule2", (DL_FUNC) &_CMLmod_checkRule2, 5},
+    {"_CMLmod_checkRule3", (DL_FUNC) &_CMLmod_checkRule3, 5},
+    {"_CMLmod_checkRule4", (DL_FUNC) &_CMLmod_checkRule4, 5},
+    {"_CMLmod_checkSNLRules", (DL_FUNC) &_CMLmod_checkSNLRules, 5},
+    {"_CMLmod_checkSNL", (DL_FUNC) &_CMLmod_checkSNL, 5},
+    {"_CMLmod_checkSNLRun", (DL_FUNC) &_CMLmod_checkSNLRun, 5},
+    {"_CMLmod_checkSNLPop", (DL_FUNC) &_CMLmod_checkSNLPop, 4},
+    {"_CMLmod_getNbhd", (DL_FUNC) &_CMLmod_getNbhd, 5},
+    {"_CMLmod_printS", (DL_FUNC) &_CMLmod_printS, 1},
+    {"_CMLmod_getInitialValues", (DL_FUNC) &_CMLmod_getInitialValues, 3},
+    {"_CMLmod_setListEmptySet", (DL_FUNC) &_CMLmod_setListEmptySet, 3},
+    {"_CMLmod_setListEfficient", (DL_FUNC) &_CMLmod_setListEfficient, 4},
+    {"_CMLmod_checkSeparationFunc", (DL_FUNC) &_CMLmod_checkSeparationFunc, 5},
+    {"_CMLmod_checkSeparationFuncCorrected", (DL_FUNC) &_CMLmod_checkSeparationFuncCorrected, 5},
+    {"_CMLmod_checkIsSepSetMember", (DL_FUNC) &_CMLmod_checkIsSepSetMember, 6},
+    {"_CMLmod_checkPotentialVStruct", (DL_FUNC) &_CMLmod_checkPotentialVStruct, 5},
+    {"_CMLmod_checkGetS", (DL_FUNC) &_CMLmod_checkGetS, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_CML(DllInfo *dll) {
+RcppExport void R_init_CMLmod(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

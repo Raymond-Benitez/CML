@@ -52,6 +52,12 @@ ConstrainedAlgo::ConstrainedAlgo(NumericMatrix true_dag,arma::mat df,
   // Initial graph that will be modified through the process of the algorithm
   C_tilde = new Graph(N);
   
+  // Graph object that we will use to store mb information to make new mb_list
+  // after we update C_tilde_sDAG
+  update_true_dag = new Graph(p);
+  update_true_dag -> setAmat(true_dag); //IM SETTING OLD MB INFORMATION HERE, AND THEN MAKING
+                                        //NEW ADJ MAT AFTER I REMOVE OLD MB INFORMATION IN updateNeighborhood()
+  
   if (verbose){
     Rcout << "Our starting matrix is " << C_tilde->getNRow();
     Rcout << "x" << C_tilde->getNCol() << ".\n";
@@ -108,7 +114,7 @@ ConstrainedAlgo::ConstrainedAlgo(NumericMatrix true_dag,
   }
   
   // Initial graph that will be modified through the process of the algorithm
-  C_tilde = new Graph(N);
+  C_tilde = new Graph(N); 
   
   if (verbose){
     Rcout << "Our starting matrix is ";
@@ -159,12 +165,18 @@ void ConstrainedAlgo::print_elements(){
 // i and j are efficient values and must be transformed to true values
 // kvals are true values and do not need to be transformed
 void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
-                                      NumericMatrix kvals){
-  size_t k;
+                                      NumericMatrix kvals, bool secstage,
+                                      Graph* target_graph){ //adding new Graph* pointer as input.
+                                                            //since we update a different Graph object
+  size_t k;                                                 //C_tilde_sDAG in 2nd stage, C_tilde in 1st stage
   size_t kp = kvals.cols();
   bool keep_checking_k;
   List test_result;
   
+  // Default for graph* object is C_tilde, for all other calls to this function
+  if (target_graph == nullptr) {
+    target_graph = C_tilde;
+  }
   // Initially assumes we are considering an empty set
   arma::uvec sep_arma;
   
@@ -199,8 +211,8 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
       S->changeList(i,j);
       S->changeList(j,i);
       
-      C_tilde->setAmatVal(i,j,0);
-      C_tilde->setAmatVal(j,i,0);
+      target_graph->setAmatVal(i,j,0);
+      target_graph->setAmatVal(j,i,0);
     }
   } else {
     k = 0;
@@ -246,10 +258,20 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
           printVecElements(sep,names,""," ");
           Rcout << " (p-value>" << signif_level << ")"<< std::endl;
         }
+        //Intersect sep with neighborhood, neighborhood are the nodes of interest, i.e. NB_t
+        if (secstage) {
+          sep = intersect(neighborhood, sep);
+          if (verbose) {
+            Rcout << "Intersection of separating set with observed nodes\n";
+            printVecElements(sep,names,""," "); //get new line
+            Rcout << "Above line has second order neighbors removed\n";
+          }
+        }
+        
         S->changeList(i,j,sep);
         S->changeList(j,i,sep);
-        C_tilde->setAmatVal(i,j,0);
-        C_tilde->setAmatVal(j,i,0);
+        target_graph->setAmatVal(i,j,0);
+        target_graph->setAmatVal(j,i,0);
         keep_checking_k = false;
       } else {
         if (verbose){
@@ -266,7 +288,7 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
 
 // We are trying to identify structures i -> k <- j
 // Where i and j are not adjacent, and k is not in the separating set of i and j
-int ConstrainedAlgo::getVStructures() {
+int ConstrainedAlgo::getVStructures() {   //Only updating C_tilde_sDAG, so we don't add Graph* as input
   int times_used = 0;
   bool no_neighbors;
   bool j_invalid;
@@ -284,14 +306,14 @@ int ConstrainedAlgo::getVStructures() {
   // not in the separating set for i and j
   for (size_t i=0;i<N;++i){
     // We will search this vector for nodes connected to node i
-    placeholder = C_tilde->getAmatRow(i); 
+    placeholder = C_tilde_sDAG->getAmatRow(i); 
     no_neighbors = (all(placeholder==0)).is_true();
     if (!no_neighbors){ // If there are neighbors to consider
       if (verbose){
         Rcout << "i: "<< i << " (" << names(neighborhood(i)) << ")" << std::endl;
       }
-      i_adj = C_tilde->getAdjacent(i); // potential values of k
-      j_vals = C_tilde->getNonAdjacent(i); // potential values of j
+      i_adj = C_tilde_sDAG->getAdjacent(i); // potential values of k
+      j_vals = C_tilde_sDAG->getNonAdjacent(i); // potential values of j
       // Iterate over possible j values
       for (auto j : j_vals){
         // We move on if:
@@ -299,9 +321,9 @@ int ConstrainedAlgo::getVStructures() {
         // j is parent to i,
         // or we are repeating an analysis and this j should not be considered
         // or if i and j are from separate neighborhoods
-        placeholder = C_tilde->getAmatRow(j);
+        placeholder = C_tilde_sDAG->getAmatRow(j);
         j_invalid = (all(placeholder==0)).is_true();
-        j_invalid = j_invalid || (C_tilde->getAmatVal(j,i)!= 0) ||  j <= i;
+        j_invalid = j_invalid || (C_tilde_sDAG->getAmatVal(j,i)!= 0) ||  j <= i;
         // j must be in the neighborhood of i for it to make a v-structure with it (Local PC)
         j_invalid = j_invalid || !(mb_list->inMB(neighborhood(i),
                                                  neighborhood(j)));
@@ -309,7 +331,7 @@ int ConstrainedAlgo::getVStructures() {
           if (verbose){
             Rcout << "j: " << j << " (" << names(neighborhood(j)) << ")"<< std::endl;
           }
-          j_adj = C_tilde->getAdjacent(j);
+          j_adj = C_tilde_sDAG->getAdjacent(j);
           k_vals = intersect(i_adj,j_adj); // k must be a neighbor of i and j
           // If there are no common neighbors, move to next j
           if (k_vals.length()!=0){
@@ -335,10 +357,10 @@ int ConstrainedAlgo::getVStructures() {
                   Rcout << neighborhood(i) << "*->" << k << "<-*";
                   Rcout << neighborhood(j) << std::endl;
                 }
-                C_tilde->setAmatVal(i,k_eff,1);
-                C_tilde->setAmatVal(j,k_eff,1);
-                C_tilde->setAmatVal(k_eff,i,0);
-                C_tilde->setAmatVal(k_eff,j,0);
+                C_tilde_sDAG->setAmatVal(i,k_eff,1);
+                C_tilde_sDAG->setAmatVal(j,k_eff,1);
+                C_tilde_sDAG->setAmatVal(k_eff,i,0);
+                C_tilde_sDAG->setAmatVal(k_eff,j,0);
                 ++times_used;
               }
             }
@@ -349,4 +371,5 @@ int ConstrainedAlgo::getVStructures() {
   }
   return times_used;
 }
+
 

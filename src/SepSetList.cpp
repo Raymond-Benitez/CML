@@ -45,6 +45,11 @@ void SepSetList::changeList(size_t i,size_t j,
   // since the vector is passed in by reference automatically,
   // We must clone it to make any changes to `sep` in further steps
   // without affecting the current separating set
+  
+  if (sep.size() == 0) { //My modification, in the event N intersect sep is empty from checkSeparation second stage
+    sep = NumericVector::create(-1);
+  }
+  
   sep_new = clone(sep); 
   List sublist;
   sublist = S[i];

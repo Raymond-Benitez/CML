@@ -8,6 +8,8 @@ using namespace Rcpp;
 
 NumericMatrix combn_cpp(NumericVector x,size_t l); // tested
 
+NumericMatrix get_sijPrime(NumericVector x, NumericVector y, size_t l); // not tested
+
 void printVecElements(NumericVector v,StringVector names, 
                       String opening="",String closing="");
 

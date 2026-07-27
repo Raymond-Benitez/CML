@@ -69,6 +69,20 @@ public:
     amat(i,j) = val;
   }
   
+  void setAmatRow(size_t i, size_t val) {
+    validateIndex(i);
+    for (size_t j = 0; j < amat.nrow(); ++j) {
+      amat(i, j) = val;
+    }
+  }
+  
+  void setAmatCol(size_t i, size_t val) {
+    validateIndex(i);
+    for (size_t j = 0; j < amat.ncol(); ++j) {
+      amat(j, i) = val;
+    }
+  }
+  
   void setVerboseTrue(){
     verbose = true;
   }

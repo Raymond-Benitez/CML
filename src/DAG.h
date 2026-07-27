@@ -3,6 +3,7 @@
 
 #include "Graph.h"
 #include <algorithm>
+#include <unordered_set>
 
 class DAG : public Graph {
 public:

@@ -22,7 +22,7 @@ public:
   NumericVector getMB(size_t i){ // tested
    if (mb_list.count(i)==0){
        
-      stop("%i is not an element of the map.Failing in MBlist.h \n",i);
+      stop("%i is not an element of the map. \n",i);
     }
     return mb_list.find(i)->second;
   }
@@ -72,5 +72,8 @@ private:
   size_t size;
   bool verbose;
 };
+// Defining it outside the class since it does not depend on any MbList variables
+// Need to call it on line 141 of CML.cpp
+NumericVector getMBFromMat(NumericMatrix mb_mat, size_t x);
 
 #endif
