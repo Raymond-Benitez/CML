@@ -1508,7 +1508,7 @@ void CML::deleteBetweenNeighborhood() {
     }
   }
  }
-  C_tilde_sDAG -> printAmat();
+  
 }
 // Convert the final graph after using efficient notation to the full
 // adjacency matrix
@@ -1571,8 +1571,7 @@ void CML::run(){
   
   
   rules_used(0) = getVStructures(true); // true means Rule 0 FCI Alg
-  Rcout << "C_tilde_sDAG after first V structures\n";
-  C_tilde_sDAG -> printAmat();
+  
   // Remaining FCI Rules
 
   allRules();
@@ -1631,9 +1630,8 @@ void CML::run_mag(){
                 targets.end(),
                 [this](size_t t){ getSkeletonTarget(t); });
   
-  removeExcessNodes();
   // Rule 0: Obtain V Structures
-  rules_used_PC(0) = getVStructures(false);
+  rules_used(0) = getVStructures(true); // true means Rule 0 FCI Alg
   
   // Remaining FCI Rules
   allRules();
