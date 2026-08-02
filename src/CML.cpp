@@ -1594,6 +1594,11 @@ void CML::run_mag(){
   // Finding the skeleton for the complete undirected graph on X_T U N_T
   getSkeletonTotal(); 
   
+  if(verbose) {
+    Rcout << "Updating mb_list information after 1st skeleton recovery phase.\n";
+  }
+  updateVariables();
+  
   if (verbose){
     Rcout << "Beginning algorithm over each individual neighborhood.\n";
   }
