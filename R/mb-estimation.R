@@ -116,7 +116,7 @@ checkUniqueTargets <- function(targets){
 
 # Creates a single list for relevant MB recovery parameters
 createParamList <- function(targets,dataset,threshold,lmax,method,test,
-                            fo_list, so_list, verbose){
+                            fo_list, full_list, verbose){
   return(list(
     "targets"=targets,
     "data"=dataset,
@@ -125,7 +125,7 @@ createParamList <- function(targets,dataset,threshold,lmax,method,test,
     "method"=method,
     "test"=test,
     "fo_list"=fo_list,
-    "so_list"=so_list,
+    "full_list"=full_list,
     "verbose"=verbose
   ))
 }
@@ -137,7 +137,7 @@ getFirstOrderNeighborMBs <- function(params){
   # Run `getMB` for each first-order neighbor of any target node
   
   #if only target mb neighbors are specified, then run MMPC to get mb of 1st order
-  if(!is.null(params$fo_list)  & is.null(params$so_list) ) {
+  if(!is.null(params$fo_list)  & is.null(params$full_list) ) {
     first_order_mbs <- lapply(params$first_order_neighbors,
                               function(t) 
                                 getMB(t,params$data,
@@ -158,7 +158,7 @@ getFirstOrderNeighborMBs <- function(params){
   #If nothing is specified manually, run as normal
   #Manual specification of markov blankets is NULL by default
   #So no argument is specified for it in getMB()
-  if(is.null(params$fo_list) & is.null(params$so_list)) {
+  if(is.null(params$fo_list) & is.null(params$full_list)) {
     first_order_mbs <- lapply(params$first_order_neighbors,
                               function(t) 
                                 getMB(t,params$data,
@@ -417,7 +417,7 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
   # Ensure target vector is without duplicates
   targets <- checkUniqueTargets(targets)
   params <- createParamList(targets,dataset,threshold,lmax,method,test,
-                            fo_list, so_list,verbose)
+                            fo_list, full_list,verbose)
   
   # Find the MBs for the target nodes
   params$target_mbs <- lapply(targets,

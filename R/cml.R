@@ -31,7 +31,7 @@ cml <- function(data=NULL,true_dag=NULL,targets,
                 node_names=NULL,lmax=3,tol=0.01,
                 mb_tol=0.05,method="MMPC",
                 test="testIndFisher",fo_list = NULL,                    
-                so_list = NULL, verbose = TRUE){
+                full_list = NULL, verbose = TRUE){
   if (lmax < 0){
     stop("Invalid lmax value")
   }
@@ -72,7 +72,7 @@ cml <- function(data=NULL,true_dag=NULL,targets,
     # Find Markov Blankets (mbEst.R)
     mb_start <- Sys.time()
     result <- getAllMBs(targets,data,mb_tol,lmax,method,test,
-                        fo_list,so_list,verbose)
+                        fo_list,full_list,verbose)
     mb_end <- Sys.time()
     mb_diff <- mb_end - mb_start
     units(mb_diff) <- "secs"
@@ -142,7 +142,7 @@ cml_mag <- function(data=NULL,true_dag=NULL,targets,
                             node_names=NULL,lmax=3,tol=0.01,
                             mb_tol=0.05,method="MMPC",
                             test="testIndFisher",fo_list = NULL,                    
-                            so_list = NULL, verbose = TRUE){
+                            full_list = NULL, verbose = TRUE){
   if (lmax < 0){
     stop("Invalid lmax value")
   }
@@ -183,7 +183,7 @@ cml_mag <- function(data=NULL,true_dag=NULL,targets,
     # Find Markov Blankets (mbEst.R)
     mb_start <- Sys.time()
     result <- getAllMBs(targets,data,mb_tol,lmax,method,test,
-                        fo_list,so_list,verbose)
+                        fo_list,full_list,verbose)
     mb_end <- Sys.time()
     mb_diff <- mb_end - mb_start
     units(mb_diff) <- "secs"
