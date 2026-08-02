@@ -432,10 +432,11 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
   if(!is.null(full_list)) {  #if first order and second order ,
                                                #lists are specified, then run 
     # all_manual_mb <- c(fo_list,so_list)
-    total_manual_mb <- lapply(seq_along(full_list),
-                              function(t) 
-                                getMB(t,dataset,threshold,lmax,
-                                      method,test,full_list[[as.character(t)]],verbose))
+    total_manual_mb <- full_list
+      # lapply(seq_along(full_list),
+      #                         function(t) 
+      #                           getMB(t,dataset,threshold,lmax,
+      #                                 method,test,full_list[[as.character(t)]],verbose))
     names(total_manual_mb) <- names(full_list)
     result <- list(mb_list = total_manual_mb,#fo_list and so_list
                    num_tests = 0,
