@@ -133,20 +133,20 @@ void CML::getSkeletonTotal(){
 // Function to update neighborhood, mb_list, C_tilde, node_numbering, true_dag
 // variables after 1st and 2nd skeleton recovery phases. 
 void CML::updateVariables() {
-
+  
   size_t C_ij; // (i,j) element of adj. mat
   size_t C_ji; // (j,i) element of adj. mat
   size_t M;
   NumericVector temp;
   std::unordered_set<double> new_obs_nodes;
   
-
+  
   new_obs_nodes.insert(targets.begin(), targets.end()); //Begin by adding targets to the set
   // Get new set of observed nodes, i.e., union of targets + their mb
   for (auto t : targets) {
-    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t);
+    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t); //mb from mat after skel phase
     new_obs_nodes.insert(mb_t.begin(), mb_t.end());
-    NumericVector vec = mb_list -> getMB(t);
+    NumericVector vec = mb_list -> getMB(t); //mb from MMPC
     std::vector<int> values;
     for (auto v : vec) {
       values.push_back(node_numbering[v]);
@@ -165,11 +165,11 @@ void CML::updateVariables() {
     
     for (auto r : removed_values) {
       
-      int node_t = neighborhood(t);
+      int node_t = neighborhood(node_numbering[t]);
       int node_r = neighborhood(r);
       NumericVector nodes = NumericVector::create(node_t, node_r);
-      update_true_dag -> setAmatVal(neighborhood(t), neighborhood(r),0);
-      update_true_dag -> setAmatVal(neighborhood(r), neighborhood(t),0);
+      update_true_dag -> setAmatVal(node_t, node_r,0);
+      update_true_dag -> setAmatVal(node_r, node_t,0);
       if (verbose) {
         Rcout << "Removing edge connection(" 
               << t << " , "
@@ -196,43 +196,6 @@ void CML::updateVariables() {
     update_true_dag->printAmat();
   }
   
-  //This loop is intended to update markov blanket information of first order 
-  //set onto the full dag matrix. All information about second order will stay the same
-  //(although we still will have extraneous information about the mb of a first order neighbor
-  //that was removed in first skeleton recovery phase, it shouldn't matter given later constructions)
-  // for (size_t i=0;i<N;i++) {
-  //   for (size_t j=0;j<N;j++) {
-  //     
-  //     if(!new_obs_nodes.count(i) ^ !new_obs_nodes.count(j)) {
-  //       
-  //       int node_i = neighborhood(i);
-  //       int node_j = neighborhood(j);
-  //       
-  //       NumericVector nodes = NumericVector::create(node_i, node_j);
-  //       // C_ij = C_tilde -> getAmatVal(node_numbering[node_i], node_numbering[node_j]); 
-  //       // C_ji = C_tilde -> getAmatVal(node_numbering[node_j], node_numbering[node_i]);
-  //       // 
-  //       // update_true_dag -> setAmatVal(node_i,node_j,C_ij);
-  //       // update_true_dag -> setAmatVal(node_j,node_i,C_ji);
-  //       update_true_dag -> setAmatVal(node_i,node_j,0); //need oldneighborhood(i),oldneighborhood(j)
-  //       update_true_dag -> setAmatVal(node_j,node_i,0); //idk if this is correct 
-  //       
-  //       
-  //       Rcout << "Removing edge connection(" 
-  //             << node_i << " , " 
-  //             << node_j << ") from true_dag\n";
-  //       printVecElements(nodes, names, "", "\n");
-  //       
-  //     }// else {
-  //     //   //Need to set up setting (i,j) to 0 if either i or j concerns a f.o. node 
-  //     //   //that was estimated in MMPC, but removed in 1st skeleton recovery phase.
-  //     //   update_true_dag -> setAmatVal(i,j,0); //need oldneighborhood(i),oldneighborhood(j)
-  //     //   update_true_dag -> setAmatVal(j,i,0);
-  //     // } 
-  //     
-  //   }
-  // }
-  
   // M is length of nodes under consideration after 1st skeleton recovery phase
   // N is length of nodes under consideration before 1st skeleton recovery phase
   M = new_obs_nodes.size();
@@ -243,10 +206,10 @@ void CML::updateVariables() {
   // convert back to true then make neighborhood vector
   size_t i=0;
   for (const auto& node_idx : new_obs_nodes) {
-   temp[i] = neighborhood(node_idx);
+    temp[i] = neighborhood(node_idx);
     i++;
   }
-
+  
   if (verbose) {
     Rcout << "Testing if I get true notation back from efficient f.o. nodes \n";
     printVecElementsNoNames(temp,"","\n"," ");
@@ -254,7 +217,7 @@ void CML::updateVariables() {
   //Make new neighborhood vector, updating new neighborhood vector
   neighborhood = Rcpp::clone(temp);
   std::sort(neighborhood.begin(),neighborhood.end());
-
+  
   if (verbose) {
     Rcout << "New set of observed nodes after first skeleton recovery phase:\n";
     Rcout << "Updated nodes being considered: ";
@@ -273,7 +236,7 @@ void CML::updateVariables() {
       //It still has the numbering related to original construction of C_tilde
       C_ij = C_tilde -> getAmatVal(node_numbering[node_i], node_numbering[node_j]); // get values from original C_tilde
       C_ji = C_tilde -> getAmatVal(node_numbering[node_j], node_numbering[node_i]); // to copy over to new C_tilde_sDAG
-
+      
       C_tilde_sDAG -> setAmatVal(i,j,C_ij);
       C_tilde_sDAG -> setAmatVal(j,i,C_ji);
       if (verbose) {
@@ -281,7 +244,7 @@ void CML::updateVariables() {
               << i << " , " 
               << j << ") to " << C_ij << " \n";
         printVecElements(nodes, names, "", "\n");
-       
+        
       }
     }
   }
@@ -305,7 +268,7 @@ void CML::updateVariables() {
     Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
     C_tilde_sDAG -> printAmat();
     Rcout << "\n\n";
-
+    
   }
   
   // Updating mb_list
@@ -316,7 +279,7 @@ void CML::updateVariables() {
     Rcout << "Updated set of observed nodes after first skeleton recovery phase:\n";
     Rcout << "Updated nodes being considered: ";
     printVecElementsNoNames(neighborhood,"","\n"," ");
-
+    
     Rcout << "Our new matrix is " << C_tilde_sDAG->getNRow();
     Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
     C_tilde_sDAG -> printAmat();
@@ -324,6 +287,9 @@ void CML::updateVariables() {
   }
   N=M; //setting new dimension of C_tilde_sDAG to N, protected variable of my class.
 }
+
+
+
 
 void CML::getSkeletonTarget(const size_t &t){
   auto target_skeleton_start = high_resolution_clock::now();
@@ -1484,6 +1450,11 @@ void CML::deleteBetweenNeighborhood() {
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
       sep_nbhd = false;
+      
+      // SAFE BOUNDS CHECK: Ensure i and j do not exceed neighborhood length
+      if (i >= neighborhood.size() || j >= neighborhood.size()) {
+        continue;
+      }
       // First check to see if i and j are in the same neighborhood
       // If i and j are not neighbors, 
       // then we should not change the orientations from the ancestral graph
@@ -1510,6 +1481,8 @@ void CML::deleteBetweenNeighborhood() {
  }
   
 }
+
+
 // Convert the final graph after using efficient notation to the full
 // adjacency matrix
 void CML::convertFinalGraph() {

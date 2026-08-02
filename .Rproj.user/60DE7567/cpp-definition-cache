@@ -1,7 +1,7 @@
 [
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-        "file_last_write": 1785374118.0,
+        "file_last_write": 1785385818.0,
         "definitions": [
             {
                 "usr": "c:@S@CML@F@getSkeletonTotal#",
@@ -29,7 +29,7 @@
                 "parent_name": "CML",
                 "name": "getSkeletonTarget(const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 328,
+                "line": 294,
                 "column": 11,
                 "hidden": false
             },
@@ -39,7 +39,7 @@
                 "parent_name": "CML",
                 "name": "removeExcessNodes",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 429,
+                "line": 395,
                 "column": 11,
                 "hidden": false
             },
@@ -49,7 +49,7 @@
                 "parent_name": "CML",
                 "name": "getVStructures(bool)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 460,
+                "line": 426,
                 "column": 10,
                 "hidden": false
             },
@@ -59,7 +59,7 @@
                 "parent_name": "CML",
                 "name": "rule1search(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 584,
+                "line": 550,
                 "column": 11,
                 "hidden": false
             },
@@ -69,7 +69,7 @@
                 "parent_name": "CML",
                 "name": "rule1(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 614,
+                "line": 580,
                 "column": 11,
                 "hidden": false
             },
@@ -79,7 +79,7 @@
                 "parent_name": "CML",
                 "name": "rule2search(size_t, size_t, bool, bool, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 633,
+                "line": 599,
                 "column": 11,
                 "hidden": false
             },
@@ -89,7 +89,7 @@
                 "parent_name": "CML",
                 "name": "rule2(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 682,
+                "line": 648,
                 "column": 11,
                 "hidden": false
             },
@@ -99,7 +99,7 @@
                 "parent_name": "CML",
                 "name": "rule3asearch(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 706,
+                "line": 672,
                 "column": 11,
                 "hidden": false
             },
@@ -109,7 +109,7 @@
                 "parent_name": "CML",
                 "name": "rule3bsearch(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 729,
+                "line": 695,
                 "column": 11,
                 "hidden": false
             },
@@ -119,7 +119,7 @@
                 "parent_name": "CML",
                 "name": "rule3(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 761,
+                "line": 727,
                 "column": 11,
                 "hidden": false
             },
@@ -129,7 +129,7 @@
                 "parent_name": "CML",
                 "name": "check_sep_r4(size_t, Rcpp::NumericVector)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 791,
+                "line": 757,
                 "column": 11,
                 "hidden": false
             },
@@ -139,7 +139,7 @@
                 "parent_name": "CML",
                 "name": "rule4(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 808,
+                "line": 774,
                 "column": 11,
                 "hidden": false
             },
@@ -149,7 +149,7 @@
                 "parent_name": "CML",
                 "name": "rule8(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 881,
+                "line": 847,
                 "column": 11,
                 "hidden": false
             },
@@ -159,7 +159,7 @@
                 "parent_name": "CML",
                 "name": "rule9(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 929,
+                "line": 895,
                 "column": 11,
                 "hidden": false
             },
@@ -169,7 +169,7 @@
                 "parent_name": "CML",
                 "name": "rule10simple(const size_t &, const size_t &, const size_t &, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 991,
+                "line": 957,
                 "column": 11,
                 "hidden": false
             },
@@ -179,7 +179,7 @@
                 "parent_name": "",
                 "name": "betaSearch(Graph *, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1021,
+                "line": 987,
                 "column": 15,
                 "hidden": false
             },
@@ -189,7 +189,7 @@
                 "parent_name": "",
                 "name": "nextPathNodeSearch(Graph *, const size_t &, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1036,
+                "line": 1002,
                 "column": 15,
                 "hidden": false
             },
@@ -199,7 +199,7 @@
                 "parent_name": "CML",
                 "name": "rule10(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1060,
+                "line": 1026,
                 "column": 11,
                 "hidden": false
             },
@@ -209,7 +209,7 @@
                 "parent_name": "CML",
                 "name": "allRules",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1164,
+                "line": 1130,
                 "column": 11,
                 "hidden": false
             },
@@ -219,7 +219,7 @@
                 "parent_name": "CML",
                 "name": "rule1search_PC(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1178,
+                "line": 1144,
                 "column": 11,
                 "hidden": false
             },
@@ -229,7 +229,7 @@
                 "parent_name": "CML",
                 "name": "rule1_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1202,
+                "line": 1168,
                 "column": 11,
                 "hidden": false
             },
@@ -239,7 +239,7 @@
                 "parent_name": "CML",
                 "name": "rule2search_PC(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1213,
+                "line": 1179,
                 "column": 11,
                 "hidden": false
             },
@@ -249,7 +249,7 @@
                 "parent_name": "CML",
                 "name": "rule2_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1237,
+                "line": 1203,
                 "column": 11,
                 "hidden": false
             },
@@ -259,7 +259,7 @@
                 "parent_name": "CML",
                 "name": "rule3asearch_PC(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1253,
+                "line": 1219,
                 "column": 11,
                 "hidden": false
             },
@@ -269,7 +269,7 @@
                 "parent_name": "CML",
                 "name": "rule3bsearch_PC(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1276,
+                "line": 1242,
                 "column": 11,
                 "hidden": false
             },
@@ -279,7 +279,7 @@
                 "parent_name": "CML",
                 "name": "rule3_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1308,
+                "line": 1274,
                 "column": 11,
                 "hidden": false
             },
@@ -289,7 +289,7 @@
                 "parent_name": "CML",
                 "name": "rule4asearch_PC(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1330,
+                "line": 1296,
                 "column": 11,
                 "hidden": false
             },
@@ -299,7 +299,7 @@
                 "parent_name": "CML",
                 "name": "rule4bsearch_PC(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1353,
+                "line": 1319,
                 "column": 11,
                 "hidden": false
             },
@@ -309,7 +309,7 @@
                 "parent_name": "CML",
                 "name": "rule4_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1385,
+                "line": 1351,
                 "column": 11,
                 "hidden": false
             },
@@ -319,7 +319,7 @@
                 "parent_name": "CML",
                 "name": "allPCRules",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1407,
+                "line": 1373,
                 "column": 11,
                 "hidden": false
             },
@@ -329,7 +329,7 @@
                 "parent_name": "CML",
                 "name": "convertMixedGraph",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1431,
+                "line": 1397,
                 "column": 11,
                 "hidden": false
             },
@@ -339,7 +339,7 @@
                 "parent_name": "CML",
                 "name": "deleteBetweenNeighborhood",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1480,
+                "line": 1446,
                 "column": 11,
                 "hidden": false
             },
@@ -349,7 +349,7 @@
                 "parent_name": "CML",
                 "name": "convertFinalGraph",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1515,
+                "line": 1488,
                 "column": 11,
                 "hidden": false
             },
@@ -359,7 +359,7 @@
                 "parent_name": "CML",
                 "name": "checkNotation",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1537,
+                "line": 1510,
                 "column": 11,
                 "hidden": false
             },
@@ -369,7 +369,7 @@
                 "parent_name": "CML",
                 "name": "run",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1553,
+                "line": 1526,
                 "column": 11,
                 "hidden": false
             },
@@ -379,7 +379,7 @@
                 "parent_name": "CML",
                 "name": "run_mag",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1613,
+                "line": 1586,
                 "column": 11,
                 "hidden": false
             }

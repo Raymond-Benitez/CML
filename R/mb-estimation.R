@@ -407,9 +407,11 @@ constructFinalMBList <- function(params){
 #' @param targets a vector of integers which will identify the target nodes of our algorithm
 #' @inheritParams getMB
 #' @export
+#' If fo_list is specified only, then estimate 2nd order neighbors with fo_list fixed
+#' If full_list specified, we manually enter mb list and do no estimation with MMPC
 getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
                       method="MMPC",test="testIndFisher",
-                      fo_list=NULL, so_list=NULL,
+                      fo_list=NULL, full_list = NULL,
                       verbose=TRUE){
   start <- Sys.time()
   # Ensure target vector is without duplicates
@@ -427,20 +429,20 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
   # Find the MBs for first-order neighbors and identify spouses 
   # (along with their neighborhoods if necessary)
   
-  if(!is.null(fo_list) & !is.null(so_list)) {  #if first order and second order ,
+  if(!is.null(full_list)) {  #if first order and second order ,
                                                #lists are specified, then run 
-    all_manual_mb <- c(fo_list,so_list)
-    total_manual_mb <- lapply(seq_along(all_manual_mb),
+    # all_manual_mb <- c(fo_list,so_list)
+    total_manual_mb <- lapply(seq_along(full_list),
                               function(t) 
                                 getMB(t,dataset,threshold,lmax,
-                                      method,test,all_manual_mb[[as.character(t)]],verbose))
-    names(total_manual_mb) <- names(all_manual_mb)
+                                      method,test,full_list[[as.character(t)]],verbose))
+    names(total_manual_mb) <- names(full_list)
     result <- list(mb_list = total_manual_mb,#fo_list and so_list
                    num_tests = 0,
                    mb_time = 0,
                    time = 0)   
     
-  } else if(!is.null(fo_list) & is.null(so_list))  {  #if only 1st order is specified
+  } else if(!is.null(fo_list))  {  #if only 1st order is specified
                                                       #calculate 2nd order
     result <- constructFinalMBList(params)
     result$num_tests <- 0
