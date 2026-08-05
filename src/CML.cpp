@@ -1184,6 +1184,7 @@ void CML::rule2search_PC(size_t beta,size_t alpha,bool &track_changes){
         if (C_tilde_sDAG->getAmatVal(alpha,gamma)==1 && 
             C_tilde_sDAG->getAmatVal(gamma,alpha)==1){ // alpha -- gamma
           C_tilde_sDAG->setAmatVal(alpha,gamma,1); // alpha -> gamma
+          C_tilde_sDAG->setAmatVal(gamma,alpha,0);
           track_changes = true;
           ++rules_used_PC(2);
           if (verbose){
@@ -1256,6 +1257,7 @@ void CML::rule3bsearch_PC(const size_t &alpha,const size_t &beta,
         if ((C_tilde_sDAG->getAmatVal(theta,beta)==1) && 
             (C_tilde_sDAG->getAmatVal(beta,theta)==1)){ // theta -- beta
           C_tilde_sDAG->setAmatVal(beta,theta,0); // theta -> beta
+          
           if (verbose){
             Rcout << "Rule 3 PC:\n";
             Rcout << "Orient: " << theta << " -> " << beta << std::endl;
@@ -1279,12 +1281,12 @@ bool CML::rule3_PC(bool &track_changes) {
     for (size_t beta = 0;beta<N;++beta){
       if ((C_tilde_sDAG->getAmatVal(alpha,beta)==1) && 
           (C_tilde_sDAG->getAmatVal(beta,alpha)==0)){ // alpha -> beta <- gamma
-        searchResults = rule3asearch(beta,alpha); // Search for gamma
+        searchResults = rule3asearch_PC(beta,alpha); // Search for gamma
         if (searchResults["rule3success"]){
           // Iterate over all values of gamma to find values of theta
           gammaVals = searchResults["gamma"];
           for (auto gamma : gammaVals){
-            rule3bsearch(alpha,beta,gamma,track_changes);
+            rule3bsearch_PC(alpha,beta,gamma,track_changes);
           }
         }
       }
@@ -1324,15 +1326,16 @@ void CML::rule4bsearch_PC(const size_t &alpha,const size_t &beta,
   // We are searching for gamma -- theta -- alpha
   for (size_t theta = 0;theta<N;++theta){
     condition1 = (C_tilde_sDAG->getAmatVal(alpha,theta)==1) && 
-      (C_tilde_sDAG->getAmatVal(theta,alpha)==1); // alpha -- theta
+                 (C_tilde_sDAG->getAmatVal(theta,alpha)==1); // alpha -- theta
     condition2 = (C_tilde_sDAG->getAmatVal(theta,gamma)==1) && 
-      (C_tilde_sDAG->getAmatVal(gamma,theta)==1); // theta -- gamma
+                 (C_tilde_sDAG->getAmatVal(gamma,theta)==1); // theta -- gamma
     if (condition1 && condition2){
       if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
           (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
         if ((C_tilde_sDAG->getAmatVal(theta,beta)!=0) && 
             (C_tilde_sDAG->getAmatVal(beta,theta)!=0)){ // theta and beta are adjacent
           C_tilde_sDAG->setAmatVal(theta,gamma,1); // theta -> gamma
+          C_tilde_sDAG->setAmatVal(gamma,theta,0); 
           if (verbose){
             Rcout << "Rule 4 PC:\n";
             Rcout << "Orient: " << theta << " -> " << gamma << std::endl;
