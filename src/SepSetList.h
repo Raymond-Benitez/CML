@@ -15,6 +15,7 @@ public:
   bool isPotentialVStruct(size_t i, size_t j,size_t k);
   bool isSepSetMember(size_t i,size_t j,size_t k); 
   
+  void updateSepSetList();
   void printSepSetList();
   List getS() { return S; };
 

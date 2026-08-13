@@ -119,6 +119,8 @@ void CML::getSkeletonTotal(){
   if (verbose){
     Rcout << "\n\nValues after Total Skeleton Run\n\n";
     print_elements();
+    Rcout << "testing to see if the nodes in true indices are being updated properly\n";
+    S-> printSepSetList();
   }
   auto total_skeleton_end = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(total_skeleton_end-total_skeleton_start);
@@ -136,6 +138,8 @@ void CML::updateVariables() {
   
   size_t C_ij; // (i,j) element of adj. mat
   size_t C_ji; // (j,i) element of adj. mat
+  NumericVector S_ij; //separating set vector for nodes i,j
+  NumericVector S_ji;
   size_t M;
   NumericVector temp;
   std::unordered_set<double> new_obs_nodes;
@@ -144,13 +148,17 @@ void CML::updateVariables() {
   new_obs_nodes.insert(targets.begin(), targets.end()); //Begin by adding targets to the set
   // Get new set of observed nodes, i.e., union of targets + their mb
   for (auto t : targets) {
-    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t); //mb from mat after skel phase
+    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t); //mb from mat after skel phase, in efficient notation
     new_obs_nodes.insert(mb_t.begin(), mb_t.end());
     NumericVector vec = mb_list -> getMB(t); //mb from MMPC
     std::vector<int> values;
-    for (auto v : vec) {
+    for (auto v : vec) { //convert true notation from mb_list into efficient
       values.push_back(node_numbering[v]);
     }
+    
+    //check for spouses 
+    
+    
     
     NumericVector values_rcpp = Rcpp::wrap(values);
     NumericVector removed_values = setdiff(values_rcpp, mb_t);
@@ -224,6 +232,9 @@ void CML::updateVariables() {
     printVecElementsNoNames(neighborhood,"","\n"," ");
   }
   
+  //Need to create new SepSetList list with new neighborhood vector
+  //Repopulate and update the values from S into S_new 
+  S_new = new SepSetList(neighborhood);
   // Populate new adjacency matrix C_tilde_sDAG with values from C_tilde
   // dim(C_tilde_sDAG) <= dim(C_tilde) 
   // Iterate over M to access i,j values that are still in the markov blanket
@@ -232,23 +243,48 @@ void CML::updateVariables() {
       int node_i = neighborhood(i);
       int node_j = neighborhood(j);
       NumericVector nodes = NumericVector::create(node_i, node_j);
-      //Node_numbering here is made from neighborhood vector from MMPC
-      //It still has the numbering related to original construction of C_tilde
+      //node_i and node_j have true notation of node
+      //The true notation acts as a key for the pair node_numbering
+      //The values are the efficient notation
+      //Node_numbering has the map corresponding to the true -> efficient notation
+      //before our subsetting / updating. This will retrieve indices under the efficient
+      //for the observed nodes calculated from MMPC
       C_ij = C_tilde -> getAmatVal(node_numbering[node_i], node_numbering[node_j]); // get values from original C_tilde
       C_ji = C_tilde -> getAmatVal(node_numbering[node_j], node_numbering[node_i]); // to copy over to new C_tilde_sDAG
       
+      S_ij = S -> getSepSet(node_numbering[node_i], node_numbering[node_j]);
+      S_ji = S -> getSepSet(node_numbering[node_j], node_numbering[node_i]);
+      
       C_tilde_sDAG -> setAmatVal(i,j,C_ij);
       C_tilde_sDAG -> setAmatVal(j,i,C_ji);
+
+      S_new -> changeList(i,j,S_ij);
+      S_new -> changeList(j,i,S_ji);
       if (verbose) {
         Rcout << "Setting new efficient edge (" 
               << i << " , " 
               << j << ") to " << C_ij << " \n";
         printVecElements(nodes, names, "", "\n");
         
+        Rcout << "Setting new S_ij ("
+              << i << " , "
+              << j << ") to " << S_ij << " \n";
+        printVecElements(nodes, names, "", "\n");
+
+        Rcout << "Setting new S_ji ("
+              << j << " , "
+              << i << ") to " << S_ji << " \n";
+        printVecElements(nodes, names, "", "\n");
+        
       }
     }
   }
   
+  if (verbose) {
+    Rcout << "New Separating Set List\n";
+    S_new ->printSepSetList();
+  }
+
   // Create new efficient numbering system with new neighborhood vector
   node_numbering.clear();
   for (size_t i=0;i<M;++i){
@@ -373,7 +409,7 @@ void CML::getSkeletonTarget(const size_t &t){
             }
             kvals = combn_cpp(neighbors,l); //Need to change how sep set is gathered for i,j 
             // kvals = get_sijPrime(neighborhood(i), neighborhood(j),l)
-            checkSeparation(l,i,j,kvals, true, C_tilde_sDAG);
+            checkSeparation(l,i,j,kvals, true, C_tilde_sDAG,S_new); //S_new
           }
         }
       }
@@ -473,8 +509,18 @@ int CML::getVStructures(bool FCI) {
           }
           
           if (k_vals.length() != 0) {
-            sepset_ij = S->getSepSet(i, j);
-            sepset_ji = S->getSepSet(j, i);
+            sepset_ij = S_new->getSepSet(i,j);
+            sepset_ji = S_new->getSepSet(j,i);
+            
+            if (verbose) { //see if node i and j are matching properly to the sepsetlist
+              int node_i = neighborhood(i);
+              int node_j = neighborhood(j);
+              NumericVector nodes = NumericVector::create(node_i, node_j);
+              Rcout << "Getting S_ij ("
+                    << i << " , "
+                    << j << ") to " << sepset_ij << " \n";
+              printVecElements(nodes, names, "", "\n");
+            }
             
             for (auto k : k_vals) {
               if (verbose) {
@@ -484,7 +530,7 @@ int CML::getVStructures(bool FCI) {
               k_eff = k;
               k = neighborhood(k); 
               
-              if (S->isPotentialVStruct(i, j, k)) { 
+              if (S_new->isPotentialVStruct(i,j, k)) { 
                 if (verbose) {
                   Rcout << "Separation Set: ";
                   printVecElementsNoNames(sepset_ij);
@@ -764,7 +810,7 @@ bool CML::check_sep_r4(size_t beta,NumericVector md_path){
     Rcout << " of " << neighborhood(theta) << " and ";
     Rcout << neighborhood(gamma) << " by " << neighborhood(beta);
   }
-  bool cond1 = S->isSepSetMember(theta,gamma,neighborhood(beta)); 
+  bool cond1 = S_new->isSepSetMember(theta,gamma,neighborhood(beta)); 
   if (verbose) {
     Rcout << "...finished\n"; 
   }
@@ -1384,6 +1430,7 @@ void CML::allPCRules(){
   }
 }
 
+
 /*
  * Because of the special circumstances of our algorithm,
  * we are able to reassign certain edges because of our knowledge of targets
@@ -1577,7 +1624,7 @@ void CML::run(){
 //  Rcout << "End of V structures, starting PC alg rules \n";
  // // convertMixedGraph();
   allPCRules();
-
+  
   
   convertFinalGraph();
   

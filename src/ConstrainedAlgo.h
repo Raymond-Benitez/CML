@@ -39,7 +39,8 @@ public:
   // Default separation test 
   virtual void checkSeparation(int l,size_t i,size_t j,
                                NumericMatrix kvals, bool secstage,
-                               Graph* target_graph = nullptr); // tested (CML)
+                               Graph* target_graph = nullptr,SepSetList* curr_Sep_list = nullptr); //SepSetList* curr_Sep_list = nullptr
+                                // tested (CML)
   
   // Every algorithm must define their own target neighborhood skeleton algorithm
   virtual void getSkeletonTarget(const size_t &t) = 0;
@@ -113,6 +114,7 @@ protected:
   Graph* update_true_dag;
   DAG* true_DAG;
   SepSetList* S;
+  SepSetList* S_new;
   MBList* mb_list;
   arma::mat df;
   arma::mat R;

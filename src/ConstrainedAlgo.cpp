@@ -165,8 +165,8 @@ void ConstrainedAlgo::print_elements(){
 // i and j are efficient values and must be transformed to true values
 // kvals are true values and do not need to be transformed
 void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
-                                      NumericMatrix kvals, bool secstage,
-                                      Graph* target_graph){ //adding new Graph* pointer as input.
+                                      NumericMatrix kvals, bool secstage, //SepSetList* curr_Sep_list
+                                      Graph* target_graph,SepSetList* curr_Sep_list){ //adding new Graph* pointer as input.
                                                             //since we update a different Graph object
   size_t k;                                                 //C_tilde_sDAG in 2nd stage, C_tilde in 1st stage
   size_t kp = kvals.cols();
@@ -176,6 +176,9 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
   // Default for graph* object is C_tilde, for all other calls to this function
   if (target_graph == nullptr) {
     target_graph = C_tilde;
+  }
+  if (curr_Sep_list == nullptr) {
+    curr_Sep_list = S;
   }
   // Initially assumes we are considering an empty set
   arma::uvec sep_arma;
@@ -208,8 +211,8 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
         Rcout << names(neighborhood(j));
         Rcout << " (p-value>" << signif_level << ")"<< std::endl;
       }
-      S->changeList(i,j);
-      S->changeList(j,i);
+      curr_Sep_list->changeList(i,j);
+      curr_Sep_list->changeList(j,i);
       
       target_graph->setAmatVal(i,j,0);
       target_graph->setAmatVal(j,i,0);
@@ -268,8 +271,8 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
           }
         }
         
-        S->changeList(i,j,sep);
-        S->changeList(j,i,sep);
+        curr_Sep_list->changeList(i,j,sep);
+        curr_Sep_list->changeList(j,i,sep);
         target_graph->setAmatVal(i,j,0);
         target_graph->setAmatVal(j,i,0);
         keep_checking_k = false;
@@ -288,7 +291,7 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
 
 // We are trying to identify structures i -> k <- j
 // Where i and j are not adjacent, and k is not in the separating set of i and j
-int ConstrainedAlgo::getVStructures() {   //Only updating C_tilde_sDAG, so we don't add Graph* as input
+int ConstrainedAlgo::getVStructures() {   
   int times_used = 0;
   bool no_neighbors;
   bool j_invalid;
@@ -348,9 +351,9 @@ int ConstrainedAlgo::getVStructures() {   //Only updating C_tilde_sDAG, so we do
               // Verify if k is in separating set for i and j
               size_t k_eff = k; // efficient numbering of k
               k = neighborhood(k); // Switch k to true numbering
-              if (S->isPotentialVStruct(i,j,k)){
+              if (S_new->isPotentialVStruct(i,j,k)){
                 if (verbose){
-                  NumericVector sepset_ij = S->getSepSet(i,j);
+                  NumericVector sepset_ij = S_new->getSepSet(i,j);
                   Rcout << "Separation Set: ";
                   printVecElementsNoNames(sepset_ij);
                   Rcout << " | V-Structure (True Numbering): ";

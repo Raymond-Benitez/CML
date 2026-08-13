@@ -99,6 +99,10 @@ bool SepSetList::isPotentialVStruct(size_t i,size_t j,size_t k) {
   return !isSepSetMember(i,j,k);
 }
 
+void updateSepSetList() {
+  
+}
+
 void SepSetList::printSepSetList(){
   List sublist;
   NumericVector sepLabels;

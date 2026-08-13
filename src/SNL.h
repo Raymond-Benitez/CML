@@ -25,6 +25,8 @@ public:
            bool verbose); // tested
   
   void getSkeletonTarget(const size_t &t); // tested
+  void updateVariables();
+  //int getVStructures();
   
   using ConstrainedAlgo::getVStructures; // tested
   void rule1(bool &no_changes); // tested

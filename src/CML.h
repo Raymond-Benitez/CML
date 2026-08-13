@@ -96,6 +96,7 @@ public:
   void convertFinalGraph(); // tested
   // Ensures we are using proper notation for each pair of nodes
   void checkNotation(); // tested 
+
   
 private:
   std::map<int,int> node_numbering;
