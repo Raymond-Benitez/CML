@@ -36,6 +36,7 @@ public:
   };
   double getTotalSkeletonTime() { return total_skeleton_time; };
   NumericVector getRulesCount() { return rules_used; };
+  NumericVector getPCRulesCount() { return rules_used_PC; };
   
   // Orientation Rules (tested)
   // Rule 1

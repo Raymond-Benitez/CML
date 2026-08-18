@@ -1617,7 +1617,7 @@ void CML::run(){
   }
   removeExcessNodes();
   // Rule 0: Obtain V Structures
-  rules_used_PC(0) = getVStructures(false); //false means Rule 0 PC Alg
+  rules_used_PC(0) = ConstrainedAlgo::getVStructures(); //false means Rule 0 PC Alg
 
  //  // Remaining FCI Rules
  //  //allRules();
