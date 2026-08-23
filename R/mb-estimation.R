@@ -315,6 +315,9 @@ augmentMBAlgo <- function(params){
   if (params$method %in% c("MMPC","SES")){
     # Find spouses using an additional cond. indep. test
     params <- captureSpouses(params)
+    # Duplicate entries of spouses are created when a spouse is shared between
+    # target nodes
+    params$spouses_added <- unique(params$spouses_added) 
     if (length(params$spouses_added)>0){
       # These are nodes for which we have not yet estimated MB
       spouses_mb_list <- lapply(params$spouses_added,function(t){
@@ -432,11 +435,10 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
   if(!is.null(full_list)) {  #if first order and second order ,
                                                #lists are specified, then run 
     # all_manual_mb <- c(fo_list,so_list)
-    total_manual_mb <- full_list
-      # lapply(seq_along(full_list),
-      #                         function(t) 
-      #                           getMB(t,dataset,threshold,lmax,
-      #                                 method,test,full_list[[as.character(t)]],verbose))
+    total_manual_mb <- lapply(seq_along(full_list),
+                              function(t)
+                                getMB(t,dataset,threshold,lmax,
+                                      method,test,full_list[[as.character(t)]],verbose))
     names(total_manual_mb) <- names(full_list)
     result <- list(mb_list = total_manual_mb,#fo_list and so_list
                    num_tests = 0,
