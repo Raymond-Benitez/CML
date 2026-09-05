@@ -1,7 +1,7 @@
 [
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-        "file_last_write": 1786519569.0,
+        "file_last_write": 1788585988.0,
         "definitions": [
             {
                 "usr": "c:@S@CML@F@getSkeletonTotal#",
@@ -9,17 +9,7 @@
                 "parent_name": "CML",
                 "name": "getSkeletonTotal",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 60,
-                "column": 11,
-                "hidden": false
-            },
-            {
-                "usr": "c:@S@CML@F@updateVariables#",
-                "kind": 7,
-                "parent_name": "CML",
-                "name": "updateVariables",
-                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 137,
+                "line": 61,
                 "column": 11,
                 "hidden": false
             },
@@ -29,27 +19,17 @@
                 "parent_name": "CML",
                 "name": "getSkeletonTarget(const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 330,
+                "line": 136,
                 "column": 11,
                 "hidden": false
             },
             {
-                "usr": "c:@S@CML@F@removeExcessNodes#",
+                "usr": "c:@S@CML@F@getVStructures#",
                 "kind": 7,
                 "parent_name": "CML",
-                "name": "removeExcessNodes",
+                "name": "getVStructures",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 431,
-                "column": 11,
-                "hidden": false
-            },
-            {
-                "usr": "c:@S@CML@F@getVStructures#b#",
-                "kind": 7,
-                "parent_name": "CML",
-                "name": "getVStructures(bool)",
-                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 462,
+                "line": 240,
                 "column": 10,
                 "hidden": false
             },
@@ -59,7 +39,7 @@
                 "parent_name": "CML",
                 "name": "rule1search(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 596,
+                "line": 363,
                 "column": 11,
                 "hidden": false
             },
@@ -69,7 +49,7 @@
                 "parent_name": "CML",
                 "name": "rule1(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 626,
+                "line": 393,
                 "column": 11,
                 "hidden": false
             },
@@ -79,7 +59,7 @@
                 "parent_name": "CML",
                 "name": "rule2search(size_t, size_t, bool, bool, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 645,
+                "line": 412,
                 "column": 11,
                 "hidden": false
             },
@@ -89,7 +69,7 @@
                 "parent_name": "CML",
                 "name": "rule2(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 694,
+                "line": 461,
                 "column": 11,
                 "hidden": false
             },
@@ -99,7 +79,7 @@
                 "parent_name": "CML",
                 "name": "rule3asearch(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 718,
+                "line": 485,
                 "column": 11,
                 "hidden": false
             },
@@ -109,7 +89,7 @@
                 "parent_name": "CML",
                 "name": "rule3bsearch(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 741,
+                "line": 508,
                 "column": 11,
                 "hidden": false
             },
@@ -119,7 +99,7 @@
                 "parent_name": "CML",
                 "name": "rule3(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 773,
+                "line": 540,
                 "column": 11,
                 "hidden": false
             },
@@ -129,7 +109,7 @@
                 "parent_name": "CML",
                 "name": "check_sep_r4(size_t, Rcpp::NumericVector)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 803,
+                "line": 570,
                 "column": 11,
                 "hidden": false
             },
@@ -139,7 +119,7 @@
                 "parent_name": "CML",
                 "name": "rule4(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 820,
+                "line": 587,
                 "column": 11,
                 "hidden": false
             },
@@ -149,7 +129,7 @@
                 "parent_name": "CML",
                 "name": "rule8(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 893,
+                "line": 660,
                 "column": 11,
                 "hidden": false
             },
@@ -159,7 +139,7 @@
                 "parent_name": "CML",
                 "name": "rule9(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 941,
+                "line": 708,
                 "column": 11,
                 "hidden": false
             },
@@ -169,7 +149,7 @@
                 "parent_name": "CML",
                 "name": "rule10simple(const size_t &, const size_t &, const size_t &, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1003,
+                "line": 770,
                 "column": 11,
                 "hidden": false
             },
@@ -179,7 +159,7 @@
                 "parent_name": "",
                 "name": "betaSearch(Graph *, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1033,
+                "line": 800,
                 "column": 15,
                 "hidden": false
             },
@@ -189,7 +169,7 @@
                 "parent_name": "",
                 "name": "nextPathNodeSearch(Graph *, const size_t &, const size_t &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1048,
+                "line": 815,
                 "column": 15,
                 "hidden": false
             },
@@ -199,7 +179,7 @@
                 "parent_name": "CML",
                 "name": "rule10(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1072,
+                "line": 839,
                 "column": 11,
                 "hidden": false
             },
@@ -209,7 +189,7 @@
                 "parent_name": "CML",
                 "name": "allRules",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1176,
+                "line": 943,
                 "column": 11,
                 "hidden": false
             },
@@ -219,7 +199,7 @@
                 "parent_name": "CML",
                 "name": "rule1search_PC(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1190,
+                "line": 957,
                 "column": 11,
                 "hidden": false
             },
@@ -229,7 +209,7 @@
                 "parent_name": "CML",
                 "name": "rule1_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1214,
+                "line": 981,
                 "column": 11,
                 "hidden": false
             },
@@ -239,7 +219,7 @@
                 "parent_name": "CML",
                 "name": "rule2search_PC(size_t, size_t, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1225,
+                "line": 992,
                 "column": 11,
                 "hidden": false
             },
@@ -249,7 +229,7 @@
                 "parent_name": "CML",
                 "name": "rule2_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1250,
+                "line": 1017,
                 "column": 11,
                 "hidden": false
             },
@@ -259,7 +239,7 @@
                 "parent_name": "CML",
                 "name": "rule3asearch_PC(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1266,
+                "line": 1033,
                 "column": 11,
                 "hidden": false
             },
@@ -269,7 +249,7 @@
                 "parent_name": "CML",
                 "name": "rule3bsearch_PC(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1289,
+                "line": 1056,
                 "column": 11,
                 "hidden": false
             },
@@ -279,7 +259,7 @@
                 "parent_name": "CML",
                 "name": "rule3_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1322,
+                "line": 1089,
                 "column": 11,
                 "hidden": false
             },
@@ -289,7 +269,7 @@
                 "parent_name": "CML",
                 "name": "rule4asearch_PC(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1344,
+                "line": 1111,
                 "column": 11,
                 "hidden": false
             },
@@ -299,7 +279,7 @@
                 "parent_name": "CML",
                 "name": "rule4bsearch_PC(const size_t &, const size_t &, const size_t &, bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1367,
+                "line": 1134,
                 "column": 11,
                 "hidden": false
             },
@@ -309,7 +289,7 @@
                 "parent_name": "CML",
                 "name": "rule4_PC(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1400,
+                "line": 1167,
                 "column": 11,
                 "hidden": false
             },
@@ -319,7 +299,7 @@
                 "parent_name": "CML",
                 "name": "allPCRules",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1422,
+                "line": 1189,
                 "column": 11,
                 "hidden": false
             },
@@ -329,7 +309,7 @@
                 "parent_name": "CML",
                 "name": "convertMixedGraph",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1447,
+                "line": 1214,
                 "column": 11,
                 "hidden": false
             },
@@ -339,7 +319,17 @@
                 "parent_name": "CML",
                 "name": "deleteBetweenNeighborhood",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1496,
+                "line": 1263,
+                "column": 11,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@CML@F@addBackBetweenEdges#",
+                "kind": 7,
+                "parent_name": "CML",
+                "name": "addBackBetweenEdges",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
+                "line": 1303,
                 "column": 11,
                 "hidden": false
             },
@@ -349,7 +339,7 @@
                 "parent_name": "CML",
                 "name": "convertFinalGraph",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1538,
+                "line": 1327,
                 "column": 11,
                 "hidden": false
             },
@@ -359,7 +349,7 @@
                 "parent_name": "CML",
                 "name": "checkNotation",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1560,
+                "line": 1349,
                 "column": 11,
                 "hidden": false
             },
@@ -369,7 +359,7 @@
                 "parent_name": "CML",
                 "name": "run",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1576,
+                "line": 1365,
                 "column": 11,
                 "hidden": false
             },
@@ -379,7 +369,7 @@
                 "parent_name": "CML",
                 "name": "run_mag",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.cpp",
-                "line": 1636,
+                "line": 1439,
                 "column": 11,
                 "hidden": false
             }
@@ -388,7 +378,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.h",
-        "file_last_write": 1786490353.0,
+        "file_last_write": 1788570872.0,
         "definitions": [
             {
                 "usr": "c:@S@CML",
@@ -406,7 +396,7 @@
                 "parent_name": "CML",
                 "name": "getTargetSkeletonTimes",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.h",
-                "line": 34,
+                "line": 35,
                 "column": 23,
                 "hidden": false
             },
@@ -416,7 +406,7 @@
                 "parent_name": "CML",
                 "name": "getTotalSkeletonTime",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.h",
-                "line": 37,
+                "line": 38,
                 "column": 10,
                 "hidden": false
             },
@@ -426,7 +416,17 @@
                 "parent_name": "CML",
                 "name": "getRulesCount",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.h",
-                "line": 38,
+                "line": 39,
+                "column": 17,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@CML@F@getPCRulesCount#",
+                "kind": 7,
+                "parent_name": "CML",
+                "name": "getPCRulesCount",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/CML.h",
+                "line": 40,
                 "column": 17,
                 "hidden": false
             }
@@ -435,7 +435,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.cpp",
-        "file_last_write": 1786585219.0,
+        "file_last_write": 1788585292.0,
         "definitions": [
             {
                 "usr": "c:@S@ConstrainedAlgo@F@print_elements#",
@@ -448,10 +448,10 @@
                 "hidden": false
             },
             {
-                "usr": "c:@S@ConstrainedAlgo@F@checkSeparation#I#k#k#I#b#*$@S@Graph#*$@S@SepSetList#",
+                "usr": "c:@S@ConstrainedAlgo@F@checkSeparation#I#k#k#I#b#",
                 "kind": 7,
                 "parent_name": "ConstrainedAlgo",
-                "name": "checkSeparation(int, size_t, size_t, Rcpp::NumericMatrix, bool, Graph *, SepSetList *)",
+                "name": "checkSeparation(int, size_t, size_t, Rcpp::NumericMatrix, bool)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.cpp",
                 "line": 167,
                 "column": 23,
@@ -463,7 +463,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getVStructures",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.cpp",
-                "line": 294,
+                "line": 287,
                 "column": 22,
                 "hidden": false
             }
@@ -472,7 +472,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-        "file_last_write": 1786519573.0,
+        "file_last_write": 1788571513.0,
         "definitions": [
             {
                 "usr": "c:@S@ConstrainedAlgo",
@@ -480,7 +480,7 @@
                 "parent_name": "",
                 "name": "ConstrainedAlgo",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 12,
+                "line": 13,
                 "column": 7,
                 "hidden": false
             },
@@ -490,7 +490,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "printAmat",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 35,
+                "line": 36,
                 "column": 8,
                 "hidden": false
             },
@@ -500,7 +500,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getSize",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 37,
+                "line": 38,
                 "column": 10,
                 "hidden": false
             },
@@ -510,7 +510,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getAmat",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 53,
+                "line": 52,
                 "column": 17,
                 "hidden": false
             },
@@ -520,7 +520,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getSepSetList",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 54,
+                "line": 53,
                 "column": 8,
                 "hidden": false
             },
@@ -530,7 +530,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getNumTests",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 55,
+                "line": 54,
                 "column": 10,
                 "hidden": false
             },
@@ -540,7 +540,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getAdjacent(size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 56,
+                "line": 55,
                 "column": 17,
                 "hidden": false
             },
@@ -550,7 +550,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "isAdjacent(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 57,
+                "line": 56,
                 "column": 8,
                 "hidden": false
             },
@@ -560,7 +560,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getNeighborhood",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 58,
+                "line": 57,
                 "column": 17,
                 "hidden": false
             },
@@ -570,7 +570,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getMostRecentPVal",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 59,
+                "line": 58,
                 "column": 10,
                 "hidden": false
             },
@@ -580,7 +580,7 @@
                 "parent_name": "ConstrainedAlgo",
                 "name": "getTotalTime",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/ConstrainedAlgo.h",
-                "line": 60,
+                "line": 59,
                 "column": 10,
                 "hidden": false
             },
@@ -1177,7 +1177,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
-        "file_last_write": 1769381472.0,
+        "file_last_write": 1788484648.0,
         "definitions": [
             {
                 "usr": "c:@F@getMBFromMat#I#k#",
@@ -1190,12 +1190,22 @@
                 "hidden": false
             },
             {
+                "usr": "c:@F@getMBFromMap#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "getMBFromMap",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
+                "line": 18,
+                "column": 15,
+                "hidden": false
+            },
+            {
                 "usr": "c:@S@MBList@F@inMB#k#k#",
                 "kind": 7,
                 "parent_name": "MBList",
                 "name": "inMB(size_t, size_t)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
-                "line": 20,
+                "line": 24,
                 "column": 14,
                 "hidden": false
             },
@@ -1205,8 +1215,28 @@
                 "parent_name": "MBList",
                 "name": "getMBMultipleTargets(Rcpp::NumericVector, bool, bool)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
-                "line": 86,
+                "line": 90,
                 "column": 23,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MBList@F@removeMBVal#k#k#",
+                "kind": 7,
+                "parent_name": "MBList",
+                "name": "removeMBVal(size_t, size_t)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
+                "line": 127,
+                "column": 14,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MBList@F@addMBVal#k#k#",
+                "kind": 7,
+                "parent_name": "MBList",
+                "name": "addMBVal(size_t, size_t)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
+                "line": 157,
+                "column": 14,
                 "hidden": false
             },
             {
@@ -1215,7 +1245,7 @@
                 "parent_name": "MBList",
                 "name": "printMBs",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.cpp",
-                "line": 123,
+                "line": 180,
                 "column": 14,
                 "hidden": false
             }
@@ -1224,7 +1254,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.h",
-        "file_last_write": 1784664730.0,
+        "file_last_write": 1788511094.0,
         "definitions": [
             {
                 "usr": "c:@S@MBList",
@@ -1252,7 +1282,7 @@
                 "parent_name": "MBList",
                 "name": "getSize",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.h",
-                "line": 49,
+                "line": 39,
                 "column": 10,
                 "hidden": false
             },
@@ -1262,7 +1292,7 @@
                 "parent_name": "MBList",
                 "name": "silencer",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.h",
-                "line": 60,
+                "line": 53,
                 "column": 8,
                 "hidden": false
             },
@@ -1272,7 +1302,7 @@
                 "parent_name": "MBList",
                 "name": "removeSilencer(bool)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MBList.h",
-                "line": 66,
+                "line": 59,
                 "column": 8,
                 "hidden": false
             }
@@ -1281,8 +1311,69 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
-        "file_last_write": 1767905849.0,
-        "definitions": [],
+        "file_last_write": 1788571620.0,
+        "definitions": [
+            {
+                "usr": "c:@F@sampleCML#I#$@N@arma@S@Mat>#d#I#I#I#I#d#b#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "sampleCML(Rcpp::NumericMatrix, arma::mat, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, double, bool, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 11,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@popCML#I#I#I#I#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "popCML(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 49,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@sampleCML_mag#I#$@N@arma@S@Mat>#d#I#I#I#I#d#b#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "sampleCML_mag(Rcpp::NumericMatrix, arma::mat, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, double, bool, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 87,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@popCML_mag#I#I#I#I#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "popCML_mag(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 124,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@sampleSNL#I#$@N@arma@S@Mat>#d#I#I#I#I#d#b#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "sampleSNL(Rcpp::NumericMatrix, arma::mat, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, double, bool, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 162,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@popSNL#I#I#I#I#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "popSNL(Rcpp::NumericMatrix, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::StringVector, int, bool)",
+                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/MainFunctions.cpp",
+                "line": 196,
+                "column": 6,
+                "hidden": false
+            }
+        ],
         "hidden": false
     },
     {
@@ -1518,7 +1609,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-        "file_last_write": 1786584774.0,
+        "file_last_write": 1788572962.0,
         "definitions": [
             {
                 "usr": "c:@F@fillTargetNeighborhood#*$@S@Graph#I#I#",
@@ -1561,22 +1652,12 @@
                 "hidden": false
             },
             {
-                "usr": "c:@S@SNL@F@updateVariables#",
-                "kind": 7,
-                "parent_name": "SNL",
-                "name": "updateVariables",
-                "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 227,
-                "column": 11,
-                "hidden": false
-            },
-            {
                 "usr": "c:@S@SNL@F@rule1#&b#",
                 "kind": 7,
                 "parent_name": "SNL",
                 "name": "rule1(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 423,
+                "line": 231,
                 "column": 11,
                 "hidden": false
             },
@@ -1586,7 +1667,7 @@
                 "parent_name": "SNL",
                 "name": "rule2(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 448,
+                "line": 256,
                 "column": 11,
                 "hidden": false
             },
@@ -1596,7 +1677,7 @@
                 "parent_name": "SNL",
                 "name": "rule3(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 471,
+                "line": 279,
                 "column": 11,
                 "hidden": false
             },
@@ -1606,7 +1687,7 @@
                 "parent_name": "SNL",
                 "name": "rule4(bool &)",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 498,
+                "line": 306,
                 "column": 11,
                 "hidden": false
             },
@@ -1616,7 +1697,7 @@
                 "parent_name": "SNL",
                 "name": "meeksRules",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 521,
+                "line": 329,
                 "column": 11,
                 "hidden": false
             },
@@ -1626,7 +1707,7 @@
                 "parent_name": "SNL",
                 "name": "convertFinalGraph",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 549,
+                "line": 357,
                 "column": 11,
                 "hidden": false
             },
@@ -1636,7 +1717,7 @@
                 "parent_name": "SNL",
                 "name": "run",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.cpp",
-                "line": 568,
+                "line": 376,
                 "column": 11,
                 "hidden": false
             }
@@ -1645,7 +1726,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.h",
-        "file_last_write": 1786504065.0,
+        "file_last_write": 1788572890.0,
         "definitions": [
             {
                 "usr": "c:@S@SNL",
@@ -1663,7 +1744,7 @@
                 "parent_name": "SNL",
                 "name": "getTargetSkeletonTimes",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.h",
-                "line": 43,
+                "line": 41,
                 "column": 23,
                 "hidden": false
             },
@@ -1673,7 +1754,7 @@
                 "parent_name": "SNL",
                 "name": "getRulesUsed",
                 "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/SNL.h",
-                "line": 44,
+                "line": 42,
                 "column": 17,
                 "hidden": false
             }
@@ -1975,7 +2056,7 @@
     },
     {
         "file": "D:/College/MS Thesis/RB-CML/CMLmod/src/testCML.cpp",
-        "file_last_write": 1785125054.0,
+        "file_last_write": 1787802775.0,
         "definitions": [
             {
                 "usr": "c:@F@initializeCML#I#$@N@arma@S@Mat>#d#I#I#I#",

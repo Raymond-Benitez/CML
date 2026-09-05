@@ -25,10 +25,11 @@ public:
            bool verbose); // tested
   
   void getSkeletonTotal(); // tested
-  void updateVariables();
+  // void updateVariables();
   void getSkeletonTarget(const size_t &t); // tested
-  void removeExcessNodes();
-  int getVStructures(bool FCI); // tested
+  // void removeExcessNodes();
+  int getVStructures(); // tested
+  
   
   // Accessors
   std::vector<double> getTargetSkeletonTimes() { 
@@ -37,6 +38,7 @@ public:
   double getTotalSkeletonTime() { return total_skeleton_time; };
   NumericVector getRulesCount() { return rules_used; };
   NumericVector getPCRulesCount() { return rules_used_PC; };
+  
   
   // Orientation Rules (tested)
   // Rule 1
@@ -95,14 +97,16 @@ public:
   void convertMixedGraph(); // tested
   void deleteBetweenNeighborhood();
   void convertFinalGraph(); // tested
+  void addBackBetweenEdges();
   // Ensures we are using proper notation for each pair of nodes
   void checkNotation(); // tested 
 
   
 private:
   std::map<int,int> node_numbering;
+  std::vector<int> betw_nhood_edges;
   NumericVector rules_used = NumericVector(11); 
-  NumericVector rules_used_PC = NumericVector(5); //No need to test for v structures again I think, just adapt R1-4 of PC
+  NumericVector rules_used_PC = NumericVector(5); 
   std::vector<double> target_skeleton_times;
   double total_skeleton_time;
 };

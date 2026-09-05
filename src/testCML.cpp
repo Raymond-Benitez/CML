@@ -69,7 +69,7 @@ NumericMatrix checkVStruct(NumericMatrix td,arma::mat df,NumericVector t,
   cml.getSkeletonTotal();
   // Get the skeleton for each target node and its neighborhood
   std::for_each(t.begin(),t.end(),[&cml](int t){ cml.getSkeletonTarget(t); });
-  cml.getVStructures(false);
+  cml.getVStructures();
   return cml.getAmat();
 }
 
@@ -81,7 +81,7 @@ NumericMatrix checkVStructPop(NumericMatrix td,NumericVector t,
   cml.getSkeletonTotal();
   // Get the skeleton for each target node and its neighborhood
   std::for_each(t.begin(),t.end(),[&cml](int t){ cml.getSkeletonTarget(t); });
-  cml.getVStructures(false);
+  cml.getVStructures();
   cml.convertMixedGraph();
   cml.convertFinalGraph();
   return cml.getAmat();
@@ -155,7 +155,7 @@ NumericMatrix checkCMLSummary(NumericMatrix td,arma::mat df,
                 [&cml](int t){ cml.getSkeletonTarget(t); });
   
   // Rule 0: Obtain V Structures
-  cml.getVStructures(false);
+  cml.getVStructures();
   
   // Remaining FCI Rules
   cml.allRules();
@@ -180,7 +180,7 @@ NumericMatrix checkCMLSummaryPop(NumericMatrix td,
                 [&cml](int t){ cml.getSkeletonTarget(t); });
   
   // Rule 0: Obtain V Structures
-  cml.getVStructures(false);
+  cml.getVStructures();
   
   // Remaining FCI Rules
   cml.allRules();

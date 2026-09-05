@@ -20,21 +20,11 @@ public:
   // Accessors
   // Obtains the MB for node i
   NumericVector getMB(size_t i){ // tested
-   if (mb_list.count(i)==0){
-       
-      stop("%i is not an element of the map. \n",i);
+    if (mb_list.count(i)==0){
+      stop("%i is not an element of the map.\n",i);
     }
     return mb_list.find(i)->second;
   }
-  //My attempt to bypass error by not full stopping  
-//  NumericVector getMB(size_t i){
-//    auto it = mb_list.find(i);
-//    if (it == mb_list.end()) {
-//      return NumericVector();  // empty MB
-//    }
-//    return it->second;
-//  }
-  
   
   /*
    * include_targets argument specifies that we will return targets U nbhd(targets)
@@ -52,7 +42,10 @@ public:
   
   // Determine whether a node is in another node's MB
   bool inMB(size_t target,size_t i); // tested
-  
+  // Remove j from markov blanket of i
+  void removeMBVal(size_t i, size_t j);
+   // Add j from markov blanket of i
+  void addMBVal(size_t i, size_t j);
   // Print Markov Blankets
   void printMBs();
   
@@ -72,8 +65,5 @@ private:
   size_t size;
   bool verbose;
 };
-// Defining it outside the class since it does not depend on any MbList variables
-// Need to call it on line 141 of CML.cpp
-NumericVector getMBFromMat(NumericMatrix mb_mat, size_t x);
 
 #endif

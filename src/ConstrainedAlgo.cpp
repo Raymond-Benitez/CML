@@ -53,10 +53,10 @@ ConstrainedAlgo::ConstrainedAlgo(NumericMatrix true_dag,arma::mat df,
   C_tilde = new Graph(N);
   
   // Graph object that we will use to store mb information to make new mb_list
-  // after we update C_tilde_sDAG
-  update_true_dag = new Graph(p);
-  update_true_dag -> setAmat(true_dag); //IM SETTING OLD MB INFORMATION HERE, AND THEN MAKING
-                                        //NEW ADJ MAT AFTER I REMOVE OLD MB INFORMATION IN updateNeighborhood()
+  // after we update C_tilde
+  // update_true_dag = new Graph(p);
+  // update_true_dag -> setAmat(true_dag); //IM SETTING OLD MB INFORMATION HERE, AND THEN MAKING
+  //                                       //NEW ADJ MAT AFTER I REMOVE OLD MB INFORMATION IN updateNeighborhood()
   
   if (verbose){
     Rcout << "Our starting matrix is " << C_tilde->getNRow();
@@ -165,21 +165,13 @@ void ConstrainedAlgo::print_elements(){
 // i and j are efficient values and must be transformed to true values
 // kvals are true values and do not need to be transformed
 void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
-                                      NumericMatrix kvals, bool secstage, //SepSetList* curr_Sep_list
-                                      Graph* target_graph,SepSetList* curr_Sep_list){ //adding new Graph* pointer as input.
-                                                            //since we update a different Graph object
-  size_t k;                                                 //C_tilde_sDAG in 2nd stage, C_tilde in 1st stage
+                                      NumericMatrix kvals, bool sec_stage){ 
+  size_t k;                                                                           
   size_t kp = kvals.cols();
   bool keep_checking_k;
   List test_result;
   
-  // Default for graph* object is C_tilde, for all other calls to this function
-  if (target_graph == nullptr) {
-    target_graph = C_tilde;
-  }
-  if (curr_Sep_list == nullptr) {
-    curr_Sep_list = S;
-  }
+
   // Initially assumes we are considering an empty set
   arma::uvec sep_arma;
   
@@ -211,11 +203,10 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
         Rcout << names(neighborhood(j));
         Rcout << " (p-value>" << signif_level << ")"<< std::endl;
       }
-      curr_Sep_list->changeList(i,j);
-      curr_Sep_list->changeList(j,i);
-      
-      target_graph->setAmatVal(i,j,0);
-      target_graph->setAmatVal(j,i,0);
+      S->changeList(i,j);
+      S->changeList(j,i);
+      C_tilde->setAmatVal(i,j,0);
+      C_tilde->setAmatVal(j,i,0);
     }
   } else {
     k = 0;
@@ -262,7 +253,7 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
           Rcout << " (p-value>" << signif_level << ")"<< std::endl;
         }
         //Intersect sep with neighborhood, neighborhood are the nodes of interest, i.e. NB_t
-        if (secstage) {
+        if (sec_stage) {
           sep = intersect(neighborhood, sep);
           if (verbose) {
             Rcout << "Intersection of separating set with observed nodes\n";
@@ -271,10 +262,12 @@ void ConstrainedAlgo::checkSeparation(int l,size_t i,size_t j,
           }
         }
         
-        curr_Sep_list->changeList(i,j,sep);
-        curr_Sep_list->changeList(j,i,sep);
-        target_graph->setAmatVal(i,j,0);
-        target_graph->setAmatVal(j,i,0);
+        S->changeList(i,j,sep);
+        S->changeList(j,i,sep);
+        C_tilde->setAmatVal(i,j,0);
+        C_tilde->setAmatVal(j,i,0);
+        
+        
         keep_checking_k = false;
       } else {
         if (verbose){
@@ -309,14 +302,14 @@ int ConstrainedAlgo::getVStructures() {
   // not in the separating set for i and j
   for (size_t i=0;i<N;++i){
     // We will search this vector for nodes connected to node i
-    placeholder = C_tilde_sDAG->getAmatRow(i); 
+    placeholder = C_tilde->getAmatRow(i); 
     no_neighbors = (all(placeholder==0)).is_true();
     if (!no_neighbors){ // If there are neighbors to consider
       if (verbose){
         Rcout << "i: "<< i << " (" << names(neighborhood(i)) << ")" << std::endl;
       }
-      i_adj = C_tilde_sDAG->getAdjacent(i); // potential values of k
-      j_vals = C_tilde_sDAG->getNonAdjacent(i); // potential values of j
+      i_adj = C_tilde->getAdjacent(i); // potential values of k
+      j_vals = C_tilde->getNonAdjacent(i); // potential values of j
       // Iterate over possible j values
       for (auto j : j_vals){
         // We move on if:
@@ -324,9 +317,9 @@ int ConstrainedAlgo::getVStructures() {
         // j is parent to i,
         // or we are repeating an analysis and this j should not be considered
         // or if i and j are from separate neighborhoods
-        placeholder = C_tilde_sDAG->getAmatRow(j);
+        placeholder = C_tilde->getAmatRow(j);
         j_invalid = (all(placeholder==0)).is_true();
-        j_invalid = j_invalid || (C_tilde_sDAG->getAmatVal(j,i)!= 0) ||  j <= i;
+        j_invalid = j_invalid || (C_tilde->getAmatVal(j,i)!= 0) ||  j <= i;
         // j must be in the neighborhood of i for it to make a v-structure with it (Local PC)
         j_invalid = j_invalid || !(mb_list->inMB(neighborhood(i),
                                                  neighborhood(j)));
@@ -334,7 +327,7 @@ int ConstrainedAlgo::getVStructures() {
           if (verbose){
             Rcout << "j: " << j << " (" << names(neighborhood(j)) << ")"<< std::endl;
           }
-          j_adj = C_tilde_sDAG->getAdjacent(j);
+          j_adj = C_tilde->getAdjacent(j);
           k_vals = intersect(i_adj,j_adj); // k must be a neighbor of i and j
           // If there are no common neighbors, move to next j
           if (k_vals.length()!=0){
@@ -351,20 +344,25 @@ int ConstrainedAlgo::getVStructures() {
               // Verify if k is in separating set for i and j
               size_t k_eff = k; // efficient numbering of k
               k = neighborhood(k); // Switch k to true numbering
-              if (S_new->isPotentialVStruct(i,j,k)){
+              if (S->isPotentialVStruct(i,j,k)){
                 if (verbose){
-                  NumericVector sepset_ij = S_new->getSepSet(i,j);
+                  NumericVector sepset_ij = S->getSepSet(i,j);
+                  Rcout << "PC Rule 0 \n";
                   Rcout << "Separation Set: ";
                   printVecElementsNoNames(sepset_ij);
                   Rcout << " | V-Structure (True Numbering): ";
                   Rcout << neighborhood(i) << "*->" << k << "<-*";
                   Rcout << neighborhood(j) << std::endl;
                 }
-                C_tilde_sDAG->setAmatVal(i,k_eff,1);
-                C_tilde_sDAG->setAmatVal(j,k_eff,1);
-                C_tilde_sDAG->setAmatVal(k_eff,i,0);
-                C_tilde_sDAG->setAmatVal(k_eff,j,0);
+                C_tilde->setAmatVal(i,k_eff,1);
+                C_tilde->setAmatVal(j,k_eff,1);
+                C_tilde->setAmatVal(k_eff,i,0);
+                C_tilde->setAmatVal(k_eff,j,0);
+                //++times_used;
                 ++times_used;
+                  if (verbose) {
+                    Rcout << "Rule 0 PC has been used " << times_used << " times.\n";
+                  }
               }
             }
           }

@@ -23,6 +23,7 @@ CML::CML(NumericMatrix true_dag,arma::mat df,
   // Map: true numbering -> efficient numbering
   for (size_t i=0;i<N;++i){
     node_numbering.insert(std::pair<size_t,size_t>(neighborhood(i),i));
+    // removed_nodes[i];
   }
   if (verbose){
     Rcout << "Element mapping for efficient ordering (True -> Efficient):\n";
@@ -128,201 +129,6 @@ void CML::getSkeletonTotal(){
 }
 
 
-// Update the mblist information. We likely will have nodes removed that were 
-// estimated from MMPC removed in the first skeleton recovery phase
-// (Later add a boolean if any were removed at all, to avoid wasting comp time)
-
-// Function to update neighborhood, mb_list, C_tilde, node_numbering, true_dag
-// variables after 1st and 2nd skeleton recovery phases. 
-void CML::updateVariables() {
-  
-  size_t C_ij; // (i,j) element of adj. mat
-  size_t C_ji; // (j,i) element of adj. mat
-  NumericVector S_ij; //separating set vector for nodes i,j
-  NumericVector S_ji;
-  size_t M;
-  NumericVector temp;
-  std::unordered_set<double> new_obs_nodes;
-  
-  
-  new_obs_nodes.insert(targets.begin(), targets.end()); //Begin by adding targets to the set
-  // Get new set of observed nodes, i.e., union of targets + their mb
-  for (auto t : targets) {
-    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t); //mb from mat after skel phase, in efficient notation
-    new_obs_nodes.insert(mb_t.begin(), mb_t.end());
-    NumericVector vec = mb_list -> getMB(t); //mb from MMPC
-    std::vector<int> values;
-    for (auto v : vec) { //convert true notation from mb_list into efficient
-      values.push_back(node_numbering[v]);
-    }
-    
-    //check for spouses 
-    
-    
-    
-    NumericVector values_rcpp = Rcpp::wrap(values);
-    NumericVector removed_values = setdiff(values_rcpp, mb_t);
-    if (verbose) {
-      Rcout << "1st order neighbors of target " << t << " from C_tilde after 1st skel phase\n";
-      printVecElementsNoNames(mb_t,"","\n"," ");
-      Rcout << "1st order neighbors estimated from MMPC for target " << t << " in efficient notation\n";
-      printVecElementsNoNames(values_rcpp,"","\n"," ");
-      Rcout << "The setdiff of (mb_t,values) from " << t << " markov blanket\n";
-      printVecElementsNoNames(removed_values,"","\n"," ");
-    }
-    
-    for (auto r : removed_values) {
-      
-      int node_t = neighborhood(node_numbering[t]);
-      int node_r = neighborhood(r);
-      NumericVector nodes = NumericVector::create(node_t, node_r);
-      update_true_dag -> setAmatVal(node_t, node_r,0);
-      update_true_dag -> setAmatVal(node_r, node_t,0);
-      if (verbose) {
-        Rcout << "Removing edge connection(" 
-              << t << " , "
-              << r << ") from true_dag\n";
-        printVecElements(nodes, names, "", "\n");  
-      }
-      
-    }
-    
-    if (verbose) {
-      Rcout << "1st order neighbors of " << t << " from C_tilde after 1st skel phase\n";
-      printVecElementsNoNames(mb_t,"","\n"," ");
-      Rcout << "Estimated mb of " << t << " from MMPC\n";
-      printVecElementsNoNames(mb_list -> getMB(t),"","\n"," ");
-    }
-  }
-  
-  //true_dag markov blanket reference
-  if (verbose) {
-    Rcout << "setAmat(true_dag) has run\n";
-    Rcout << "Our template dag matrix is " << update_true_dag->getNRow();
-    Rcout << "x" << update_true_dag->getNCol() << ".\n";
-    Rcout << "Our DAG matrix is " << std::endl;
-    update_true_dag->printAmat();
-  }
-  
-  // M is length of nodes under consideration after 1st skeleton recovery phase
-  // N is length of nodes under consideration before 1st skeleton recovery phase
-  M = new_obs_nodes.size();
-  temp = NumericVector(M);
-  C_tilde_sDAG = new Graph(M);
-  
-  // new_obs_nodes has node indexes from efficient notation
-  // convert back to true then make neighborhood vector
-  size_t i=0;
-  for (const auto& node_idx : new_obs_nodes) {
-    temp[i] = neighborhood(node_idx);
-    i++;
-  }
-  
-  if (verbose) {
-    Rcout << "Testing if I get true notation back from efficient f.o. nodes \n";
-    printVecElementsNoNames(temp,"","\n"," ");
-  }
-  //Make new neighborhood vector, updating new neighborhood vector
-  neighborhood = Rcpp::clone(temp);
-  std::sort(neighborhood.begin(),neighborhood.end());
-  
-  if (verbose) {
-    Rcout << "New set of observed nodes after first skeleton recovery phase:\n";
-    Rcout << "Updated nodes being considered: ";
-    printVecElementsNoNames(neighborhood,"","\n"," ");
-  }
-  
-  //Need to create new SepSetList list with new neighborhood vector
-  //Repopulate and update the values from S into S_new 
-  S_new = new SepSetList(neighborhood);
-  // Populate new adjacency matrix C_tilde_sDAG with values from C_tilde
-  // dim(C_tilde_sDAG) <= dim(C_tilde) 
-  // Iterate over M to access i,j values that are still in the markov blanket
-  for (size_t i=0;i<M;i++) {
-    for (size_t j=0;j<M;j++) {
-      int node_i = neighborhood(i);
-      int node_j = neighborhood(j);
-      NumericVector nodes = NumericVector::create(node_i, node_j);
-      //node_i and node_j have true notation of node
-      //The true notation acts as a key for the pair node_numbering
-      //The values are the efficient notation
-      //Node_numbering has the map corresponding to the true -> efficient notation
-      //before our subsetting / updating. This will retrieve indices under the efficient
-      //for the observed nodes calculated from MMPC
-      C_ij = C_tilde -> getAmatVal(node_numbering[node_i], node_numbering[node_j]); // get values from original C_tilde
-      C_ji = C_tilde -> getAmatVal(node_numbering[node_j], node_numbering[node_i]); // to copy over to new C_tilde_sDAG
-      
-      S_ij = S -> getSepSet(node_numbering[node_i], node_numbering[node_j]);
-      S_ji = S -> getSepSet(node_numbering[node_j], node_numbering[node_i]);
-      
-      C_tilde_sDAG -> setAmatVal(i,j,C_ij);
-      C_tilde_sDAG -> setAmatVal(j,i,C_ji);
-
-      S_new -> changeList(i,j,S_ij);
-      S_new -> changeList(j,i,S_ji);
-      if (verbose) {
-        Rcout << "Setting new efficient edge (" 
-              << i << " , " 
-              << j << ") to " << C_ij << " \n";
-        printVecElements(nodes, names, "", "\n");
-        
-        Rcout << "Setting new S_ij ("
-              << i << " , "
-              << j << ") to " << S_ij << " \n";
-        printVecElements(nodes, names, "", "\n");
-
-        Rcout << "Setting new S_ji ("
-              << j << " , "
-              << i << ") to " << S_ji << " \n";
-        printVecElements(nodes, names, "", "\n");
-        
-      }
-    }
-  }
-  
-  if (verbose) {
-    Rcout << "New Separating Set List\n";
-    S_new ->printSepSetList();
-  }
-
-  // Create new efficient numbering system with new neighborhood vector
-  node_numbering.clear();
-  for (size_t i=0;i<M;++i){
-    node_numbering.insert(std::pair<size_t,size_t>(neighborhood(i),i));
-  }
-  if (verbose){
-    Rcout << "Updated element mapping for efficient ordering (True -> Efficient):\n";
-    for(auto it = node_numbering.cbegin(); it != node_numbering.cend(); ++it)
-    {
-      Rcout << it->first << " " << it->second  << "\n";
-    }
-  }
-  
-  if (verbose) {
-    Rcout << "Populating new C_tilde_sDAG matrix with new mb information \n";
-    Rcout << "Our new matrix is " << C_tilde_sDAG->getNRow();
-    Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
-    C_tilde_sDAG -> printAmat();
-    Rcout << "\n\n";
-    
-  }
-  
-  // Updating mb_list
-  delete mb_list;
-  mb_list = new MBList(neighborhood,update_true_dag -> getAmat(),verbose); 
-  
-  if (verbose) {
-    Rcout << "Updated set of observed nodes after first skeleton recovery phase:\n";
-    Rcout << "Updated nodes being considered: ";
-    printVecElementsNoNames(neighborhood,"","\n"," ");
-    
-    Rcout << "Our new matrix is " << C_tilde_sDAG->getNRow();
-    Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
-    C_tilde_sDAG -> printAmat();
-    Rcout << "\n\n";
-  }
-  N=M; //setting new dimension of C_tilde_sDAG to N, protected variable of my class.
-}
 
 
 
@@ -382,7 +188,7 @@ void CML::getSkeletonTarget(const size_t &t){
       // These potential neighbors are those currently connected to node i 
       // in the current iteration's estimated graph
       // We do not want to separate the connections between two different cliques
-      edges_i = intersect(C_tilde_sDAG->getAdjacent(i),target_neighborhood);
+      edges_i = intersect(C_tilde->getAdjacent(i),target_neighborhood);
       for (auto j : edges_i){
         if (j > i){
           if (verbose){
@@ -409,7 +215,7 @@ void CML::getSkeletonTarget(const size_t &t){
             }
             kvals = combn_cpp(neighbors,l); //Need to change how sep set is gathered for i,j 
             // kvals = get_sijPrime(neighborhood(i), neighborhood(j),l)
-            checkSeparation(l,i,j,kvals, true, C_tilde_sDAG,S_new); //S_new
+            checkSeparation(l,i,j,kvals, true); 
           }
         }
       }
@@ -417,7 +223,7 @@ void CML::getSkeletonTarget(const size_t &t){
   }
   if (verbose){
     Rcout << "The final C matrix:\n";
-    C_tilde_sDAG -> printAmat();
+    C_tilde -> printAmat();
     Rcout << "Conclusion of algorithm.\n";
   }
   // Save the amount of time taken for the algorithm
@@ -428,38 +234,10 @@ void CML::getSkeletonTarget(const size_t &t){
   target_skeleton_times.push_back(total_time);
 }
 
-void CML::removeExcessNodes() {
-  size_t T = targets.size();
-  // Start at first node after target
-  for (size_t i = T; i < N; i++) {
-    NumericVector C_tilde_row = C_tilde_sDAG->getAmatRow(i);
-    NumericVector C_tilde_col = C_tilde_sDAG->getAmatCol(i);
-    
-    NumericVector sub_row = head(C_tilde_row, T);
-    NumericVector sub_col = head(C_tilde_col, T);
-    
-    if (verbose){
-      Rcout << "Subset row on " << i << "with length " << T << "\n";
-      printVecElementsNoNames(sub_row,"subset row  ","\n");  
-      Rcout << "Subset col on " << i << "with length " << T << "\n";
-      printVecElementsNoNames(sub_col,"subset col  ","\n");  
-    }
-    
-    if ((Rcpp::all(sub_row == 0)).is_true() && (Rcpp::all(sub_col == 0)).is_true()) {
-      C_tilde_sDAG->setAmatRow(i, 0);
-      C_tilde_sDAG->setAmatCol(i, 0);
-      if (verbose) {
-        Rcout << "Setting row and column"<< i << " to 0\n";
-      }
-    }
-  }
-  if(verbose) {
-    C_tilde_sDAG ->printAmat();
-  }
-}
+
 // We are trying to identify structures i -> k <- j
 // Where i and j are not adjacent, and k is not in the separating set of i and j
-int CML::getVStructures(bool FCI) {
+int CML::getVStructures() {
   size_t k_eff;
   int times_used = 0;
   int times_used_PC = 0;
@@ -480,26 +258,26 @@ int CML::getVStructures(bool FCI) {
   }
   
   for (size_t i = 0; i < N; ++i) {
-    placeholder = C_tilde_sDAG->getAmatRow(i); 
+    placeholder = C_tilde->getAmatRow(i); 
     no_neighbors = (all(placeholder == 0)).is_true();
     
     if (!no_neighbors) { 
       if (verbose) {
         Rcout << "i: " << i << " (" << names(neighborhood(i)) << ")" << std::endl;
       }
-      i_adj = C_tilde_sDAG->getAdjacent(i); 
-      j_vals = C_tilde_sDAG->getNonAdjacent(i); 
+      i_adj = C_tilde->getAdjacent(i); 
+      j_vals = C_tilde->getNonAdjacent(i); 
       
       for (auto j : j_vals) {
-        placeholder = C_tilde_sDAG->getAmatRow(j);
-        j_invalid = (all(placeholder == 0)).is_true();
-        j_invalid = j_invalid || C_tilde_sDAG->getAmatVal(j, i) != 0 || j <= i;
+        placeholder = C_tilde->getAmatRow(j);
+        j_invalid = (all(placeholder == 0)).is_true(); //don't consider a node j that is completely isolated
+        j_invalid = j_invalid || C_tilde->getAmatVal(j, i) != 0 || j <= i;
         
         if (!j_invalid) {
           if (verbose) {
             Rcout << "j: " << j << " (" << names(neighborhood(j)) << ")" << std::endl;
           }
-          j_adj = C_tilde_sDAG->getAdjacent(j);
+          j_adj = C_tilde->getAdjacent(j);
           k_vals = intersect(i_adj, j_adj); 
           std::sort(k_vals.begin(), k_vals.end());
           
@@ -509,8 +287,8 @@ int CML::getVStructures(bool FCI) {
           }
           
           if (k_vals.length() != 0) {
-            sepset_ij = S_new->getSepSet(i,j);
-            sepset_ji = S_new->getSepSet(j,i);
+            sepset_ij = S->getSepSet(i,j);
+            sepset_ji = S->getSepSet(j,i);
             
             if (verbose) { //see if node i and j are matching properly to the sepsetlist
               int node_i = neighborhood(i);
@@ -530,32 +308,23 @@ int CML::getVStructures(bool FCI) {
               k_eff = k;
               k = neighborhood(k); 
               
-              if (S_new->isPotentialVStruct(i,j, k)) { 
+              if (S->isPotentialVStruct(i,j, k)) { 
                 if (verbose) {
+                  Rcout << "FCI Rule 0 \n";
                   Rcout << "Separation Set: ";
                   printVecElementsNoNames(sepset_ij);
                   Rcout << " | V-Structure (True Numbering): ";
                   Rcout << neighborhood(i) << "*->" << k << "<-*";
                   Rcout << neighborhood(j) << std::endl; 
                 }
-                
-                if (FCI) {
-                  C_tilde_sDAG->setAmatVal(i, k_eff, 2); 
-                  C_tilde_sDAG->setAmatVal(j, k_eff, 2); 
+              
+                  C_tilde->setAmatVal(i, k_eff, 2); 
+                  C_tilde->setAmatVal(j, k_eff, 2);
+                  
                   ++times_used;
                   if (verbose) {
                     Rcout << "Rule 0 has been used " << times_used << " times.\n";
                   }
-                } else {
-                  C_tilde_sDAG->setAmatVal(i, k_eff, 1); 
-                  C_tilde_sDAG->setAmatVal(j, k_eff, 1); 
-                  C_tilde_sDAG->setAmatVal(k_eff, i, 0); 
-                  C_tilde_sDAG->setAmatVal(k_eff, j, 0);
-                  ++times_used_PC;
-                  if (verbose) {
-                    Rcout << "Rule 0 PC has been used " << times_used_PC << " times.\n";
-                  }
-                }
               }
             }
           }
@@ -563,11 +332,9 @@ int CML::getVStructures(bool FCI) {
       }
     }
   }
-  if (FCI) {
+
     return times_used;
-  } else {
-      return times_used_PC;
-  }
+
 }
 
 /*
@@ -598,15 +365,15 @@ void CML::rule1search(size_t beta,size_t alpha,bool &track_changes){
   //verbose = true;
   
     for (size_t gamma=0;gamma<N;++gamma){
-      if ((C_tilde_sDAG->operator()(gamma,beta)==1) && (C_tilde_sDAG->operator()(beta,gamma)!= 0)){ 
-        if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
-            (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){
-          if (C_tilde_sDAG->getAmatVal(beta,gamma)==3){
+      if ((C_tilde->operator()(gamma,beta)==1) && (C_tilde->operator()(beta,gamma)!= 0)){ 
+        if ((C_tilde->getAmatVal(alpha,gamma)==0) && 
+            (C_tilde->getAmatVal(gamma,alpha)==0)){
+          if (C_tilde->getAmatVal(beta,gamma)==3){
             warning("Contradiction in Rule 1! G(%i,%i)=3 when it must be changed to 2",
                     beta,gamma);
           }
-          C_tilde_sDAG->operator()(beta,gamma)=2;
-          C_tilde_sDAG->operator()(gamma,beta)=3;
+          C_tilde->operator()(beta,gamma)=2;
+          C_tilde->operator()(gamma,beta)=3;
           if (verbose){
             Rcout << "Rule 1:\n";
             Rcout << "Orient: " << alpha << " *-> " << beta << " o-* " << gamma;
@@ -629,7 +396,7 @@ bool CML::rule1(bool &track_changes) {
   // The connected node is beta, which must have an arrowhead pointing into it.
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if (C_tilde_sDAG->getAmatVal(alpha,beta)==2 && C_tilde_sDAG->getAmatVal(beta,alpha)!=0){ // alpha *-> beta
+      if (C_tilde->getAmatVal(alpha,beta)==2 && C_tilde->getAmatVal(beta,alpha)!=0){ // alpha *-> beta
         rule1search(beta,alpha,track_changes); // false for FCI rule 1
       }
     }
@@ -648,11 +415,11 @@ void CML::rule2search(size_t beta,size_t alpha,
   // Condition 1 refers to alpha -> beta *-> gamma
     if (condition1){
       for (size_t gamma=0;gamma<N;++gamma){
-        if (C_tilde_sDAG->getAmatVal(gamma,beta)!=0 && 
-            C_tilde_sDAG->getAmatVal(beta,gamma)==2){ // beta *-> gamma
-          if (C_tilde_sDAG->getAmatVal(alpha,gamma)==1 && 
-              C_tilde_sDAG->getAmatVal(gamma,alpha)!=0){ // alpha *-o gamma
-            C_tilde_sDAG->setAmatVal(alpha,gamma,2); // alpha *-> gamma
+        if (C_tilde->getAmatVal(gamma,beta)!=0 && 
+            C_tilde->getAmatVal(beta,gamma)==2){ // beta *-> gamma
+          if (C_tilde->getAmatVal(alpha,gamma)==1 && 
+              C_tilde->getAmatVal(gamma,alpha)!=0){ // alpha *-o gamma
+            C_tilde->setAmatVal(alpha,gamma,2); // alpha *-> gamma
             track_changes = true;
             ++rules_used(2);
             if (verbose){
@@ -667,11 +434,11 @@ void CML::rule2search(size_t beta,size_t alpha,
       }
     } else if (condition2){ // Condition 2 refers to alpha *-> beta -> gamma
       for (size_t gamma=0;gamma<N;++gamma){
-        if ((C_tilde_sDAG->getAmatVal(gamma,beta)==3) && 
-            (C_tilde_sDAG->getAmatVal(beta,gamma)==2)){ // beta -> gamma
-          if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==1) && 
-              (C_tilde_sDAG->getAmatVal(gamma,alpha)!=0)){ // alpha *-o gamma
-            C_tilde_sDAG->setAmatVal(alpha,gamma,2); // alpha *-> gamma
+        if ((C_tilde->getAmatVal(gamma,beta)==3) && 
+            (C_tilde->getAmatVal(beta,gamma)==2)){ // beta -> gamma
+          if ((C_tilde->getAmatVal(alpha,gamma)==1) && 
+              (C_tilde->getAmatVal(gamma,alpha)!=0)){ // alpha *-o gamma
+            C_tilde->setAmatVal(alpha,gamma,2); // alpha *-> gamma
             if (verbose){
               Rcout << "Rule 2:\n";
               Rcout << "Orient: " << alpha << " *-> " << beta << " -> " << gamma;
@@ -697,10 +464,10 @@ bool CML::rule2(bool &track_changes) {
   // Searching for alpha -> beta OR alpha *-> beta
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      condition1 = (C_tilde_sDAG->getAmatVal(alpha,beta)==2) && 
-        (C_tilde_sDAG->getAmatVal(beta,alpha)==3); // alpha -> beta
-      condition2 = (C_tilde_sDAG->getAmatVal(alpha,beta)==2) && 
-        (C_tilde_sDAG->getAmatVal(beta,alpha)!=0); // alpha *-> beta
+      condition1 = (C_tilde->getAmatVal(alpha,beta)==2) && 
+        (C_tilde->getAmatVal(beta,alpha)==3); // alpha -> beta
+      condition2 = (C_tilde->getAmatVal(alpha,beta)==2) && 
+        (C_tilde->getAmatVal(beta,alpha)!=0); // alpha *-> beta
       if (condition1 | condition2){
         rule2search(beta,alpha,condition1,condition2,track_changes);
       }
@@ -722,8 +489,8 @@ List CML::rule3asearch(size_t beta,size_t alpha){
   bool success = false;
   for (size_t gamma=0;gamma<N;++gamma){
     // Search for beta <-* gamma
-    if (C_tilde_sDAG->getAmatVal(gamma,beta)==2 && 
-        C_tilde_sDAG->getAmatVal(beta,gamma)!=0 && 
+    if (C_tilde->getAmatVal(gamma,beta)==2 && 
+        C_tilde->getAmatVal(beta,gamma)!=0 && 
         gamma!= alpha){
       gammafinal.push_back(gamma);
       if (!success){
@@ -745,16 +512,16 @@ void CML::rule3bsearch(const size_t &alpha,const size_t &beta,
   //verbose = true;
   // We are searching for alpha (*) (1) theta (1) (*) gamma
   for (size_t theta = 0;theta<N;++theta){
-    condition1 = (C_tilde_sDAG->getAmatVal(alpha,theta)==1) && 
-      (C_tilde_sDAG->getAmatVal(theta,alpha)!=0); // alpha *-o theta
-    condition2 = (C_tilde_sDAG->getAmatVal(theta,gamma)!=0) && 
-      (C_tilde_sDAG->getAmatVal(gamma,theta)==1); // theta o-* gamma
+    condition1 = (C_tilde->getAmatVal(alpha,theta)==1) && 
+      (C_tilde->getAmatVal(theta,alpha)!=0); // alpha *-o theta
+    condition2 = (C_tilde->getAmatVal(theta,gamma)!=0) && 
+      (C_tilde->getAmatVal(gamma,theta)==1); // theta o-* gamma
     if (condition1 && condition2){
-      if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
-          (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
-        if ((C_tilde_sDAG->getAmatVal(theta,beta)==1) && 
-            (C_tilde_sDAG->getAmatVal(beta,theta)!=0)){ // theta *-o beta
-          C_tilde_sDAG->setAmatVal(theta,beta,2); // theta *-> beta
+      if ((C_tilde->getAmatVal(alpha,gamma)==0) && 
+          (C_tilde->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
+        if ((C_tilde->getAmatVal(theta,beta)==1) && 
+            (C_tilde->getAmatVal(beta,theta)!=0)){ // theta *-o beta
+          C_tilde->setAmatVal(theta,beta,2); // theta *-> beta
           if (verbose){
             Rcout << "Rule 3:\n";
             Rcout << "Orient: " << theta << " *-> " << beta << std::endl;
@@ -776,8 +543,8 @@ bool CML::rule3(bool &track_changes) {
   // (alpha (*) (2) beta (2) (*) gamma)
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if ((C_tilde_sDAG->getAmatVal(alpha,beta)==2) && 
-          (C_tilde_sDAG->getAmatVal(beta,alpha)!=0)){ // alpha *-> beta <-* gamma
+      if ((C_tilde->getAmatVal(alpha,beta)==2) && 
+          (C_tilde->getAmatVal(beta,alpha)!=0)){ // alpha *-> beta <-* gamma
         searchResults = rule3asearch(beta,alpha); // Search for gamma
         if (searchResults["rule3success"]){
           // Iterate over all values of gamma to find values of theta
@@ -810,7 +577,7 @@ bool CML::check_sep_r4(size_t beta,NumericVector md_path){
     Rcout << " of " << neighborhood(theta) << " and ";
     Rcout << neighborhood(gamma) << " by " << neighborhood(beta);
   }
-  bool cond1 = S_new->isSepSetMember(theta,gamma,neighborhood(beta)); 
+  bool cond1 = S->isSepSetMember(theta,gamma,neighborhood(beta)); 
   if (verbose) {
     Rcout << "...finished\n"; 
   }
@@ -824,24 +591,24 @@ bool CML::rule4(bool &track_changes){
   // Looking for beta o-* gamma
   for (size_t beta=0;beta<N;++beta){
     for (size_t gamma=0;gamma<N;++gamma){
-      if (C_tilde_sDAG->getAmatVal(beta,gamma)!=0 && 
-          C_tilde_sDAG->getAmatVal(gamma,beta)==1){
+      if (C_tilde->getAmatVal(beta,gamma)!=0 && 
+          C_tilde->getAmatVal(gamma,beta)==1){
         // Begin looking for disc. path <theta,...,alpha,beta,gamma>
         // First, look for possible values of alpha
         for (size_t alpha=0;alpha<N;++alpha){
           // Need alpha <-* beta
-          cond1 = C_tilde_sDAG->getAmatVal(beta,alpha)==2 && 
-            C_tilde_sDAG->getAmatVal(alpha,beta)!=0;
+          cond1 = C_tilde->getAmatVal(beta,alpha)==2 && 
+            C_tilde->getAmatVal(alpha,beta)!=0;
           // triangle structure exists but is not oriented
           // alpha -> gamma
-          cond2 = C_tilde_sDAG->getAmatVal(gamma,alpha)==3 && 
-            C_tilde_sDAG->getAmatVal(alpha,gamma)==2; 
+          cond2 = C_tilde->getAmatVal(gamma,alpha)==3 && 
+            C_tilde->getAmatVal(alpha,gamma)==2; 
           if (cond1 && cond2){
             // Only continue to check if the edge between gamma and beta hasn't
             // already been modified
-            if(C_tilde_sDAG->getAmatVal(gamma,beta)==1){
+            if(C_tilde->getAmatVal(gamma,beta)==1){
               // Check for a discriminating path <theta,...,alpha,beta,gamma>
-              md_path = C_tilde_sDAG->minDiscPath(alpha,beta,gamma);
+              md_path = C_tilde->minDiscPath(alpha,beta,gamma);
               if (md_path(0)==-1){
                 Rcout << "No discriminating path for these nodes.\n";
               } else {
@@ -854,8 +621,8 @@ bool CML::rule4(bool &track_changes){
                     Rcout << " and " << md_path(0) << ". Orient: ";
                     Rcout << beta << " -> " << gamma << std::endl;
                   }
-                  C_tilde_sDAG->setAmatVal(beta,gamma,2);
-                  C_tilde_sDAG->setAmatVal(gamma,beta,3);
+                  C_tilde->setAmatVal(beta,gamma,2);
+                  C_tilde->setAmatVal(gamma,beta,3);
                 } else {
                   // beta is not in the separating set
                   if (verbose){
@@ -865,13 +632,13 @@ bool CML::rule4(bool &track_changes){
                     Rcout << gamma << " and " << md_path(0) << ". Orient: ";
                     Rcout << alpha << " <-> " << beta << " <-> " << gamma << std::endl;
                   }
-                  C_tilde_sDAG->setAmatVal(beta,gamma,2);
-                  C_tilde_sDAG->setAmatVal(gamma,beta,2);
-                  if (C_tilde_sDAG->getAmatVal(alpha,beta)==3){
+                  C_tilde->setAmatVal(beta,gamma,2);
+                  C_tilde->setAmatVal(gamma,beta,2);
+                  if (C_tilde->getAmatVal(alpha,beta)==3){
                     // This shouldn't be a problem if it comes up.
                     warning("Contradiction in Rule 4b"); 
                   }
-                  C_tilde_sDAG->setAmatVal(alpha,beta,2);
+                  C_tilde->setAmatVal(alpha,beta,2);
                 }
                 track_changes = true;
                 ++rules_used(4);
@@ -896,18 +663,18 @@ bool CML::rule8(bool &track_changes){
   bool cond3;
   for (size_t alpha=0;alpha<N;++alpha){
     for (size_t gamma=0;gamma<N;++gamma){
-      if (C_tilde_sDAG->getAmatVal(alpha,gamma)==2 && 
-          C_tilde_sDAG->getAmatVal(gamma,alpha)==1){ // alpha o-> gamma
+      if (C_tilde->getAmatVal(alpha,gamma)==2 && 
+          C_tilde->getAmatVal(gamma,alpha)==1){ // alpha o-> gamma
         for (size_t beta=0;beta<N;++beta){
-          cond1 = C_tilde_sDAG->getAmatVal(beta,alpha)==3 && 
-            C_tilde_sDAG->getAmatVal(alpha,beta)==2; // alpha -> beta
-          cond2 = C_tilde_sDAG->getAmatVal(beta,alpha)==3 && 
-            C_tilde_sDAG->getAmatVal(alpha,beta)==1; // alpha -o beta
+          cond1 = C_tilde->getAmatVal(beta,alpha)==3 && 
+            C_tilde->getAmatVal(alpha,beta)==2; // alpha -> beta
+          cond2 = C_tilde->getAmatVal(beta,alpha)==3 && 
+            C_tilde->getAmatVal(alpha,beta)==1; // alpha -o beta
           if (cond1 || cond2){
-            cond3 = C_tilde_sDAG->getAmatVal(beta,gamma)==2 && 
-              C_tilde_sDAG->getAmatVal(gamma,beta)==3; // beta -> gamma
+            cond3 = C_tilde->getAmatVal(beta,gamma)==2 && 
+              C_tilde->getAmatVal(gamma,beta)==3; // beta -> gamma
             if (cond3){
-              C_tilde_sDAG->setAmatVal(gamma,alpha,3); // alpha -> gamma
+              C_tilde->setAmatVal(gamma,alpha,3); // alpha -> gamma
               if (cond1){ // alpha -> beta
                 if (verbose){
                   Rcout << "\nRule 8\nOrient: " << alpha << " -> ";
@@ -950,8 +717,8 @@ bool CML::rule9(bool &track_changes){
   
   for (size_t alpha=0;alpha<N;++alpha){
     for (size_t gamma=0;gamma<N;++gamma){
-      if (C_tilde_sDAG->getAmatVal(alpha,gamma)==2 && 
-          C_tilde_sDAG->getAmatVal(gamma,alpha)==1){ // alpha o-> gamma
+      if (C_tilde->getAmatVal(alpha,gamma)==2 && 
+          C_tilde->getAmatVal(gamma,alpha)==1){ // alpha o-> gamma
         if (verbose){
           Rcout << "Potential alpha: " << alpha;
           Rcout << " | Potential gamma: " << gamma << std::endl;
@@ -960,12 +727,12 @@ bool CML::rule9(bool &track_changes){
         // Find all beta such that alpha (o-)-(o>) beta, 
         // and beta and gamma are not connected
         for (size_t beta=0;beta<N;++beta){
-          cond1 = C_tilde_sDAG->getAmatVal(alpha,beta) == 2 || 
-            C_tilde_sDAG->getAmatVal(alpha,beta) == 1;
-          cond2 = C_tilde_sDAG->getAmatVal(beta,alpha) == 1 || 
-            C_tilde_sDAG->getAmatVal(beta,alpha) == 3;
-          cond3 = C_tilde_sDAG->getAmatVal(gamma,beta) == 0 && 
-            C_tilde_sDAG->getAmatVal(beta,gamma) == 0;
+          cond1 = C_tilde->getAmatVal(alpha,beta) == 2 || 
+            C_tilde->getAmatVal(alpha,beta) == 1;
+          cond2 = C_tilde->getAmatVal(beta,alpha) == 1 || 
+            C_tilde->getAmatVal(beta,alpha) == 3;
+          cond3 = C_tilde->getAmatVal(gamma,beta) == 0 && 
+            C_tilde->getAmatVal(beta,gamma) == 0;
           cond4 = beta != gamma;
           cond_final = cond1 && cond2 && cond3 && cond4;
           if (cond_final){
@@ -975,12 +742,12 @@ bool CML::rule9(bool &track_changes){
             beta_vals.push_back(beta);
           }
         }
-        while (beta_vals.size() > 0 && C_tilde_sDAG->getAmatVal(gamma,alpha)==1){
+        while (beta_vals.size() > 0 && C_tilde->getAmatVal(gamma,alpha)==1){
           beta_current = beta_vals[beta_vals.size()-1];
           beta_vals.pop_back();
-          upd = C_tilde_sDAG->minUncovPdPath(alpha,beta_current,gamma);
+          upd = C_tilde->minUncovPdPath(alpha,beta_current,gamma);
           if (upd.length()>1){
-            C_tilde_sDAG->setAmatVal(gamma,alpha,3);
+            C_tilde->setAmatVal(gamma,alpha,3);
             if (verbose){
               Rcout << "Rule 9: There exists an uncovered potentially directed ";
               Rcout << "path between " << alpha << " and " << gamma << std::endl;
@@ -1004,18 +771,18 @@ bool CML::rule10simple(const size_t &alpha,
                             const size_t &beta,
                             const size_t &gamma,
                             const size_t &d){
-  bool cond1 = C_tilde_sDAG->getAmatVal(alpha,beta)==1 ||
-    C_tilde_sDAG->getAmatVal(alpha,beta)==2;
-  bool cond2 = C_tilde_sDAG->getAmatVal(beta,alpha)==1 || 
-    C_tilde_sDAG->getAmatVal(beta,alpha)==3;
-  bool cond3 = C_tilde_sDAG->getAmatVal(alpha,d)==1 || 
-    C_tilde_sDAG->getAmatVal(alpha,d)==2;
-  bool cond4 = C_tilde_sDAG->getAmatVal(d,alpha)==1 || 
-    C_tilde_sDAG->getAmatVal(d,alpha)==3;
-  bool cond5 = C_tilde_sDAG->getAmatVal(d,beta)==0 && 
-    C_tilde_sDAG->getAmatVal(beta,d)==0;
+  bool cond1 = C_tilde->getAmatVal(alpha,beta)==1 ||
+    C_tilde->getAmatVal(alpha,beta)==2;
+  bool cond2 = C_tilde->getAmatVal(beta,alpha)==1 || 
+    C_tilde->getAmatVal(beta,alpha)==3;
+  bool cond3 = C_tilde->getAmatVal(alpha,d)==1 || 
+    C_tilde->getAmatVal(alpha,d)==2;
+  bool cond4 = C_tilde->getAmatVal(d,alpha)==1 || 
+    C_tilde->getAmatVal(d,alpha)==3;
+  bool cond5 = C_tilde->getAmatVal(d,beta)==0 && 
+    C_tilde->getAmatVal(beta,d)==0;
   if (cond1&cond2&cond3&cond4&cond5){
-    C_tilde_sDAG->setAmatVal(gamma,alpha,3);
+    C_tilde->setAmatVal(gamma,alpha,3);
     if (verbose){
       Rcout << "\nRule 10 [easy]:\nOrient: ";
       Rcout << alpha << " -> " << gamma << std::endl;
@@ -1030,12 +797,12 @@ bool CML::rule10simple(const size_t &alpha,
   }
 }
 
-NumericVector betaSearch(Graph *C_tilde_sDAG,const size_t &gamma){
+NumericVector betaSearch(Graph *C_tilde,const size_t &gamma){
   NumericVector beta_vals = NumericVector::create();
-  size_t N = C_tilde_sDAG -> size();
+  size_t N = C_tilde -> size();
   for (size_t b=0;b<N;++b){ // search for beta -> gamma
-    bool cond1 = C_tilde_sDAG->getAmatVal(gamma,b)==3 && 
-      C_tilde_sDAG->getAmatVal(b,gamma)==2;
+    bool cond1 = C_tilde->getAmatVal(gamma,b)==3 && 
+      C_tilde->getAmatVal(b,gamma)==2;
     if (cond1){
       beta_vals.push_back(b);  
     }
@@ -1045,16 +812,16 @@ NumericVector betaSearch(Graph *C_tilde_sDAG,const size_t &gamma){
 
 // Identify nodes adjacent to alpha not equal to gamma such that 
 // <alpha,x> is a p.d. path
-NumericVector nextPathNodeSearch(Graph *C_tilde_sDAG,
+NumericVector nextPathNodeSearch(Graph *C_tilde,
                                  const size_t &alpha,const size_t &gamma){
   // Find all x s.t. alpha (-o)-(o>) x  
   NumericVector x_vals = NumericVector(0); // Creates an empty vector
-  size_t N = C_tilde_sDAG -> size();
+  size_t N = C_tilde -> size();
   for (size_t x=0;x<N;++x){ // first node on the potential path
-    bool cond1 = C_tilde_sDAG->getAmatVal(alpha,x)==1 || 
-      C_tilde_sDAG->getAmatVal(alpha,x)==2;
-    bool cond2 = C_tilde_sDAG->getAmatVal(x,alpha)==1 || 
-      C_tilde_sDAG->getAmatVal(x,alpha)==3;
+    bool cond1 = C_tilde->getAmatVal(alpha,x)==1 || 
+      C_tilde->getAmatVal(alpha,x)==2;
+    bool cond2 = C_tilde->getAmatVal(x,alpha)==1 || 
+      C_tilde->getAmatVal(x,alpha)==3;
     bool cond3 = x != gamma;
     if (cond1 && cond2 && cond3){
       x_vals.push_back(x);
@@ -1078,14 +845,14 @@ bool CML::rule10(bool &track_changes){
   // search for alpha o-> gamma
   for (size_t alpha=0;alpha<N;++alpha){
     for (size_t gamma=0;gamma<N;++gamma){ 
-      if (C_tilde_sDAG->getAmatVal(alpha,gamma)==2 && 
-          C_tilde_sDAG->getAmatVal(gamma,alpha)==1){
+      if (C_tilde->getAmatVal(alpha,gamma)==2 && 
+          C_tilde->getAmatVal(gamma,alpha)==1){
         // Search for possible values of beta and theta: beta->gamma<-theta
-        NumericVector beta_vals = betaSearch(C_tilde_sDAG,gamma);
+        NumericVector beta_vals = betaSearch(C_tilde,gamma);
         if (beta_vals.length()>=2){ // Need at least two for beta and theta
           size_t counter_b=0;
           while (counter_b<beta_vals.length() && 
-                 C_tilde_sDAG->getAmatVal(gamma,alpha)==1){
+                 C_tilde->getAmatVal(gamma,alpha)==1){
             size_t beta = beta_vals(counter_b);
             if (verbose){
               Rcout << "Potential alpha: " << alpha << " | ";
@@ -1098,7 +865,7 @@ bool CML::rule10(bool &track_changes){
             NumericVector theta_vals = setdiff(beta_vals,
                                                NumericVector::create(beta)); 
             while ((counter_theta < theta_vals.length()) && 
-                   (C_tilde_sDAG->getAmatVal(gamma,alpha)==1)){
+                   (C_tilde->getAmatVal(gamma,alpha)==1)){
               size_t theta = theta_vals(counter_theta);
               if (verbose){
                 Rcout << "Potential theta: " << theta << " | ";
@@ -1110,12 +877,12 @@ bool CML::rule10(bool &track_changes){
                 track_changes = true;
               } else { // search for two minimal uncovered p.d. paths
                 // Identify nodes such that <alpha,x> is p.d.
-                NumericVector x_vals = nextPathNodeSearch(C_tilde_sDAG,alpha,gamma);
+                NumericVector x_vals = nextPathNodeSearch(C_tilde,alpha,gamma);
                 // Need starting values for p_1 *and* p_2
                 if (x_vals.length()>=2){ 
                   counter_x1 = 0;
                   while ((counter_x1 < x_vals.length()) && 
-                         C_tilde_sDAG->getAmatVal(gamma,alpha)==1){
+                         C_tilde->getAmatVal(gamma,alpha)==1){
                     x1 = x_vals(counter_x1);
                     if (verbose){
                       Rcout << "Potential mu: " << x1 << " | ";
@@ -1124,7 +891,7 @@ bool CML::rule10(bool &track_changes){
                     NumericVector x2_vals = setdiff(x_vals,NumericVector::create(x1));
                     counter_x2 = 0;
                     while (counter_x2 < x2_vals.length() && 
-                           C_tilde_sDAG->getAmatVal(gamma,alpha)==1){
+                           C_tilde->getAmatVal(gamma,alpha)==1){
                       x2 = x2_vals(counter_x2);
                       if (verbose){
                         Rcout << "Potential omega: " << x2 << std::endl;
@@ -1132,7 +899,7 @@ bool CML::rule10(bool &track_changes){
                       ++counter_x2;
                       // See if we can find uncovered p.d. path 
                       // t1 = <alpha,first_pos,...,beta>
-                      NumericVector t1 = C_tilde_sDAG->minUncovPdPath(alpha,x1,beta);
+                      NumericVector t1 = C_tilde->minUncovPdPath(alpha,x1,beta);
                       if (verbose) {
                         printVecElementsNoNames(t1,"t1: ","\n");
                       }
@@ -1140,13 +907,13 @@ bool CML::rule10(bool &track_changes){
                       if (t1.length()>1){
                         // See if we can find uncovered p.d. path 
                         // t1 = <alpha,second_pos,...,theta>
-                        NumericVector t2 = C_tilde_sDAG->minUncovPdPath(alpha,x2,theta);
+                        NumericVector t2 = C_tilde->minUncovPdPath(alpha,x2,theta);
                         if (verbose) {
                           printVecElementsNoNames(t2,"t2: ","\n");
                         }
                         if (t2.length()>1 && x1!=x2 && 
-                            C_tilde_sDAG->getAmatVal(x1,x2)==0){
-                          C_tilde_sDAG->setAmatVal(gamma,alpha,3);
+                            C_tilde->getAmatVal(x1,x2)==0){
+                          C_tilde->setAmatVal(gamma,alpha,3);
                           if (verbose) {
                             Rcout << "\nRule 10\nOrient: " << alpha;
                             Rcout << " -> " << gamma << std::endl;
@@ -1189,12 +956,12 @@ void CML::allRules(){
 
 void CML::rule1search_PC(size_t beta,size_t alpha,bool &track_changes) {
   for (size_t gamma=0;gamma<N;++gamma){
-    if ((C_tilde_sDAG->operator()(gamma,beta)==1) && (C_tilde_sDAG->operator()(beta,gamma)== 1)){ 
-      if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
-          (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){
+    if ((C_tilde->operator()(gamma,beta)==1) && (C_tilde->operator()(beta,gamma)== 1)){ 
+      if ((C_tilde->getAmatVal(alpha,gamma)==0) && 
+          (C_tilde->getAmatVal(gamma,alpha)==0)){
         
-        C_tilde_sDAG->operator()(beta,gamma)=1;
-        C_tilde_sDAG->operator()(gamma,beta)=0;
+        C_tilde->operator()(beta,gamma)=1;
+        C_tilde->operator()(gamma,beta)=0;
         if (verbose){
           Rcout << "Rule 1 PC:\n";
           Rcout << "Orient: " << alpha << " -> " << beta << " -- " << gamma;
@@ -1214,7 +981,7 @@ void CML::rule1search_PC(size_t beta,size_t alpha,bool &track_changes) {
 bool CML::rule1_PC(bool &track_changes) {
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if (C_tilde_sDAG->getAmatVal(alpha,beta)==1 && C_tilde_sDAG->getAmatVal(beta,alpha)==0){ // alpha -> beta
+      if (C_tilde->getAmatVal(alpha,beta)==1 && C_tilde->getAmatVal(beta,alpha)==0){ // alpha -> beta
         rule1search_PC(beta,alpha,track_changes); //true for rule 1 PC implementation
       }
     }
@@ -1225,12 +992,12 @@ bool CML::rule1_PC(bool &track_changes) {
 void CML::rule2search_PC(size_t beta,size_t alpha,bool &track_changes){
   
     for (size_t gamma=0;gamma<N;++gamma){
-      if (C_tilde_sDAG->getAmatVal(gamma,beta)==0 && 
-          C_tilde_sDAG->getAmatVal(beta,gamma)==1){ // beta -> gamma
-        if (C_tilde_sDAG->getAmatVal(alpha,gamma)==1 && 
-            C_tilde_sDAG->getAmatVal(gamma,alpha)==1){ // alpha -- gamma
-          C_tilde_sDAG->setAmatVal(alpha,gamma,1); // alpha -> gamma
-          C_tilde_sDAG->setAmatVal(gamma,alpha,0);
+      if (C_tilde->getAmatVal(gamma,beta)==0 && 
+          C_tilde->getAmatVal(beta,gamma)==1){ // beta -> gamma
+        if (C_tilde->getAmatVal(alpha,gamma)==1 && 
+            C_tilde->getAmatVal(gamma,alpha)==1){ // alpha -- gamma
+          C_tilde->setAmatVal(alpha,gamma,1); // alpha -> gamma
+          C_tilde->setAmatVal(gamma,alpha,0);
           track_changes = true;
           ++rules_used_PC(2);
           if (verbose){
@@ -1252,8 +1019,8 @@ bool CML::rule2_PC(bool &track_changes) {
   // Searching for alpha -> beta 
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if ((C_tilde_sDAG->getAmatVal(alpha,beta)==1) && // alpha -> beta
-        (C_tilde_sDAG->getAmatVal(beta,alpha)==0)) {
+      if ((C_tilde->getAmatVal(alpha,beta)==1) && // alpha -> beta
+        (C_tilde->getAmatVal(beta,alpha)==0)) {
         rule2search_PC(beta,alpha,track_changes);
         } 
     }
@@ -1270,8 +1037,8 @@ List CML::rule3asearch_PC(size_t beta,size_t alpha){
   bool success = false;
   for (size_t gamma=0;gamma<N;++gamma){
     // Search for beta <-* gamma
-    if (C_tilde_sDAG->getAmatVal(gamma,beta)==1 && 
-        C_tilde_sDAG->getAmatVal(beta,gamma)==0 && 
+    if (C_tilde->getAmatVal(gamma,beta)==1 && 
+        C_tilde->getAmatVal(beta,gamma)==0 && 
         gamma!= alpha){
       gammafinal.push_back(gamma);
       if (!success){
@@ -1293,16 +1060,16 @@ void CML::rule3bsearch_PC(const size_t &alpha,const size_t &beta,
   //verbose = true;
   // We are searching for alpha (*) (1) theta (1) (*) gamma
   for (size_t theta = 0;theta<N;++theta){
-    condition1 = (C_tilde_sDAG->getAmatVal(alpha,theta)==1) && 
-      (C_tilde_sDAG->getAmatVal(theta,alpha)==1); // alpha -- theta
-    condition2 = (C_tilde_sDAG->getAmatVal(theta,gamma)==1) && 
-      (C_tilde_sDAG->getAmatVal(gamma,theta)==1); // theta -- gamma
+    condition1 = (C_tilde->getAmatVal(alpha,theta)==1) && 
+      (C_tilde->getAmatVal(theta,alpha)==1); // alpha -- theta
+    condition2 = (C_tilde->getAmatVal(theta,gamma)==1) && 
+      (C_tilde->getAmatVal(gamma,theta)==1); // theta -- gamma
     if (condition1 && condition2){
-      if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
-          (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
-        if ((C_tilde_sDAG->getAmatVal(theta,beta)==1) && 
-            (C_tilde_sDAG->getAmatVal(beta,theta)==1)){ // theta -- beta
-          C_tilde_sDAG->setAmatVal(beta,theta,0); // theta -> beta
+      if ((C_tilde->getAmatVal(alpha,gamma)==0) && 
+          (C_tilde->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
+        if ((C_tilde->getAmatVal(theta,beta)==1) && 
+            (C_tilde->getAmatVal(beta,theta)==1)){ // theta -- beta
+          C_tilde->setAmatVal(beta,theta,0); // theta -> beta
           
           if (verbose){
             Rcout << "Rule 3 PC:\n";
@@ -1325,8 +1092,8 @@ bool CML::rule3_PC(bool &track_changes) {
   // (alpha (*) (2) beta (2) (*) gamma)
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if ((C_tilde_sDAG->getAmatVal(alpha,beta)==1) && 
-          (C_tilde_sDAG->getAmatVal(beta,alpha)==0)){ // alpha -> beta <- gamma
+      if ((C_tilde->getAmatVal(alpha,beta)==1) && 
+          (C_tilde->getAmatVal(beta,alpha)==0)){ // alpha -> beta <- gamma
         searchResults = rule3asearch_PC(beta,alpha); // Search for gamma
         if (searchResults["rule3success"]){
           // Iterate over all values of gamma to find values of theta
@@ -1348,8 +1115,8 @@ List CML::rule4asearch_PC(size_t beta,size_t alpha){
   bool success = false;
   for (size_t gamma=0;gamma<N;++gamma){
     // Search for beta -> gamma
-    if (C_tilde_sDAG->getAmatVal(gamma,beta)==0 && 
-        C_tilde_sDAG->getAmatVal(beta,gamma)==1 && 
+    if (C_tilde->getAmatVal(gamma,beta)==0 && 
+        C_tilde->getAmatVal(beta,gamma)==1 && 
         gamma!= alpha){
       gammafinal.push_back(gamma);
       if (!success){
@@ -1371,17 +1138,17 @@ void CML::rule4bsearch_PC(const size_t &alpha,const size_t &beta,
   //verbose = true;
   // We are searching for gamma -- theta -- alpha
   for (size_t theta = 0;theta<N;++theta){
-    condition1 = (C_tilde_sDAG->getAmatVal(alpha,theta)==1) && 
-                 (C_tilde_sDAG->getAmatVal(theta,alpha)==1); // alpha -- theta
-    condition2 = (C_tilde_sDAG->getAmatVal(theta,gamma)==1) && 
-                 (C_tilde_sDAG->getAmatVal(gamma,theta)==1); // theta -- gamma
+    condition1 = (C_tilde->getAmatVal(alpha,theta)==1) && 
+                 (C_tilde->getAmatVal(theta,alpha)==1); // alpha -- theta
+    condition2 = (C_tilde->getAmatVal(theta,gamma)==1) && 
+                 (C_tilde->getAmatVal(gamma,theta)==1); // theta -- gamma
     if (condition1 && condition2){
-      if ((C_tilde_sDAG->getAmatVal(alpha,gamma)==0) && 
-          (C_tilde_sDAG->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
-        if ((C_tilde_sDAG->getAmatVal(theta,beta)!=0) && 
-            (C_tilde_sDAG->getAmatVal(beta,theta)!=0)){ // theta and beta are adjacent
-          C_tilde_sDAG->setAmatVal(theta,gamma,1); // theta -> gamma
-          C_tilde_sDAG->setAmatVal(gamma,theta,0); 
+      if ((C_tilde->getAmatVal(alpha,gamma)==0) && 
+          (C_tilde->getAmatVal(gamma,alpha)==0)){ // alpha and gamma are not adjacent
+        if ((C_tilde->getAmatVal(theta,beta)!=0) && 
+            (C_tilde->getAmatVal(beta,theta)!=0)){ // theta and beta are adjacent
+          C_tilde->setAmatVal(theta,gamma,1); // theta -> gamma
+          C_tilde->setAmatVal(gamma,theta,0); 
           if (verbose){
             Rcout << "Rule 4 PC:\n";
             Rcout << "Orient: " << theta << " -> " << gamma << std::endl;
@@ -1403,8 +1170,8 @@ bool CML::rule4_PC(bool &track_changes) {
   // Looking for  alpha -> beta -> gamma
   for (size_t alpha = 0;alpha<N;++alpha){
     for (size_t beta = 0;beta<N;++beta){
-      if ((C_tilde_sDAG->getAmatVal(alpha,beta)==1) && 
-          (C_tilde_sDAG->getAmatVal(beta,alpha)==0)){ // alpha -> beta -> gamma
+      if ((C_tilde->getAmatVal(alpha,beta)==1) && 
+          (C_tilde->getAmatVal(beta,alpha)==0)){ // alpha -> beta -> gamma
         searchResults = rule4asearch_PC(beta,alpha); // Search for gamma
         if (searchResults["rule4success"]){
           // Iterate over all values of gamma to find values of theta
@@ -1455,13 +1222,13 @@ void CML::convertMixedGraph(){
       // If i and j are not neighbors, 
       // then we should not change the orientations from the ancestral graph
       sep_nbhd = !(mb_list -> inMB(neighborhood(i),neighborhood(j)));
-      G_ij = C_tilde_sDAG -> getAmatVal(i,j);
-      G_ji = C_tilde_sDAG -> getAmatVal(j,i);
+      G_ij = C_tilde -> getAmatVal(i,j);
+      G_ji = C_tilde -> getAmatVal(j,i);
       if (!sep_nbhd){ // only convert edge notation w/in neighborhoods
          if (G_ij==2 && G_ji==2){  
            // Convert bidirected edge to undirected
-           C_tilde_sDAG->setAmatVal(i,j,1);
-           C_tilde_sDAG->setAmatVal(j,i,1);
+           C_tilde->setAmatVal(i,j,1);
+           C_tilde->setAmatVal(j,i,1);
            // if (verbose) {
            //   Rcout << "Setting (" << i << " , " << j << ") to 1\n";
            //   Rcout << "Setting (" << j << " , " << i << ") to 1\n";
@@ -1470,22 +1237,22 @@ void CML::convertMixedGraph(){
          } 
         if (G_ij==2 && G_ji==1){ 
           // Convert o-> to -> if i and j are in same nbhd
-          C_tilde_sDAG->setAmatVal(i,j,1);
-          C_tilde_sDAG->setAmatVal(j,i,0);
+          C_tilde->setAmatVal(i,j,1);
+          C_tilde->setAmatVal(j,i,0);
         } else if (G_ij==2 && G_ji==3){
           // Convert -> [3,2] to -> [0,1]
-          C_tilde_sDAG->setAmatVal(i,j,1);
-          C_tilde_sDAG->setAmatVal(j,i,0);
+          C_tilde->setAmatVal(i,j,1);
+          C_tilde->setAmatVal(j,i,0);
         } else if (G_ij==1 && G_ji==3){
           // Convert -o [3,1] to -> [0,1]
-          C_tilde_sDAG->setAmatVal(j,i,0);
+          C_tilde->setAmatVal(j,i,0);
         }
       } else {
         // For nodes that are in different neighborhoods
         // Convert circle markings label from "1" to "4"
         if (G_ij==1){
-         // C_tilde_sDAG->setAmatVal(i,j,4);
-         // C_tilde_sDAG->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE? //2/14/26 Uncommented this line
+         // C_tilde->setAmatVal(i,j,4);
+         // C_tilde->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE? //2/14/26 Uncommented this line
         }
       }
       
@@ -1498,40 +1265,62 @@ void CML::deleteBetweenNeighborhood() {
   size_t G_ji; // (j,i) element of adj. mat
   bool sep_nbhd; // checks if the considered nodes are in separate neighborhoods
   for (size_t i=0;i<N;++i){
-    for (size_t j=0;j<N;++j){
+    for (size_t j=i+1;j<N;++j){ //avoid symmetry of adj. matrix
       sep_nbhd = false;
       
       // SAFE BOUNDS CHECK: Ensure i and j do not exceed neighborhood length
       if (i >= neighborhood.size() || j >= neighborhood.size()) {
         continue;
       }
-      // First check to see if i and j are in the same neighborhood
-      // If i and j are not neighbors, 
-      // then we should not change the orientations from the ancestral graph
+      // Check to see if i and j are in the same neighborhood
+      // If they are not, delete the edge (maybe add back later)
       sep_nbhd = !(mb_list -> inMB(neighborhood(i),neighborhood(j)));
-      G_ij = C_tilde_sDAG -> getAmatVal(i,j);
-      G_ji = C_tilde_sDAG -> getAmatVal(j,i);
+      G_ij = C_tilde -> getAmatVal(i,j);
+      G_ji = C_tilde -> getAmatVal(j,i);
       if (sep_nbhd){ // only delete edges in different neighborhoods
         if (G_ij!=0 || G_ji!=0){  
-          // Convert bidirected edge to undirected
-          C_tilde_sDAG->setAmatVal(i,j,0);
-          C_tilde_sDAG->setAmatVal(j,i,0);
+          // Delete edge
+          C_tilde->setAmatVal(i,j,0);
+          C_tilde->setAmatVal(j,i,0);
+          //Keeping track of the indices of a removed edge, and its adj. mat values
+          betw_nhood_edges.push_back(i);
+          betw_nhood_edges.push_back(j);
+          betw_nhood_edges.push_back(G_ij);
+          betw_nhood_edges.push_back(G_ji);
+          
           if (verbose) {
             Rcout << "Setting (" << i << " , " << j << ") to 0\n";
             Rcout << "Setting (" << j << " , " << i << ") to 0\n";
             printVecElements(NumericVector::create(neighborhood(i),neighborhood(j)), names, "", "\n"); 
             Rcout << "Edge between these nodes is being deleted\n";
           }
-          
         } 
-       
-      
+      }
     }
   }
- }
-  
 }
 
+void CML::addBackBetweenEdges() {
+  size_t len;
+  
+  len = betw_nhood_edges.size();
+  for(size_t i = 0;i<len; i+=4) {
+    //betw_nhood_edges vector is a vector of ints of multiplicity 4.
+    //each group of 4 elements represents the node indices i,j,
+    //and adj. matrix entries C_tilde[i,j],  C_tilde[j,i]
+    size_t node_i = betw_nhood_edges[i];
+    size_t node_j = betw_nhood_edges[i+1];
+    size_t C_ij = betw_nhood_edges[i+2];
+    size_t C_ji = betw_nhood_edges[i+3];
+    
+    C_tilde -> setAmatVal(node_i,node_j,C_ij);
+    C_tilde -> setAmatVal(node_j,node_i,C_ji);
+    if (verbose) {
+      Rcout << "Adding back betw. neighborhood edge (" << node_i << "," << node_j << ")\n";
+      Rcout << "The values are (" << C_ij << "," << C_ji << ")\n";
+    }
+  }
+}
 
 // Convert the final graph after using efficient notation to the full
 // adjacency matrix
@@ -1543,7 +1332,7 @@ void CML::convertFinalGraph() {
   size_t current_val = 0;
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
-      current_val = C_tilde_sDAG -> getAmatVal(i,j);
+      current_val = C_tilde -> getAmatVal(i,j);
       g -> setAmatVal(neighborhood(i),neighborhood(j),current_val);  
       if (verbose) {
         Rcout << "Setting edge (" << neighborhood(i) << " -> " << neighborhood(j) 
@@ -1551,8 +1340,8 @@ void CML::convertFinalGraph() {
       }
     }
   }
-  delete C_tilde_sDAG;
-  C_tilde_sDAG = g;
+  delete C_tilde;
+  C_tilde = g;
   g = nullptr;
 }
 
@@ -1560,10 +1349,10 @@ void CML::convertFinalGraph() {
 void CML::checkNotation(){
   size_t G_ij; size_t G_ji;
   
-  for (size_t i=0;i<C_tilde_sDAG->size();++i){
-    for (size_t j=i+1;j<C_tilde_sDAG->size();++j){
-      G_ij = C_tilde_sDAG->getAmatVal(i,j);
-      G_ji = C_tilde_sDAG->getAmatVal(j,i);
+  for (size_t i=0;i<C_tilde->size();++i){
+    for (size_t j=i+1;j<C_tilde->size();++j){
+      G_ij = C_tilde->getAmatVal(i,j);
+      G_ji = C_tilde->getAmatVal(j,i);
       if ((G_ij==0 || G_ij==1) && G_ji>1){
         warning("Ancestral marking mixed with neighborhood marking.");
       } else if ((G_ji==0 || G_ji==1) && G_ij>1){
@@ -1590,18 +1379,30 @@ void CML::run(){
   if(verbose) {
    Rcout << "Updating mb_list information after 1st skeleton recovery phase.\n";
   }
-  updateVariables();
+  // updateVariables();
   
   
-  rules_used(0) = getVStructures(true); // true means Rule 0 FCI Alg
+  rules_used(0) = getVStructures(); 
   
   // Remaining FCI Rules
 
   allRules();
-
+  if (verbose) {
+    Rcout <<"C_tilde AFTER FCI rules\n";
+    C_tilde -> printAmat();
+  }
+  
   convertMixedGraph();
-
+  
+  if (verbose) {
+    Rcout <<"C_tilde AFTER Rule Rn \n";
+    C_tilde -> printAmat();
+  }
   deleteBetweenNeighborhood();
+  if (verbose) {
+    Rcout <<"C_tilde AFTER Between neighborhood edge deletion \n";
+    C_tilde -> printAmat();
+  }
   
   if (verbose){
     Rcout << "Beginning algorithm over each individual neighborhood.\n";
@@ -1612,20 +1413,22 @@ void CML::run(){
   std::for_each(targets.begin(), //This is second stage skeleton recovery
                 targets.end(),
                 [this](size_t t){ getSkeletonTarget(t); });
-  if(verbose) {
-    Rcout << "Removing excess node.\n";
-  }
-  removeExcessNodes();
+  // if(verbose) {
+  //   Rcout << "Removing excess node.\n";
+  // }
+   // removeExcessNodes();
   // Rule 0: Obtain V Structures
-  rules_used_PC(0) = ConstrainedAlgo::getVStructures(); 
+   rules_used_PC(0) = ConstrainedAlgo::getVStructures();
 
  //  // Remaining FCI Rules
- //  //allRules();
-//  Rcout << "End of V structures, starting PC alg rules \n";
- // // convertMixedGraph();
-  allPCRules();
+ //  allRules();
+   if (verbose) {
+     Rcout << "End of V structures, starting PC alg rules \n";  
+   }
+   
+   allPCRules();
   
-  
+  addBackBetweenEdges();
   convertFinalGraph();
   
   total_time = total_skeleton_time;
@@ -1647,7 +1450,7 @@ void CML::run_mag(){
   if(verbose) {
     Rcout << "Updating mb_list information after 1st skeleton recovery phase.\n";
   }
-  updateVariables();
+
   
   if (verbose){
     Rcout << "Beginning algorithm over each individual neighborhood.\n";
@@ -1659,7 +1462,7 @@ void CML::run_mag(){
                 [this](size_t t){ getSkeletonTarget(t); });
   
   // Rule 0: Obtain V Structures
-  rules_used(0) = getVStructures(true); // true means Rule 0 FCI Alg
+  rules_used(0) = getVStructures(); // true means Rule 0 FCI Alg
   
   // Remaining FCI Rules
   allRules();

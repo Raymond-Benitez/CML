@@ -224,198 +224,6 @@ void SNL::getSkeletonTarget(const size_t &t){
   target_skeleton_times.push_back(total_time);
 }
 
-void SNL::updateVariables() {
-  
-  size_t C_ij; // (i,j) element of adj. mat
-  size_t C_ji; // (j,i) element of adj. mat
-  NumericVector S_ij; //separating set vector for nodes i,j
-  NumericVector S_ji;
-  size_t M;
-  NumericVector temp;
-  std::unordered_set<double> new_obs_nodes;
-  
-  
-  new_obs_nodes.insert(targets.begin(), targets.end()); //Begin by adding targets to the set
-  // Get new set of observed nodes, i.e., union of targets + their mb
-  for (auto t : targets) {
-    NumericVector mb_t = getMBFromMat(C_tilde->getAmat(), t); //mb from mat after skel phase, in efficient notation
-    new_obs_nodes.insert(mb_t.begin(), mb_t.end());
-    NumericVector vec = mb_list -> getMB(t); //mb from MMPC
-    std::vector<int> values;
-    for (auto v : vec) { //convert true notation from mb_list into efficient
-      values.push_back(node_numbering[v]);
-    }
-    
-    //check for spouses 
-    
-    
-    
-    NumericVector values_rcpp = Rcpp::wrap(values);
-    NumericVector removed_values = setdiff(values_rcpp, mb_t);
-    if (verbose) {
-      Rcout << "1st order neighbors of target " << t << " from C_tilde after 1st skel phase\n";
-      printVecElementsNoNames(mb_t,"","\n"," ");
-      Rcout << "1st order neighbors estimated from MMPC for target " << t << " in efficient notation\n";
-      printVecElementsNoNames(values_rcpp,"","\n"," ");
-      Rcout << "The setdiff of (mb_t,values) from " << t << " markov blanket\n";
-      printVecElementsNoNames(removed_values,"","\n"," ");
-    }
-    
-    for (auto r : removed_values) {
-      
-      int node_t = neighborhood(node_numbering[t]);
-      int node_r = neighborhood(r);
-      NumericVector nodes = NumericVector::create(node_t, node_r);
-      update_true_dag -> setAmatVal(node_t, node_r,0);
-      update_true_dag -> setAmatVal(node_r, node_t,0);
-      if (verbose) {
-        Rcout << "Removing edge connection(" 
-              << t << " , "
-              << r << ") from true_dag\n";
-        printVecElements(nodes, names, "", "\n");  
-      }
-      
-    }
-    
-    if (verbose) {
-      Rcout << "1st order neighbors of " << t << " from C_tilde after 1st skel phase\n";
-      printVecElementsNoNames(mb_t,"","\n"," ");
-      Rcout << "Estimated mb of " << t << " from MMPC\n";
-      printVecElementsNoNames(mb_list -> getMB(t),"","\n"," ");
-    }
-  }
-  
-  //true_dag markov blanket reference
-  if (verbose) {
-    Rcout << "setAmat(true_dag) has run\n";
-    Rcout << "Our template dag matrix is " << update_true_dag->getNRow();
-    Rcout << "x" << update_true_dag->getNCol() << ".\n";
-    Rcout << "Our DAG matrix is " << std::endl;
-    update_true_dag->printAmat();
-  }
-  
-  // M is length of nodes under consideration after 1st skeleton recovery phase
-  // N is length of nodes under consideration before 1st skeleton recovery phase
-  M = new_obs_nodes.size();
-  temp = NumericVector(M);
-  C_tilde_sDAG = new Graph(M);
-  
-  // new_obs_nodes has node indexes from efficient notation
-  // convert back to true then make neighborhood vector
-  size_t i=0;
-  for (const auto& node_idx : new_obs_nodes) {
-    temp[i] = neighborhood(node_idx);
-    i++;
-  }
-  
-  if (verbose) {
-    Rcout << "Testing if I get true notation back from efficient f.o. nodes \n";
-    printVecElementsNoNames(temp,"","\n"," ");
-  }
-  //Make new neighborhood vector, updating new neighborhood vector
-  neighborhood = Rcpp::clone(temp);
-  std::sort(neighborhood.begin(),neighborhood.end());
-  
-  if (verbose) {
-    Rcout << "New set of observed nodes after first skeleton recovery phase:\n";
-    Rcout << "Updated nodes being considered: ";
-    printVecElementsNoNames(neighborhood,"","\n"," ");
-  }
-  
-  //Need to create new SepSetList list with new neighborhood vector
-  //Repopulate and update the values from S into S_new 
-  S_new = new SepSetList(neighborhood);
-  // Populate new adjacency matrix C_tilde_sDAG with values from C_tilde
-  // dim(C_tilde_sDAG) <= dim(C_tilde) 
-  // Iterate over M to access i,j values that are still in the markov blanket
-  for (size_t i=0;i<M;i++) {
-    for (size_t j=0;j<M;j++) {
-      int node_i = neighborhood(i);
-      int node_j = neighborhood(j);
-      NumericVector nodes = NumericVector::create(node_i, node_j);
-      //node_i and node_j have true notation of node
-      //The true notation acts as a key for the pair node_numbering
-      //The values are the efficient notation
-      //Node_numbering has the map corresponding to the true -> efficient notation
-      //before our subsetting / updating. This will retrieve indices under the efficient
-      //for the observed nodes calculated from MMPC
-      C_ij = C_tilde -> getAmatVal(node_numbering[node_i], node_numbering[node_j]); // get values from original C_tilde
-      C_ji = C_tilde -> getAmatVal(node_numbering[node_j], node_numbering[node_i]); // to copy over to new C_tilde_sDAG
-      
-      S_ij = S -> getSepSet(node_numbering[node_i], node_numbering[node_j]);
-      S_ji = S -> getSepSet(node_numbering[node_j], node_numbering[node_i]);
-      
-      C_tilde_sDAG -> setAmatVal(i,j,C_ij);
-      C_tilde_sDAG -> setAmatVal(j,i,C_ji);
-      
-      S_new -> changeList(i,j,S_ij);
-      S_new -> changeList(j,i,S_ji);
-      if (verbose) {
-        Rcout << "Setting new efficient edge (" 
-              << i << " , " 
-              << j << ") to " << C_ij << " \n";
-        printVecElements(nodes, names, "", "\n");
-        
-        Rcout << "Setting new S_ij ("
-              << i << " , "
-              << j << ") to " << S_ij << " \n";
-        printVecElements(nodes, names, "", "\n");
-        
-        Rcout << "Setting new S_ji ("
-              << j << " , "
-              << i << ") to " << S_ji << " \n";
-        printVecElements(nodes, names, "", "\n");
-        
-      }
-    }
-  }
-  
-  if (verbose) {
-    Rcout << "New Separating Set List\n";
-    S_new ->printSepSetList();
-  }
-  
-  // Create new efficient numbering system with new neighborhood vector
-  node_numbering.clear();
-  for (size_t i=0;i<M;++i){
-    node_numbering.insert(std::pair<size_t,size_t>(neighborhood(i),i));
-  }
-  if (verbose){
-    Rcout << "Updated element mapping for efficient ordering (True -> Efficient):\n";
-    for(auto it = node_numbering.cbegin(); it != node_numbering.cend(); ++it)
-    {
-      Rcout << it->first << " " << it->second  << "\n";
-    }
-  }
-  
-  if (verbose) {
-    Rcout << "Populating new C_tilde_sDAG matrix with new mb information \n";
-    Rcout << "Our new matrix is " << C_tilde_sDAG->getNRow();
-    Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
-    C_tilde_sDAG -> printAmat();
-    Rcout << "\n\n";
-    
-  }
-  
-  // Updating mb_list
-  delete mb_list;
-  mb_list = new MBList(neighborhood,update_true_dag -> getAmat(),verbose); 
-  
-  if (verbose) {
-    Rcout << "Updated set of observed nodes after first skeleton recovery phase:\n";
-    Rcout << "Updated nodes being considered: ";
-    printVecElementsNoNames(neighborhood,"","\n"," ");
-    
-    Rcout << "Our new matrix is " << C_tilde_sDAG->getNRow();
-    Rcout << "x" << C_tilde_sDAG->getNCol() << ".\n";
-    C_tilde_sDAG -> printAmat();
-    Rcout << "\n\n";
-  }
-  N=M; //setting new dimension of C_tilde_sDAG to N, protected variable of my class.
-}
-
-
-
 
 /* 
  * Search for i -> j - k, where i and k are not adjacent
@@ -424,12 +232,12 @@ void SNL::rule1(bool &no_changes){
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
       // Look for i -> j
-      if (C_tilde_sDAG->isDirected(i,j)){
+      if (C_tilde->isDirected(i,j)){
         for (size_t k=0;k<N;++k){
           // Look for j - k with i not adj. to k
-          if (C_tilde_sDAG->isUndirected(j,k) && !(C_tilde_sDAG->areAdjacent(i,k))){
+          if (C_tilde->isUndirected(j,k) && !(C_tilde->areAdjacent(i,k))){
             // Set j -> k
-            C_tilde_sDAG->setAmatVal(k,j,0);
+            C_tilde->setAmatVal(k,j,0);
             ++rules_used(1);
             no_changes=false;
             if (verbose){
@@ -448,10 +256,10 @@ void SNL::rule1(bool &no_changes){
 void SNL::rule2(bool &no_changes){
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
-      if (C_tilde_sDAG->isDirected(i,j)){
+      if (C_tilde->isDirected(i,j)){
         for (size_t k=0;k<N;++k){
-          if (C_tilde_sDAG->isDirected(j,k) && C_tilde_sDAG->isUndirected(i,k)){
-            C_tilde_sDAG->setAmatVal(k,i,0);
+          if (C_tilde->isDirected(j,k) && C_tilde->isUndirected(i,k)){
+            C_tilde->setAmatVal(k,i,0);
             ++rules_used(2);
             no_changes=false;
             if (verbose){
@@ -471,12 +279,12 @@ void SNL::rule2(bool &no_changes){
 void SNL::rule3(bool &no_changes){
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
-      if (C_tilde_sDAG->isUndirected(i,j)){
+      if (C_tilde->isUndirected(i,j)){
         for (size_t k=0;k<N;++k){
-          if (C_tilde_sDAG->isUndirected(i,k) && C_tilde_sDAG->isDirected(k,j)){
+          if (C_tilde->isUndirected(i,k) && C_tilde->isDirected(k,j)){
             for (size_t l=k+1;l<N;++l){
-              if (C_tilde_sDAG->isUndirected(i,l) && C_tilde_sDAG->isDirected(l,j) && !(C_tilde_sDAG->areAdjacent(k,l))){
-                C_tilde_sDAG->setAmatVal(j,i,0);
+              if (C_tilde->isUndirected(i,l) && C_tilde->isDirected(l,j) && !(C_tilde->areAdjacent(k,l))){
+                C_tilde->setAmatVal(j,i,0);
                 ++rules_used(3);
                 no_changes=false;
                 if (verbose){
@@ -498,12 +306,12 @@ void SNL::rule3(bool &no_changes){
 void SNL::rule4(bool &no_changes){
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
-      if (C_tilde_sDAG->isUndirected(i,j)){
+      if (C_tilde->isUndirected(i,j)){
         for (size_t k=0;k<N;++k){
-          if (C_tilde_sDAG->isUndirected(i,k)){
+          if (C_tilde->isUndirected(i,k)){
             for (size_t l=0;l<N;++l){
-              if (C_tilde_sDAG->isDirected(k,l) && C_tilde_sDAG->isDirected(l,j) && C_tilde_sDAG->areAdjacent(i,l) && !(C_tilde_sDAG->areAdjacent(k,j))){
-                C_tilde_sDAG->setAmatVal(j,i,0);
+              if (C_tilde->isDirected(k,l) && C_tilde->isDirected(l,j) && C_tilde->areAdjacent(i,l) && !(C_tilde->areAdjacent(k,j))){
+                C_tilde->setAmatVal(j,i,0);
                 ++rules_used(4);
                 no_changes=false;
                 if (verbose){
@@ -555,13 +363,13 @@ void SNL::convertFinalGraph(){
   for (size_t i=0;i<N;++i){
     for (size_t j=0;j<N;++j){
       // Transfer values to final graph
-      current_val = C_tilde_sDAG -> getAmatVal(i,j);
+      current_val = C_tilde -> getAmatVal(i,j);
       g -> setAmatVal(neighborhood(i),neighborhood(j),current_val);  
     }
   }
   // Delete the old, efficient graph and exchange it for the new
-  delete C_tilde_sDAG;
-  C_tilde_sDAG = g;
+  delete C_tilde;
+  C_tilde = g;
   g = nullptr;
 }
 
@@ -577,8 +385,7 @@ void SNL::run(){
   // Get the skeleton for each target node and its neighborhood
   std::for_each(targets.begin(),targets.end(),
                 [this](size_t t){ getSkeletonTarget(t); });
-  // updateVariables
-  updateVariables();
+
   // Find v-structures
   rules_used(0) = getVStructures();
   meeksRules();

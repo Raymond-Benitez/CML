@@ -15,6 +15,10 @@ NumericVector getMBFromMat(NumericMatrix mb_mat,size_t x){
   return mb_vec;
 }
 
+NumericVector getMBFromMap() {
+  
+}
+
 // Returns true if node i is in the MB of node target
 // false otherwise
 bool MBList::inMB(size_t target,size_t i){
@@ -118,6 +122,59 @@ NumericVector MBList::getMBMultipleTargets(NumericVector targets,
     printVecElementsNoNames(neighbors,"","\n",", ");
   }
   return neighbors;
+}
+//Remove element j from the markov blanket of i
+void MBList::removeMBVal(size_t i, size_t j) {
+
+  if (mb_list.count(i)==0){
+    stop("%i is not an element of the map \n",i);
+  }
+
+  if (inMB(i,j)) {
+    std::vector<double> vec = Rcpp::as<std::vector<double>>(mb_list[i]);
+    auto it = std::find(vec.begin(), vec.end(), j);
+    
+    *it = vec.back();
+     vec.pop_back();
+  
+     mb_list[i] = Rcpp::wrap(vec);
+     
+    if (verbose) {
+      Rcout << j << " is being removed from MB of " << i;
+      Rcout << i << ": ";
+      printVecElementsNoNames(mb_list[i]);
+      Rcout << endl;
+    }
+
+  } else {
+    if (verbose) {
+      Rcout << j << " is not in the MB of " << i << ". Nothing has changed\n";
+    }
+  }
+
+}
+
+void MBList::addMBVal(size_t i, size_t j) {
+  
+  if (mb_list.count(i)==0){
+    stop("%i is not an element of the map \n",i);
+  }
+  
+  if (inMB(i,j)) {
+    if (verbose) {
+      Rcout << j << " is already in the MB of " << i << "\n";
+    }
+    
+  } else {
+    // Convert to cpp vector
+    std::vector<double> vec = Rcpp::as<std::vector<double>>(mb_list[i]);
+    vec.push_back(i);
+    mb_list[i] = Rcpp::wrap(vec);
+    if (verbose) {
+      Rcout << j << " is being added to the MB of " << i << "\n";
+    }
+  }
+  
 }
 
 void MBList::printMBs(){
