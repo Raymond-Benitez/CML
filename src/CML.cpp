@@ -1229,11 +1229,6 @@ void CML::convertMixedGraph(){
            // Convert bidirected edge to undirected
            C_tilde->setAmatVal(i,j,1);
            C_tilde->setAmatVal(j,i,1);
-           // if (verbose) {
-           //   Rcout << "Setting (" << i << " , " << j << ") to 1\n";
-           //   Rcout << "Setting (" << j << " , " << i << ") to 1\n";
-           // }
-          
          } 
         if (G_ij==2 && G_ji==1){ 
           // Convert o-> to -> if i and j are in same nbhd
@@ -1251,8 +1246,8 @@ void CML::convertMixedGraph(){
         // For nodes that are in different neighborhoods
         // Convert circle markings label from "1" to "4"
         if (G_ij==1){
-         // C_tilde->setAmatVal(i,j,4);
-         // C_tilde->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE? //2/14/26 Uncommented this line
+         C_tilde->setAmatVal(i,j,4);
+         C_tilde->setAmatVal(j,i,4); // TODO: WHY DID WE HAVE THIS BEFORE?
         }
       }
       
