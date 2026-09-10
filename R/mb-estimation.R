@@ -438,7 +438,7 @@ getAllMBs <- function(targets,dataset,threshold=0.01,lmax=3,
     total_manual_mb <- lapply(seq_along(full_list),
                               function(t)
                                 getMB(t,dataset,threshold,lmax,
-                                      method,test,full_list[[as.character(t)]],verbose))
+                                      method,test,full_list[[t]],verbose))
     names(total_manual_mb) <- names(full_list)
     result <- list(mb_list = total_manual_mb,#fo_list and so_list
                    num_tests = 0,
